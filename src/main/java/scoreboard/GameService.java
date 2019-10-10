@@ -11,7 +11,7 @@ public class GameService {
     @Autowired private UserRepository userRepository;
 
     public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) {
-        return playHockeyV1(homeTeamId, awayTeamId, seasonId);
+        return playHockeyV2(homeTeamId, awayTeamId, seasonId);
     }
 
     private String playHockeyV1(int homeTeamId, int awayTeamId, Integer seasonId) {
@@ -46,12 +46,12 @@ public class GameService {
             // .869 / 20 = .04345 average goals per minutes
             // .04345 / 60 = .00072416 average goals per second
 
-            if (RandomService.decide(0.072416)) {
+            if (RandomService.occur(0.072416)) {
                 homeScore++;
                 if (period == 4)
                     break;
             }
-            if (RandomService.decide(0.072416)) {
+            if (RandomService.occur(0.072416)) {
                 awayScore++;
                 if (period == 4)
                     break;
@@ -78,9 +78,7 @@ public class GameService {
             System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
         }
 
-        System.out.println("here1");
         saveGame(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
-
         return "HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds;
     }
 
@@ -88,13 +86,13 @@ public class GameService {
         int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
         System.out.println("Shootout round " + shootoutRound);
         while (shootoutRound < 4 || homeShootoutScore != awayShootoutScore) {
-            if (RandomService.decide(31.94)) {
+            if (RandomService.occur(31.94)) {
                 homeShootoutScore++;
                 System.out.println("Home scores");
             } else {
                 System.out.println("Home misses");
             }
-            if (RandomService.decide(31.94)) {
+            if (RandomService.occur(31.94)) {
                 awayShootoutScore++;
                 System.out.println("Away scores");
             } else {
@@ -111,8 +109,6 @@ public class GameService {
     }
     
     public void saveGame(int homeTeamId, int awayTeamId, int homeScore, int awayScore, Integer seasonId) {
-        System.out.println("here2");
-
         Game game = new Game();
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);

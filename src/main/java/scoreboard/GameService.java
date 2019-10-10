@@ -3,6 +3,7 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.Random;
 
 @Service
@@ -11,7 +12,16 @@ public class GameService {
     @Autowired private UserRepository userRepository;
 
     public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) {
-        return playHockeyV2(homeTeamId, awayTeamId, seasonId);
+
+        Iterable<Game> x = getGames();
+        Iterator<Game> it = x.iterator();
+        if (it.hasNext()) {
+            Game game = it.next();
+            System.out.println(game.getHomeScore() + "-" + game.getAwayScore());
+        }
+
+        return "";
+        //return playHockeyV2(homeTeamId, awayTeamId, seasonId);
     }
 
     private String playHockeyV1(int homeTeamId, int awayTeamId, Integer seasonId) {
@@ -29,6 +39,8 @@ public class GameService {
     private String playHockeyV2(int homeTeamId, int awayTeamId, Integer seasonId) {
         int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
 
+        double homeChance = 0.075, awayChance = 0.075;
+
         while (true) {
 
             //TimeUnit.SECONDS.sleep(1);
@@ -42,16 +54,19 @@ public class GameService {
                 break;
             }
 
-            // average goals per period .869
-            // .869 / 20 = .04345 average goals per minutes
-            // .04345 / 60 = .00072416 average goals per second
+            // total GA (goals for) in 18-19 NHL regular season was 7664
+            // games played in 18-19 NHL regular season was 82 * 31 = 2542
+            // 7664 / 2542 = 3.014 goals a game
+            // considering overtime goals rounding down to .9 goals a period
+            // .9 / 20 = .045 average goals per minutes
+            // .045 / 60 = .00075 average goals per second
 
-            if (RandomService.occur(0.072416)) {
+            if (RandomService.occur(homeChance)) {
                 homeScore++;
                 if (period == 4)
                     break;
             }
-            if (RandomService.occur(0.072416)) {
+            if (RandomService.occur(awayChance)) {
                 awayScore++;
                 if (period == 4)
                     break;
@@ -63,16 +78,27 @@ public class GameService {
                 minutes--;
                 seconds = 59;
             } else if (seconds == 0 && minutes == 0) {
+                // period ends
+
                 System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
                 //TimeUnit.SECONDS.sleep(60);
 
+                // end of the game in regulation if scores are different, otherwise period will become 4
                 if (period == 3 && homeScore != awayScore) {
                     break;
                 }
 
                 period++;
+
+                // minutes are reset to 5 for overtime and 20 for periods 2 and 3
                 minutes = period == 4 ? 5 : 20;
                 seconds = 0;
+
+                // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
+                if (period == 4) {
+                    homeChance = 0.1;
+                    awayChance = 0.1;
+                }
             }
 
             System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
@@ -116,5 +142,10 @@ public class GameService {
         game.setAwayScore(awayScore);
         game.setSeasonId(seasonId);
         userRepository.save(game);
+    }
+
+    public Iterable<Game> getGames() {
+        // This returns a JSON or XML with the users
+        return userRepository.findAll();
     }
 }

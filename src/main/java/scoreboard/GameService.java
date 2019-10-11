@@ -9,19 +9,15 @@ import java.util.Random;
 @Service
 public class GameService {
 
-    @Autowired private UserRepository userRepository;
+    @Autowired private GameRepository gameRepository;
 
     public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) {
 
-        Iterable<Game> x = getGames();
-        Iterator<Game> it = x.iterator();
-        if (it.hasNext()) {
-            Game game = it.next();
-            System.out.println(game.getHomeScore() + "-" + game.getAwayScore());
-        }
+        //gameRepository.findAll();
 
-        return "";
-        //return playHockeyV2(homeTeamId, awayTeamId, seasonId);
+        //gameRepository.findById(1);
+
+        return playHockeyV2(homeTeamId, awayTeamId, seasonId);
     }
 
     private String playHockeyV1(int homeTeamId, int awayTeamId, Integer seasonId) {
@@ -141,11 +137,12 @@ public class GameService {
         game.setHomeScore(homeScore);
         game.setAwayScore(awayScore);
         game.setSeasonId(seasonId);
-        userRepository.save(game);
+        gameRepository.save(game);
     }
 
-    public Iterable<Game> getGames() {
-        // This returns a JSON or XML with the users
-        return userRepository.findAll();
+    public void getGames() {
+        for (Game game : gameRepository.findAll()) {
+            System.out.println(game.getHomeScore() + "-" + game.getAwayScore());
+        }
     }
 }

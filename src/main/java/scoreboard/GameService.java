@@ -1,8 +1,12 @@
 package scoreboard;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -11,7 +15,20 @@ public class GameService {
 
     @Autowired private GameRepository gameRepository;
 
+    public class Chance {
+        public final static double score = 0.075, scoreHomeWeight = 0.005, scoreAwayWeight = -0.005;
+        public final static double shootout = 0.1, shootoutHomeWeight = 0.005, shootoutAwayWeight = -0.005;
+
+    }
+
+    //private String chancea = "{ \"score\": 1 " +
+    //        "}";
+
     public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) {
+
+        /*JSONObject obj = new JSONObject("{\"name\": \"John\"}");
+        obj.getString("name");
+        System.out.println(obj);*/
 
         //gameRepository.findAll();
 
@@ -35,7 +52,7 @@ public class GameService {
     private String playHockeyV2(int homeTeamId, int awayTeamId, Integer seasonId) {
         int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
 
-        double homeChance = 0.075, awayChance = 0.075;
+        double homeChance = Chance.score + Chance.scoreHomeWeight, awayChance = Chance.score + Chance.scoreAwayWeight;
 
         while (true) {
 
@@ -92,8 +109,8 @@ public class GameService {
 
                 // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
                 if (period == 4) {
-                    homeChance = 0.1;
-                    awayChance = 0.1;
+                    homeChance = Chance.shootout + Chance.shootoutHomeWeight;
+                    awayChance = Chance.shootout + Chance.shootoutAwayWeight;
                 }
             }
 

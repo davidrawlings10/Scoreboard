@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -45,7 +46,7 @@ public class GameService {
         int homeScore = rand.nextInt(maxScore);
         int awayScore = rand.nextInt(maxScore);
 
-        saveGame(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
+        save(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
         return "HOME: " + homeScore + " AWAY: " + awayScore;
     }
 
@@ -117,7 +118,7 @@ public class GameService {
             System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
         }
 
-        saveGame(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
+        save(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
         return "HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds;
     }
 
@@ -147,7 +148,7 @@ public class GameService {
         return homeShootoutScore > awayShootoutScore;
     }
     
-    public void saveGame(int homeTeamId, int awayTeamId, int homeScore, int awayScore, Integer seasonId) {
+    public void save(int homeTeamId, int awayTeamId, int homeScore, int awayScore, Integer seasonId) {
         Game game = new Game();
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);
@@ -157,9 +158,14 @@ public class GameService {
         gameRepository.save(game);
     }
 
-    public void getGames() {
+    public Game findById(int id) {
+        Optional<Game> gameOptional = gameRepository.findById(id);
+        return gameOptional.get();
+    }
+
+    public void findAll() {
         for (Game game : gameRepository.findAll()) {
-            System.out.println(game.getHomeScore() + "-" + game.getAwayScore());
+            System.out.println(game.getHomeScore() + "-" + game.getAwayScore() + " : " + game.getId());
         }
     }
 }

@@ -163,9 +163,29 @@ public class GameService {
         return gameOptional.get();
     }
 
+    public Game updateById(int id) {
+        Optional<Game> gameOptional = gameRepository.findById(id);
+        Game game = gameOptional.get();
+        game.setAwayScore(10);
+        gameRepository.save(game);
+        return game;
+    }
+
+    /*public boolean existsById(int id) {
+        return gameRepository.existsById(id);
+    }
+
+    public void count() {
+        gameRepository.count();
+    }
+
+    public void deleteById(int id) {
+        gameRepository.deleteById(id);
+    }
+
     public void findAll() {
         for (Game game : gameRepository.findAll()) {
             System.out.println(game.getHomeScore() + "-" + game.getAwayScore() + " : " + game.getId());
         }
-    }
+    }*/
 }

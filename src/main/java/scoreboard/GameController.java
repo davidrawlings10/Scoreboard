@@ -25,11 +25,23 @@ public class GameController {
         return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
+    // http://localhost:8080/findById?id=120
+    @GetMapping(path="/updateById")
+    public @ResponseBody String updateById(@RequestParam String id) throws InterruptedException {
+        Game game = gameService.updateById(Integer.parseInt(id));
+        return "updated to " + game.getHomeScore() + "-" + game.getAwayScore();
+    }
+
     /*@GetMapping(path="/findAll")
     public @ResponseBody String findAll() throws InterruptedException {
         gameService.findAll();
         return "Hello World";
     }*/
 
-
+    // http://localhost:8080/findById?id=120
+    /*@GetMapping(path="/save")
+    public @ResponseBody String findById(@RequestParam String id) throws InterruptedException {
+        Game game = gameService.findById(Integer.parseInt(id));
+        return game.getHomeScore() + "-" + game.getAwayScore();
+    }*/
 }

@@ -15,6 +15,7 @@ public class Game {
     private Integer homeScore;
     private Integer awayScore;
     private Integer seasonId;
+    private Boolean finished;
 
     public Integer getId() {
         return id;
@@ -62,5 +63,13 @@ public class Game {
 
     public void setSeasonId(Integer seasonId) {
         this.seasonId = seasonId;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 }

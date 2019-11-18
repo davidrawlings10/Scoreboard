@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Random;
@@ -147,29 +148,37 @@ public class GameService {
 
         return homeShootoutScore > awayShootoutScore;
     }
-    
-    public void save(int homeTeamId, int awayTeamId, int homeScore, int awayScore, Integer seasonId) {
+
+    public Game save(int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId) {
         Game game = new Game();
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);
         game.setHomeScore(homeScore);
         game.setAwayScore(awayScore);
         game.setSeasonId(seasonId);
-        gameRepository.save(game);
+        return gameRepository.save(game);
     }
 
-    public Game findById(int id) {
-        Optional<Game> gameOptional = gameRepository.findById(id);
+    public Game findById(int gameId) {
+        Optional<Game> gameOptional = gameRepository.findById(gameId);
         return gameOptional.get();
     }
 
-    public Game updateById(int id) {
-        Optional<Game> gameOptional = gameRepository.findById(id);
+    public Game updateById(int gameId) {
+        Optional<Game> gameOptional = gameRepository.findById(gameId);
         Game game = gameOptional.get();
         game.setAwayScore(10);
         gameRepository.save(game);
         return game;
     }
+
+    /*public Collection<Team> getTeamsByLeagueId(int leagueId) {
+
+    }*/
+
+
+
+
 
     /*public boolean existsById(int id) {
         return gameRepository.existsById(id);

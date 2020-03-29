@@ -36,7 +36,7 @@ public class GameService {
 
         //gameRepository.findById(1);
 
-        return playHockeyV2(homeTeamId, awayTeamId, seasonId);
+        return playHockeyV2(null, homeTeamId, awayTeamId, seasonId);
     }
 
     private String playHockeyV1(int homeTeamId, int awayTeamId, Integer seasonId) {
@@ -47,11 +47,15 @@ public class GameService {
         int homeScore = rand.nextInt(maxScore);
         int awayScore = rand.nextInt(maxScore);
 
-        save(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
+        save(null, homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
         return "HOME: " + homeScore + " AWAY: " + awayScore;
     }
 
-    private String playHockeyV2(int homeTeamId, int awayTeamId, Integer seasonId) {
+    public String playHockeyV2(Game game) {
+        return playHockeyV2(game.getId(), game.getHomeTeamId(), game.getAwayTeamId(), game.getSeasonId());
+    }
+
+    private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) {
         int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
 
         double homeChance = Chance.score + Chance.scoreHomeWeight, awayChance = Chance.score + Chance.scoreAwayWeight;
@@ -116,10 +120,10 @@ public class GameService {
                 }
             }
 
-            System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
+            System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds + ", id:" + id);
         }
 
-        save(homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
+        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
         return "HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds;
     }
 
@@ -149,8 +153,9 @@ public class GameService {
         return homeShootoutScore > awayShootoutScore;
     }
 
-    public Game save(int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId) {
+    public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId) {
         Game game = new Game();
+        game.setId(id);
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);
         game.setHomeScore(homeScore);
@@ -172,12 +177,13 @@ public class GameService {
         return game;
     }
 
+    public Iterable<Game> getGamesBySeasonId(int leagueId) {
+        return gameRepository.findBySeasonId(leagueId);
+    }
+
     /*public Collection<Team> getTeamsByLeagueId(int leagueId) {
 
     }*/
-
-
-
 
 
     /*public boolean existsById(int id) {

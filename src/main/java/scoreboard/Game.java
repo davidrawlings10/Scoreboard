@@ -10,12 +10,12 @@ public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+    private Integer seasonId;
     private Integer homeTeamId;
     private Integer awayTeamId;
     private Integer homeScore;
     private Integer awayScore;
-    private Integer seasonId;
-    private Boolean finished;
+    private Integer endingPeriod;
 
     public Integer getId() {
         return id;
@@ -65,11 +65,11 @@ public class Game {
         this.seasonId = seasonId;
     }
 
-    public Boolean getFinished() {
-        return finished;
+    public Integer getEndingPeriod() {
+        return endingPeriod;
     }
 
-    public void setFinished(Boolean finished) {
-        this.finished = finished;
+    public void setEndingPeriod(Integer endingPeriod) {
+        this.endingPeriod = endingPeriod;
     }
 }

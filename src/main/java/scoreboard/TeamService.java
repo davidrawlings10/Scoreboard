@@ -7,11 +7,11 @@ import java.util.Collection;
 
 @Service
 public class TeamService {
-    // @Autowired private TeamRepository teamRepository;
+    @Autowired private TeamRepository teamRepository;
 
-    //public Iterable<Team> getTeamsByLeagueId(int leagueId) {
+    public Iterable<Team> getTeamsByLeagueId(int leagueId) {
         //return teamRepository.findAll();
 
-        //return teamRepository.findByLeagueId(leagueId);
-    //}
+        return teamRepository.findByLeagueId(leagueId);
+    }
 }

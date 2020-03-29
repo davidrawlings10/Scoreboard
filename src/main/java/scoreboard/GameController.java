@@ -19,14 +19,14 @@ public class GameController {
         return gameService.playGame(1, 2, Sport.HOCKEY, null);
     }
 
-    // http://localhost:8080/game/findById?id=120
+    // http://localhost:8080/game/findById?gameId=120
     @GetMapping(path="/findById")
     public @ResponseBody String findById(@RequestParam String gameId) throws InterruptedException {
         Game game = gameService.findById(Integer.parseInt(gameId));
         return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
-    // http://localhost:8080/game/findById?id=120
+    // http://localhost:8080/game/updateById?gameId=120 (will update away score to 10 just as proof of concept)
     @GetMapping(path="/updateById")
     public @ResponseBody String updateById(@RequestParam String gameId) throws InterruptedException {
         Game game = gameService.updateById(Integer.parseInt(gameId));

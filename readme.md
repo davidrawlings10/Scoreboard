@@ -4,7 +4,13 @@ I made the root password "root".
 
 I used MySQL Workbench to query the database. https://www.mysql.com/products/workbench/
 
-The script in resources/createTables.sql can be run to setup the database tables for the application.
+The script resources/dropTables.sql can be run to clear the database for resources/createTables.sql.
+The script resources/createTables.sql can be run to setup the database tables for the application.
+The script resources/insertData.sql can be run to setup data for a league.
+
+After running the scripts...
+To play a game: http://localhost:8080/game/play
+To play a season: http://localhost:8080/season/play?leagueId=1
 
 
 Note dump:

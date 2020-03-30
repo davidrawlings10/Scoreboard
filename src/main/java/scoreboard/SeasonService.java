@@ -14,7 +14,7 @@ public class SeasonService {
     @Autowired private TeamService teamService;
     @Autowired private StandingService standingService;
 
-    public String start(int leagueId) {
+    public String scheduleAndPlay(int leagueId) throws InterruptedException {
         Season season = save(leagueId);
         schedule(season);
         play(season);
@@ -32,13 +32,13 @@ public class SeasonService {
         }
     }
 
-    private void play(Season season) {
+    private void play(Season season) throws InterruptedException {
         Iterable<Game> games = gameService.getGamesBySeasonId(season.getId());
         for (Game game : games) {
             gameService.playHockeyV2(game);
 
-            Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getHomeTeamId());
-            Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getAwayTeamId());
+            Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
+            Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());
 
             if (game.getHomeScore() > game.getAwayScore()) {
                 homeTeamStanding.setWin(homeTeamStanding.getWin() + 1);

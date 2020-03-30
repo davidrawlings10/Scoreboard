@@ -3,6 +3,8 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class StandingService {
         return standingRepository.save(standing);
     }
 
-    public Standing findBySeasonIdAndTeamId(int teamId) {
-        return standingRepository.findByTeamId(teamId);
+    public Standing findBySeasonIdAndTeamId(int seasonId, int teamId) {
+        return standingRepository.findBySeasonIdAndTeamId(seasonId, teamId);
     }
 }

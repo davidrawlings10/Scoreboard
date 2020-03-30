@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService {
@@ -26,7 +27,7 @@ public class GameService {
     //private String chancea = "{ \"score\": 1 " +
     //        "}";
 
-    public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) {
+    public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) throws InterruptedException {
 
         /*JSONObject obj = new JSONObject("{\"name\": \"John\"}");
         obj.getString("name");
@@ -51,18 +52,18 @@ public class GameService {
         return "HOME: " + homeScore + " AWAY: " + awayScore;
     }
 
-    public String playHockeyV2(Game game) {
+    public String playHockeyV2(Game game) throws InterruptedException {
         return playHockeyV2(game.getId(), game.getHomeTeamId(), game.getAwayTeamId(), game.getSeasonId());
     }
 
-    private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) {
+    private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) throws InterruptedException {
         int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
 
         double homeChance = Chance.score + Chance.scoreHomeWeight, awayChance = Chance.score + Chance.scoreAwayWeight;
 
         while (true) {
 
-            //TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(1);
 
             if (period == 5) {
                 if (shootout()) {

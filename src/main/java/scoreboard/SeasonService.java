@@ -12,19 +12,22 @@ public class SeasonService {
     @Autowired private SeasonRepository seasonRepository;
     @Autowired private GameService gameService;
     @Autowired private TeamService teamService;
+    @Autowired private StandingService standingService;
 
     public String start(int leagueId) {
         Season season = save(leagueId);
         schedule(season);
         play(season);
-        return "Season started";
+        return "Season finished";
     }
 
     private void schedule(Season season) {
         Iterable<Team> teams = teamService.getTeamsByLeagueId(season.getLeagueId());
         for (Team team_home : teams) {
+            standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0);
             for (Team team_away : teams) {
-                gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId());
+                if (team_home.getId() != team_away.getId())
+                    gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId());
             }
         }
     }
@@ -33,6 +36,20 @@ public class SeasonService {
         Iterable<Game> games = gameService.getGamesBySeasonId(season.getId());
         for (Game game : games) {
             gameService.playHockeyV2(game);
+
+            Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getHomeTeamId());
+            Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getAwayTeamId());
+
+            if (game.getHomeScore() > game.getAwayScore()) {
+                homeTeamStanding.setWin(homeTeamStanding.getWin() + 1);
+                awayTeamStanding.setLoss(awayTeamStanding.getLoss() + 1);
+            } else {
+                homeTeamStanding.setLoss(homeTeamStanding.getLoss() + 1);
+                awayTeamStanding.setWin(awayTeamStanding.getWin() + 1);
+            }
+
+            standingService.save(homeTeamStanding);
+            standingService.save(awayTeamStanding);
         }
     }
 

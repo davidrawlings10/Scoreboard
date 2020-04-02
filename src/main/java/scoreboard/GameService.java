@@ -23,7 +23,8 @@ public class GameService {
         }
         // time in seconds for how long things take
         public class TimeDelay {
-            public final static int gameplayTick = 1, shootout = 15, intermission = 120;
+            //public final static int gameplayTick = 1, shootout = 15, intermission = 120;
+            public final static int gameplayTick = 0, shootout = 0, intermission = 0;
         }
     }
 
@@ -51,7 +52,7 @@ public class GameService {
         int homeScore = rand.nextInt(maxScore);
         int awayScore = rand.nextInt(maxScore);
 
-        save(null, homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
+        save(null, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, 1);
         return "HOME: " + homeScore + " AWAY: " + awayScore;
     }
 
@@ -130,7 +131,7 @@ public class GameService {
             System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
         }
 
-        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
+        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, period);
         return printScoreboard(homeScore, awayScore, period, minutes, seconds, id);
     }
 
@@ -169,7 +170,7 @@ public class GameService {
         return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound;
     }
 
-    public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId) {
+    public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
         Game game = new Game();
         game.setId(id);
         game.setHomeTeamId(homeTeamId);
@@ -177,6 +178,7 @@ public class GameService {
         game.setHomeScore(homeScore);
         game.setAwayScore(awayScore);
         game.setSeasonId(seasonId);
+        game.setEndingPeriod(endingPeriod);
         return gameRepository.save(game);
     }
 

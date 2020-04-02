@@ -27,7 +27,7 @@ public class SeasonService {
             standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0);
             for (Team team_away : teams) {
                 if (team_home.getId() != team_away.getId())
-                    gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId());
+                    gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId(), null);
             }
         }
     }

@@ -19,4 +19,5 @@ public class SeasonController {
         return seasonService.scheduleAndPlay(Integer.parseInt(leagueId));
         //return seasonService.playGame(1, 2, Sport.HOCKEY, null);
     }
+
 }

@@ -48,6 +48,11 @@ public class SeasonService {
                 awayTeamStanding.setWin(awayTeamStanding.getWin() + 1);
             }
 
+            homeTeamStanding.setGf(homeTeamStanding.getGf() + game.getHomeScore());
+            homeTeamStanding.setGa(homeTeamStanding.getGa() + game.getAwayScore());
+            awayTeamStanding.setGf(awayTeamStanding.getGf() + game.getAwayScore());
+            awayTeamStanding.setGa(awayTeamStanding.getGa() + game.getHomeScore());
+
             standingService.save(homeTeamStanding);
             standingService.save(awayTeamStanding);
         }

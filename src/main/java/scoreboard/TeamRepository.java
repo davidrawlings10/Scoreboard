@@ -7,4 +7,7 @@ import org.springframework.data.repository.query.Param;
 public interface TeamRepository extends CrudRepository<Team, Integer> {
     @Query("select t from Team t where t.leagueId = ?1")
     public Iterable<Team> findByLeagueId(int leagueId);
+
+    @Query("select t from Team t where t.id = ?1")
+    public Team findByTeamId(int teamId);
 }

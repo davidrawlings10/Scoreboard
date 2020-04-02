@@ -14,4 +14,8 @@ public class TeamService {
 
         return teamRepository.findByLeagueId(leagueId);
     }
+
+    public Team getTeamByTeamId(int teamId) {
+        return teamRepository.findByTeamId(teamId);
+    }
 }

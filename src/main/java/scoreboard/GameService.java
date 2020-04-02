@@ -1,14 +1,8 @@
 package scoreboard;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -17,11 +11,20 @@ import java.util.concurrent.TimeUnit;
 public class GameService {
 
     @Autowired private GameRepository gameRepository;
+    @Autowired private TeamService teamService;
 
-    public class Chance {
-        public final static double score = 0.075, scoreHomeWeight = 0.005, scoreAwayWeight = -0.005;
-        public final static double shootout = 0.1, shootoutHomeWeight = 0.005, shootoutAwayWeight = -0.005;
+    private static String homeTeamName, awayTeamName;
 
+    public class Config {
+        public class Chance {
+            public final static double regulationScore = 0.075, regulationScoreHomeWeight = 0.005, regulationScoreAwayWeight = -0.005;
+            public final static double overtimeScore = 0.1, overtimeScoreHomeWeight = 0.005, overtimeScoreAwayWeight = -0.005;
+            public final static double shootoutScore = 31.94, shootoutScoreHomeWeight = 1, shootoutScoreAwayWeight = -1;
+        }
+        // time in seconds for how long things take
+        public class TimeDelay {
+            public final static int gameplayTick = 1, shootout = 15, intermission = 120;
+        }
     }
 
     //private String chancea = "{ \"score\": 1 " +
@@ -59,11 +62,14 @@ public class GameService {
     private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) throws InterruptedException {
         int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
 
-        double homeChance = Chance.score + Chance.scoreHomeWeight, awayChance = Chance.score + Chance.scoreAwayWeight;
+        double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
+
+        homeTeamName = getTeamByTeamId(homeTeamId).getName();
+        awayTeamName = getTeamByTeamId(awayTeamId).getName();
 
         while (true) {
 
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(Config.TimeDelay.gameplayTick);
 
             if (period == 5) {
                 if (shootout()) {
@@ -100,8 +106,8 @@ public class GameService {
             } else if (seconds == 0 && minutes == 0) {
                 // period ends
 
-                System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
-                //TimeUnit.SECONDS.sleep(60);
+                System.out.println(homeTeamName + ": " + homeScore + ", " + awayTeamName + ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
+                TimeUnit.SECONDS.sleep(Config.TimeDelay.intermission);
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
                 if (period == 3 && homeScore != awayScore) {
@@ -116,35 +122,36 @@ public class GameService {
 
                 // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
                 if (period == 4) {
-                    homeChance = Chance.shootout + Chance.shootoutHomeWeight;
-                    awayChance = Chance.shootout + Chance.shootoutAwayWeight;
+                    homeChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreHomeWeight;
+                    awayChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreAwayWeight;
                 }
             }
 
-            System.out.println("HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds + ", id:" + id);
+            System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
         }
 
         save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId);
-        return "HOME: " + homeScore + " AWAY: " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds;
+        return printScoreboard(homeScore, awayScore, period, minutes, seconds, id);
     }
 
-    private boolean shootout() {
+    private boolean shootout() throws InterruptedException {
         int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
-        System.out.println("Shootout round " + shootoutRound);
-        while (shootoutRound < 4 || homeShootoutScore != awayShootoutScore) {
-            if (RandomService.occur(31.94)) {
+        while (true) {
+            if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreHomeWeight)) {
                 homeShootoutScore++;
-                System.out.println("Home scores");
+                System.out.println(homeTeamName + " scores");
             } else {
-                System.out.println("Home misses");
+                System.out.println(homeTeamName + " misses");
             }
-            if (RandomService.occur(31.94)) {
+            TimeUnit.SECONDS.sleep(Config.TimeDelay.shootout);
+            if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreAwayWeight)) {
                 awayShootoutScore++;
-                System.out.println("Away scores");
+                System.out.println(awayTeamName + " scores");
             } else {
-                System.out.println("Away misses");
+                System.out.println(awayTeamName + " misses");
             }
-            System.out.println("HOME: " + homeShootoutScore + " AWAY: " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound);
+            System.out.println(printScoreboardShootout(homeShootoutScore, awayShootoutScore, shootoutRound));
+            TimeUnit.SECONDS.sleep(Config.TimeDelay.shootout);
             if (shootoutRound >= 3 && homeShootoutScore != awayShootoutScore) {
                 break;
             }
@@ -152,6 +159,14 @@ public class GameService {
         }
 
         return homeShootoutScore > awayShootoutScore;
+    }
+
+    private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, Integer id) {
+        return homeTeamName + ": " + homeScore + " " + awayTeamName +  ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds + ", id:" + id;
+    }
+
+    private String printScoreboardShootout(int homeShootoutScore, int awayShootoutScore, int shootoutRound) {
+        return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound;
     }
 
     public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId) {
@@ -181,6 +196,8 @@ public class GameService {
     public Iterable<Game> getGamesBySeasonId(int leagueId) {
         return gameRepository.findBySeasonId(leagueId);
     }
+
+    public Team getTeamByTeamId(int teamId) { return teamService.getTeamByTeamId(teamId); }
 
     /*public Collection<Team> getTeamsByLeagueId(int leagueId) {
 

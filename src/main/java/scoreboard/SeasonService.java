@@ -24,7 +24,7 @@ public class SeasonService {
     private void schedule(Season season) {
         Iterable<Team> teams = teamService.getTeamsByLeagueId(season.getLeagueId());
         for (Team team_home : teams) {
-            standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0);
+            standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0, 0);
             for (Team team_away : teams) {
                 if (team_home.getId() != team_away.getId())
                     gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId(), null);
@@ -42,10 +42,22 @@ public class SeasonService {
 
             if (game.getHomeScore() > game.getAwayScore()) {
                 homeTeamStanding.setWin(homeTeamStanding.getWin() + 1);
-                awayTeamStanding.setLoss(awayTeamStanding.getLoss() + 1);
+                homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 2);
+                if (game.getEndingPeriod() < 4) {
+                    awayTeamStanding.setLoss(awayTeamStanding.getLoss() + 1);
+                } else {
+                    awayTeamStanding.setOtloss(awayTeamStanding.getOtloss() + 1);
+                    awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 1);
+                }
             } else {
-                homeTeamStanding.setLoss(homeTeamStanding.getLoss() + 1);
                 awayTeamStanding.setWin(awayTeamStanding.getWin() + 1);
+                awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 2);
+                if (game.getEndingPeriod() < 4) {
+                    homeTeamStanding.setLoss(homeTeamStanding.getLoss() + 1);
+                } else {
+                    homeTeamStanding.setOtloss(homeTeamStanding.getOtloss() + 1);
+                    homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 1);
+                }
             }
 
             homeTeamStanding.setGf(homeTeamStanding.getGf() + game.getHomeScore());

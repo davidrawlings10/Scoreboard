@@ -13,16 +13,17 @@ public class StandingService {
 
     public Standing save(Standing standing) {
         return save(standing.getId(), standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(),
-                standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa());
+                standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa());
     }
 
-    public Standing save(Integer id, int seasonId, int teamId, int win, int loss, int otloss, int point, int gf, int ga) {
+    public Standing save(Integer id, int seasonId, int teamId, int win, int loss, int tie, int otloss, int point, int gf, int ga) {
         Standing standing = new Standing();
         standing.setId(id);
         standing.setSeasonId(seasonId);
         standing.setTeamId(teamId);
         standing.setWin(win);
         standing.setLoss(loss);
+        standing.setTie(tie);
         standing.setOtloss(otloss);
         standing.setPoint(point);
         standing.setGf(gf);

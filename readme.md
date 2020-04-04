@@ -24,9 +24,9 @@ Plan:
 
 Aves Hockey League
 Hummingbird
+Sparrow
 Goldfinch
 Chickadee
-Sparrow
 
 Hummingbird
 Cardinal

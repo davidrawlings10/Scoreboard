@@ -23,8 +23,8 @@ public class GameService {
         }
         // time in seconds for how long things take
         public class TimeDelay {
-            //public final static int gameplayTick = 1, shootout = 15, intermission = 120;
-            public final static int gameplayTick = 0, shootout = 0, intermission = 0;
+            public final static int gameplayTick = 1, shootout = 15, intermission = 120;
+            //public final static int gameplayTick = 0, shootout = 0, intermission = 0;
         }
     }
 
@@ -200,6 +200,14 @@ public class GameService {
     }
 
     public Team getTeamByTeamId(int teamId) { return teamService.getTeamByTeamId(teamId); }
+
+    //public Game findNextGameBySeasonId(int seasonId) { return gameRepository.findNextGameBySeasonId(seasonId); }
+
+
+
+
+
+
 
     /*public Collection<Team> getTeamsByLeagueId(int leagueId) {
 

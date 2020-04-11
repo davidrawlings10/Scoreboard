@@ -23,9 +23,10 @@ public class GameService {
         }
         // time in seconds for how long things take
         public class TimeDelay {
-            // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // standard
-            public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated
-            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // standard (season 1)
+            // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2)
+            // public final static int gameplayTickMilli = 10, shootoutSec = 10, intermissionSec = 5; // accelerated (season 3)
+            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
@@ -69,7 +70,7 @@ public class GameService {
         homeTeamName = getTeamByTeamId(homeTeamId).getName();
         awayTeamName = getTeamByTeamId(awayTeamId).getName();
 
-        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
+        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
 
         TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
 
@@ -112,8 +113,7 @@ public class GameService {
             } else if (seconds == 0 && minutes == 0) {
                 // period ends
 
-                // System.out.println(homeTeamName + ": " + homeScore + ", " + awayTeamName + ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds); `1
-                System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
+                System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
                 if (period == 3 && homeScore != awayScore) {
@@ -135,11 +135,13 @@ public class GameService {
                 }
             }
 
-            System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
+            System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
         }
 
         save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, period);
-        return printScoreboard(homeScore, awayScore, period, minutes, seconds, id);
+        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, true));
+
+        return printScoreboard(homeScore, awayScore, period, minutes, seconds, true);
     }
 
     private boolean shootout() throws InterruptedException {
@@ -169,12 +171,15 @@ public class GameService {
         return homeShootoutScore > awayShootoutScore;
     }
 
-    private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, Integer id) {
-        return homeTeamName + ": " + homeScore + " " + awayTeamName +  ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds;
+    private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, boolean isFinal) {
+        return homeTeamName + " | " + homeScore + " | " + awayTeamName +  " | " + awayScore + " | "
+                + (isFinal ? "Final" : "Period | " + period + " | " + minutes + ":" + seconds);
     }
 
     private String printScoreboardShootout(int homeShootoutScore, int awayShootoutScore, int shootoutRound) {
-        return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound;
+        return homeTeamName + " | " + homeShootoutScore + " | " + awayTeamName +  " | " + awayShootoutScore + " | " +
+                "Round | " + shootoutRound;
+        // return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound;
     }
 
     public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {

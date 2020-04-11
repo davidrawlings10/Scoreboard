@@ -27,10 +27,11 @@ public class SeasonController {
         return "Season scheduled, id:" + season.getId();
     }
 
-    // http://localhost:8080/season/play?leagueId=1
+    // http://localhost:8080/season/play?leagueId=1&numOfGames=8
     @GetMapping(path="/play")
-    public @ResponseBody String playSeason(@RequestParam String seasonId) throws InterruptedException {
-        seasonService.playSeason(Integer.parseInt(seasonId));
-        return "Season played, id:" + seasonId;
+    public @ResponseBody String playSeason(@RequestParam String seasonId, @RequestParam(required=false) String numOfGames) throws InterruptedException {
+        Integer numOfGamesInt = (numOfGames != null ? Integer.parseInt(numOfGames) : null);
+        seasonService.playSeason(Integer.parseInt(seasonId), numOfGamesInt);
+        return "Season games played, id:" + seasonId;
     }
 }

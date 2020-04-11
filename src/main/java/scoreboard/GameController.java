@@ -16,7 +16,7 @@ public class GameController {
     // http://localhost:8080/game/play
     @GetMapping(path="/play")
     public @ResponseBody String play() throws InterruptedException {
-        return gameService.playGame(3, 4, Sport.HOCKEY, null);
+        return gameService.playGame(9, 10, Sport.HOCKEY, null);
     }
 
     // http://localhost:8080/game/findById?gameId=120

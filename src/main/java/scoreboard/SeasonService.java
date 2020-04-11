@@ -16,7 +16,7 @@ public class SeasonService {
 
     public int schedulePlaySeason(int leagueId) throws InterruptedException {
         Season season = scheduleSeason(leagueId);
-        playSeason(season);
+        playSeason(season, null);
         return season.getId();
     }
 
@@ -33,15 +33,21 @@ public class SeasonService {
         return season;
     }
 
-    public void playSeason(int seasonId) throws InterruptedException {
-        playSeason(findById(seasonId));
+    public void playSeason(int seasonId, Integer numOfGames) throws InterruptedException {
+        playSeason(findById(seasonId), numOfGames);
     }
 
-    public void playSeason(Season season) throws InterruptedException {
+    public void playSeason(Season season, Integer numOfGames) throws InterruptedException {
         Iterable<Game> games = gameService.getGamesBySeasonId(season.getId());
         for (Game game : games) {
-            if (game.getEndingPeriod() == null)
+            if (game.getEndingPeriod() == null) {
                 playGame(game);
+                if (numOfGames != null) {
+                    --numOfGames;
+                    if (numOfGames == 0)
+                        break;
+                }
+            }
         }
     }
 

@@ -47,8 +47,13 @@ CREATE TABLE `standing` (
   `tie` int DEFAULT NULL,
   `otloss` int DEFAULT NULL,
   `point` int DEFAULT NULL,
+  `gp` int DEFAULT NULL,
   `gf` int DEFAULT NULL,
   `ga` int DEFAULT NULL,
+  `home_win` int DEFAULT NULL,
+  `home_loss` int DEFAULT NULL,
+  `away_win` int DEFAULT NULL,
+  `away_loss` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

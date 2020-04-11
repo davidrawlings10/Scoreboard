@@ -23,8 +23,9 @@ public class GameService {
         }
         // time in seconds for how long things take
         public class TimeDelay {
-            public final static int gameplayTick = 1, shootout = 15, intermission = 120;
-            //public final static int gameplayTick = 0, shootout = 0, intermission = 0;
+            // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // standard
+            public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated
+            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
@@ -68,9 +69,13 @@ public class GameService {
         homeTeamName = getTeamByTeamId(homeTeamId).getName();
         awayTeamName = getTeamByTeamId(awayTeamId).getName();
 
+        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
+
+        TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
+
         while (true) {
 
-            TimeUnit.SECONDS.sleep(Config.TimeDelay.gameplayTick);
+            TimeUnit.MILLISECONDS.sleep(Config.TimeDelay.gameplayTickMilli);
 
             if (period == 5) {
                 if (shootout()) {
@@ -107,12 +112,14 @@ public class GameService {
             } else if (seconds == 0 && minutes == 0) {
                 // period ends
 
-                System.out.println(homeTeamName + ": " + homeScore + ", " + awayTeamName + ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds);
-                TimeUnit.SECONDS.sleep(Config.TimeDelay.intermission);
+                // System.out.println(homeTeamName + ": " + homeScore + ", " + awayTeamName + ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds); `1
+                System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, id));
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
                 if (period == 3 && homeScore != awayScore) {
                     break;
+                } else {
+                    TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
                 }
 
                 period++;
@@ -144,7 +151,7 @@ public class GameService {
             } else {
                 System.out.println(homeTeamName + " misses");
             }
-            TimeUnit.SECONDS.sleep(Config.TimeDelay.shootout);
+            TimeUnit.SECONDS.sleep(Config.TimeDelay.shootoutSec);
             if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreAwayWeight)) {
                 awayShootoutScore++;
                 System.out.println(awayTeamName + " scores");
@@ -152,7 +159,7 @@ public class GameService {
                 System.out.println(awayTeamName + " misses");
             }
             System.out.println(printScoreboardShootout(homeShootoutScore, awayShootoutScore, shootoutRound));
-            TimeUnit.SECONDS.sleep(Config.TimeDelay.shootout);
+            TimeUnit.SECONDS.sleep(Config.TimeDelay.shootoutSec);
             if (shootoutRound >= 3 && homeShootoutScore != awayShootoutScore) {
                 break;
             }
@@ -163,7 +170,7 @@ public class GameService {
     }
 
     private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, Integer id) {
-        return homeTeamName + ": " + homeScore + " " + awayTeamName +  ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds + ", id:" + id;
+        return homeTeamName + ": " + homeScore + " " + awayTeamName +  ": " + awayScore + " PERIOD: " + period + " " + minutes + ":" + seconds;
     }
 
     private String printScoreboardShootout(int homeShootoutScore, int awayShootoutScore, int shootoutRound) {
@@ -200,9 +207,6 @@ public class GameService {
     }
 
     public Team getTeamByTeamId(int teamId) { return teamService.getTeamByTeamId(teamId); }
-
-    //public Game findNextGameBySeasonId(int seasonId) { return gameRepository.findNextGameBySeasonId(seasonId); }
-
 
 
 

@@ -13,10 +13,12 @@ public class StandingService {
 
     public Standing save(Standing standing) {
         return save(standing.getId(), standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(),
-                standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa());
+                standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa(), standing.getGp(),
+                standing.getHomeWin(), standing.getHomeLoss(), standing.getAwayWin(), standing.getAwayLoss());
     }
 
-    public Standing save(Integer id, int seasonId, int teamId, int win, int loss, int tie, int otloss, int point, int gf, int ga) {
+    public Standing save(Integer id, int seasonId, int teamId, int win, int loss, int tie, int otloss, int point, int gf, int ga, int gp,
+                         int homeWin, int homeLoss, int awayWin, int awayLoss) {
         Standing standing = new Standing();
         standing.setId(id);
         standing.setSeasonId(seasonId);
@@ -28,6 +30,11 @@ public class StandingService {
         standing.setPoint(point);
         standing.setGf(gf);
         standing.setGa(ga);
+        standing.setGp(gp);
+        standing.setHomeWin(homeWin);
+        standing.setHomeLoss(homeLoss);
+        standing.setAwayWin(awayWin);
+        standing.setAwayLoss(awayLoss);
         return standingRepository.save(standing);
     }
 

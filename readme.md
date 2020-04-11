@@ -15,13 +15,6 @@ To play a season: http://localhost:8080/season/play?leagueId=1
 
 Note dump:
 
-Plan:
-1. Establish update, delete
-2. Setup spring boot best practice model
-
-3. Start with 4 clubs just like NHL started. 2 from Brickway, 1 from Superdome, 1 from Telluride. Create league called ___ in league table. Link these 4 teams to league with league_id. From one click, a new season should be created and played out. No playoffs yet.
-4. Conferences, Divisions can be added as rows in league table and additional foreign keys can be added to team table: b_league_id, c_league_id. That's the best design I can think of right now.
-
 Aves Hockey League
 Hummingbird
 Sparrow
@@ -55,7 +48,6 @@ Hawk
 Swan
 
 Birds belong to Aves
-
 
 https://www.lisashea.com/birding/basics/art18118.html
 https://www.thespruce.com/types-of-birds-385446

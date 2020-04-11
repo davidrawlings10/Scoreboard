@@ -19,6 +19,11 @@ public class Standing {
     private Integer point;
     private Integer gf;
     private Integer ga;
+    private Integer gp;
+    private Integer homeWin;
+    private Integer homeLoss;
+    private Integer awayWin;
+    private Integer awayLoss;
 
     public Integer getId() {
         return id;
@@ -98,5 +103,45 @@ public class Standing {
 
     public void setGa(Integer ga) {
         this.ga = ga;
+    }
+
+    public Integer getGp() {
+        return gp;
+    }
+
+    public void setGp(Integer gp) {
+        this.gp = gp;
+    }
+
+    public Integer getHomeWin() {
+        return homeWin;
+    }
+
+    public void setHomeWin(Integer homeWin) {
+        this.homeWin = homeWin;
+    }
+
+    public Integer getHomeLoss() {
+        return homeLoss;
+    }
+
+    public void setHomeLoss(Integer homeLoss) {
+        this.homeLoss = homeLoss;
+    }
+
+    public Integer getAwayWin() {
+        return awayWin;
+    }
+
+    public void setAwayWin(Integer awayWin) {
+        this.awayWin = awayWin;
+    }
+
+    public Integer getAwayLoss() {
+        return awayLoss;
+    }
+
+    public void setAwayLoss(Integer awayLoss) {
+        this.awayLoss = awayLoss;
     }
 }

@@ -14,38 +14,34 @@ public class SeasonService {
     @Autowired private TeamService teamService;
     @Autowired private StandingService standingService;
 
-    public String schedulePlaySeason(int leagueId) throws InterruptedException {
-        Season season = save(leagueId);
-        scheduleSeason(season);
+    public int schedulePlaySeason(int leagueId) throws InterruptedException {
+        Season season = scheduleSeason(leagueId);
         playSeason(season);
-        return "Season scheduled and played";
+        return season.getId();
     }
 
-    public String scheduleSeason(int seasonId) {
-        scheduleSeason(findById(seasonId));
-        return "Season scheduled";
-    }
-
-    private void scheduleSeason(Season season) {
+    public Season scheduleSeason(int leagueId) {
+        Season season = save(leagueId);
         Iterable<Team> teams = teamService.getTeamsByLeagueId(season.getLeagueId());
         for (Team team_home : teams) {
-            standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0, 0);
+            standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             for (Team team_away : teams) {
                 if (team_home.getId() != team_away.getId())
                     gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId(), null);
             }
         }
+        return season;
     }
 
-    public String playSeason(int seasonId) throws InterruptedException {
+    public void playSeason(int seasonId) throws InterruptedException {
         playSeason(findById(seasonId));
-        return "Season played";
     }
 
-    private void playSeason(Season season) throws InterruptedException {
+    public void playSeason(Season season) throws InterruptedException {
         Iterable<Game> games = gameService.getGamesBySeasonId(season.getId());
         for (Game game : games) {
-            playGame(game);
+            if (game.getEndingPeriod() == null)
+                playGame(game);
         }
     }
 
@@ -55,9 +51,15 @@ public class SeasonService {
         Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
         Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());
 
+        homeTeamStanding.setGp(homeTeamStanding.getGp() + 1);
+        awayTeamStanding.setGp(awayTeamStanding.getGp() + 1);
+
+        // !!! refactor all this in a separate function
         if (game.getHomeScore() > game.getAwayScore()) {
             homeTeamStanding.setWin(homeTeamStanding.getWin() + 1);
             homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 2);
+            homeTeamStanding.setHomeWin(homeTeamStanding.getHomeWin() + 1);
+            awayTeamStanding.setAwayLoss(awayTeamStanding.getAwayLoss() + 1);
             if (game.getEndingPeriod() < 4) {
                 awayTeamStanding.setLoss(awayTeamStanding.getLoss() + 1);
             } else {
@@ -67,6 +69,8 @@ public class SeasonService {
         } else {
             awayTeamStanding.setWin(awayTeamStanding.getWin() + 1);
             awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 2);
+            awayTeamStanding.setAwayWin(awayTeamStanding.getAwayWin() + 1);
+            homeTeamStanding.setHomeLoss(homeTeamStanding.getHomeLoss() + 1);
             if (game.getEndingPeriod() < 4) {
                 homeTeamStanding.setLoss(homeTeamStanding.getLoss() + 1);
             } else {
@@ -85,10 +89,6 @@ public class SeasonService {
 
         return gameResultString;
     }
-
-    /*public String playNextGame(int seasonId) throws InterruptedException {
-        return playGame(gameService.findNextGameBySeasonId(seasonId));
-    }*/
 
     public Season save(int leagueId) {
         Season season = new Season();

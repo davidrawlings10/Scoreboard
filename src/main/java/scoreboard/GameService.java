@@ -25,24 +25,12 @@ public class GameService {
         public class TimeDelay {
             // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // standard (season 1)
             // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2)
-            // public final static int gameplayTickMilli = 10, shootoutSec = 10, intermissionSec = 5; // accelerated (season 3)
-            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3)
+            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
-    //private String chancea = "{ \"score\": 1 " +
-    //        "}";
-
     public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) throws InterruptedException {
-
-        /*JSONObject obj = new JSONObject("{\"name\": \"John\"}");
-        obj.getString("name");
-        System.out.println(obj);*/
-
-        //gameRepository.findAll();
-
-        //gameRepository.findById(1);
-
         return playHockeyV2(null, homeTeamId, awayTeamId, seasonId);
     }
 

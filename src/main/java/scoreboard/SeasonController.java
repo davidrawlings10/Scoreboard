@@ -17,7 +17,7 @@ public class SeasonController {
     @GetMapping(path="/schedulePlay")
     public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws InterruptedException {
         int seasonId = seasonService.schedulePlaySeason(Integer.parseInt(leagueId));
-        return "Season scheduled, id:" + seasonId;
+        return "Season played, id:" + seasonId;
     }
 
     // http://localhost:8080/season/schedule?leagueId=1

@@ -3,7 +3,7 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+// import java.util.List; `1
 import java.util.Optional;
 
 @Service
@@ -22,7 +22,7 @@ public class SeasonService {
 
     public Season scheduleSeason(int leagueId) {
         Season season = save(leagueId);
-        Iterable<Team> teams = teamService.getTeamsByLeagueId(season.getLeagueId());
+        Iterable<Team> teams = teamService.getByLeagueId(season.getLeagueId());
         for (Team team_home : teams) {
             standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             for (Team team_away : teams) {
@@ -38,7 +38,7 @@ public class SeasonService {
     }
 
     public void playSeason(Season season, Integer numOfGames) throws InterruptedException {
-        Iterable<Game> games = gameService.getGamesBySeasonId(season.getId());
+        Iterable<Game> games = gameService.getBySeasonId(season.getId());
         for (Game game : games) {
             if (game.getEndingPeriod() == null) {
                 playGame(game);
@@ -57,6 +57,15 @@ public class SeasonService {
         Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
         Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());
 
+        updateStanding(homeTeamStanding, awayTeamStanding, game);
+
+        standingService.save(homeTeamStanding);
+        standingService.save(awayTeamStanding);
+
+        return gameResultString;
+    }
+
+    private void updateStanding(Standing homeTeamStanding, Standing awayTeamStanding, Game game) {
         homeTeamStanding.setGp(homeTeamStanding.getGp() + 1);
         awayTeamStanding.setGp(awayTeamStanding.getGp() + 1);
 
@@ -89,12 +98,9 @@ public class SeasonService {
         homeTeamStanding.setGa(homeTeamStanding.getGa() + game.getAwayScore());
         awayTeamStanding.setGf(awayTeamStanding.getGf() + game.getAwayScore());
         awayTeamStanding.setGa(awayTeamStanding.getGa() + game.getHomeScore());
-
-        standingService.save(homeTeamStanding);
-        standingService.save(awayTeamStanding);
-
-        return gameResultString;
     }
+
+    // data access
 
     public Season save(int leagueId) {
         Season season = new Season();

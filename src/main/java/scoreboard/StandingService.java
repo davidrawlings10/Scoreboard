@@ -3,13 +3,16 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+// import java.util.ArrayList; `1
+// import java.util.List;
+// import java.util.Optional;
 
 @Service
 public class StandingService {
+
     @Autowired private StandingRepository standingRepository;
+
+    // data access
 
     public Standing save(Standing standing) {
         return save(standing.getId(), standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(),

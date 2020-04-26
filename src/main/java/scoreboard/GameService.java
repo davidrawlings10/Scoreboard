@@ -25,8 +25,9 @@ public class GameService {
         public class TimeDelay {
             // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // standard (season 1)
             // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2)
-            public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3)
-            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3)
+            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 4)
+            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
@@ -55,8 +56,8 @@ public class GameService {
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
-        homeTeamName = getTeamByTeamId(homeTeamId).getName();
-        awayTeamName = getTeamByTeamId(awayTeamId).getName();
+        homeTeamName = getByTeamId(homeTeamId).getName();
+        awayTeamName = getByTeamId(awayTeamId).getName();
 
         System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
 
@@ -170,6 +171,8 @@ public class GameService {
         // return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound;
     }
 
+    // data access
+
     public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
         Game game = new Game();
         game.setId(id);
@@ -182,11 +185,6 @@ public class GameService {
         return gameRepository.save(game);
     }
 
-    public Game findById(int gameId) {
-        Optional<Game> gameOptional = gameRepository.findById(gameId);
-        return gameOptional.get();
-    }
-
     public Game updateById(int gameId) {
         Optional<Game> gameOptional = gameRepository.findById(gameId);
         Game game = gameOptional.get();
@@ -195,11 +193,16 @@ public class GameService {
         return game;
     }
 
-    public Iterable<Game> getGamesBySeasonId(int leagueId) {
+    public Game findById(int gameId) {
+        Optional<Game> gameOptional = gameRepository.findById(gameId);
+        return gameOptional.get();
+    }
+
+    public Iterable<Game> getBySeasonId(int leagueId) {
         return gameRepository.findBySeasonId(leagueId);
     }
 
-    public Team getTeamByTeamId(int teamId) { return teamService.getTeamByTeamId(teamId); }
+    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
 
 
 

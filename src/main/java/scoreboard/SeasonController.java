@@ -27,7 +27,7 @@ public class SeasonController {
         return "Season scheduled, id:" + season.getId();
     }
 
-    // http://localhost:8080/season/play?leagueId=1&numOfGames=8
+    // http://localhost:8080/season/play?seasonId=1&numOfGames=8
     @GetMapping(path="/play")
     public @ResponseBody String playSeason(@RequestParam String seasonId, @RequestParam(required=false) String numOfGames) throws InterruptedException {
         Integer numOfGamesInt = (numOfGames != null ? Integer.parseInt(numOfGames) : null);

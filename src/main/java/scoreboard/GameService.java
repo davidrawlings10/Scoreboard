@@ -23,11 +23,13 @@ public class GameService {
         }
         // time in seconds for how long things take
         public class TimeDelay {
-            // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // standard (season 1)
-            // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2)
-            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3)
-            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 4)
-            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            // public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 1, 4 teams)
+            // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // accelerated (season 1, 4 teams)
+            // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2, 8 teams)
+            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3, 16 teams)
+            public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
+            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (32 teams) HAVEN'T PLAYED
+            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 

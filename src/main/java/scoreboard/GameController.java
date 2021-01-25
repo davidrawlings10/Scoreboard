@@ -2,10 +2,7 @@ package scoreboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path="/game") // This means URL's start with /demo (after Application path)
@@ -14,6 +11,7 @@ public class GameController {
     @Autowired GameService gameService;
 
     // http://localhost:8080/game/play
+    @CrossOrigin
     @GetMapping(path="/play")
     public @ResponseBody String play() throws InterruptedException {
         return gameService.playGame(50, 51, Sport.HOCKEY, null);

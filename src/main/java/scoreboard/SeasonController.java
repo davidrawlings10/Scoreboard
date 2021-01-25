@@ -2,10 +2,9 @@ package scoreboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path="/season")
@@ -21,6 +20,7 @@ public class SeasonController {
     }
 
     // http://localhost:8080/season/schedule?leagueId=1
+    @CrossOrigin
     @GetMapping(path="/schedule")
     public @ResponseBody String scheduleSeason(@RequestParam String leagueId) throws InterruptedException {
         Season season = seasonService.scheduleSeason(Integer.parseInt(leagueId));
@@ -28,6 +28,7 @@ public class SeasonController {
     }
 
     // http://localhost:8080/season/play?seasonId=1&numOfGames=8
+    @CrossOrigin
     @GetMapping(path="/play")
     public @ResponseBody String playSeason(@RequestParam String seasonId, @RequestParam(required=false) String numOfGames) throws InterruptedException {
         Integer numOfGamesInt = (numOfGames != null ? Integer.parseInt(numOfGames) : null);

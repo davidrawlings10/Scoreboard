@@ -13,8 +13,12 @@ public class StandingController {
 
     @CrossOrigin
     @GetMapping(path="get")
-    public @ResponseBody
-    List<Standing> getStanding(@RequestParam String seasonId) {
-        return standingService.findBySeasonId(Integer.parseInt(seasonId));
+    public @ResponseBody String getStanding(@RequestParam String seasonId) {
+        /*StandingResponse standingResponse = new StandingResponse();
+        standingResponse.setStandingList(standingService.findBySeasonId(Integer.parseInt(seasonId)));
+        return standingResponse;*/
+
+        List<Standing> standingList = standingService.findBySeasonId(Integer.parseInt(seasonId));
+        return standingService.getSeasonListJSON(standingList);
     }
 }

@@ -31,6 +31,12 @@ public class GameController {
         return "updated to " + game.getHomeScore() + "-" + game.getAwayScore();
     }
 
+    @CrossOrigin
+    @GetMapping(path="/test")
+    public @ResponseBody String test() {
+        return "{\"name\": \"31\"}";
+    }
+
     /*@GetMapping(path="/findAll")
     public @ResponseBody String findAll() throws InterruptedException {
         gameService.findAll();

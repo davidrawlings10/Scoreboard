@@ -29,7 +29,7 @@ public class GameService {
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3, 16 teams)
             public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (32 teams) HAVEN'T PLAYED
-            //public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
@@ -55,21 +55,22 @@ public class GameService {
 
     private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) throws InterruptedException {
         int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
+        boolean isIntermission = true;
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
         homeTeamName = getByTeamId(homeTeamId).getName();
         awayTeamName = getByTeamId(awayTeamId).getName();
 
-        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
+        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
 
-        TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
+        // TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
 
         while (true) {
 
             TimeUnit.MILLISECONDS.sleep(Config.TimeDelay.gameplayTickMilli);
 
-            if (period == 5) {
+            if (period == 5 && !isIntermission) {
                 if (shootout()) {
                     homeScore++;
                 } else {
@@ -85,12 +86,12 @@ public class GameService {
             // .9 / 20 = .045 average goals per minutes
             // .045 / 60 = .00075 average goals per second
 
-            if (RandomService.occur(homeChance)) {
+            if (!isIntermission && RandomService.occur(homeChance)) {
                 homeScore++;
                 if (period == 4)
                     break;
             }
-            if (RandomService.occur(awayChance)) {
+            if (!isIntermission && RandomService.occur(awayChance)) {
                 awayScore++;
                 if (period == 4)
                     break;
@@ -104,16 +105,18 @@ public class GameService {
             } else if (seconds == 0 && minutes == 0) {
                 // period ends
 
-                System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
+                System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
-                if (period == 3 && homeScore != awayScore) {
+                if (period == 3 && !isIntermission && homeScore != awayScore) {
                     break;
                 } else {
-                    TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
+                    // TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
+                    if (!isIntermission) {
+                        period++;
+                    }
+                    isIntermission = !isIntermission;
                 }
-
-                period++;
 
                 // minutes are reset to 5 for overtime and 20 for periods 2 and 3
                 minutes = period == 4 ? 5 : 20;
@@ -126,13 +129,13 @@ public class GameService {
                 }
             }
 
-            System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false));
+            System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
         }
 
         save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, period);
-        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, true));
+        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, true, isIntermission));
 
-        return printScoreboard(homeScore, awayScore, period, minutes, seconds, true);
+        return printScoreboard(homeScore, awayScore, period, minutes, seconds, true, isIntermission);
     }
 
     private boolean shootout() throws InterruptedException {
@@ -162,9 +165,9 @@ public class GameService {
         return homeShootoutScore > awayShootoutScore;
     }
 
-    private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, boolean isFinal) {
+    private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, boolean isFinal, boolean isIntermission) {
         return homeTeamName + " | " + homeScore + " | " + awayTeamName +  " | " + awayScore + " | "
-                + (isFinal ? "Final" : "Period | " + period + " | " + minutes + ":" + seconds);
+                + (isFinal ? "Final" : (isIntermission ? "Intermission" : "Period" ) + " | " + period + " | " + minutes + ":" + seconds);
     }
 
     private String printScoreboardShootout(int homeShootoutScore, int awayShootoutScore, int shootoutRound) {

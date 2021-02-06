@@ -64,8 +64,6 @@ public class GameService {
 
         System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
 
-        // TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
-
         while (true) {
 
             TimeUnit.MILLISECONDS.sleep(Config.TimeDelay.gameplayTickMilli);
@@ -119,7 +117,7 @@ public class GameService {
                 }
 
                 // minutes are reset to 5 for overtime and 20 for periods 2 and 3
-                minutes = period == 4 ? 5 : 20;
+                minutes = period > 3 ? 5 : 20;
                 seconds = 0;
 
                 // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3

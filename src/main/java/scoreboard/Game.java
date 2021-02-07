@@ -9,13 +9,17 @@ import javax.persistence.Id;
 public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
-    private Integer seasonId;
-    private Integer homeTeamId;
-    private Integer awayTeamId;
-    private Integer homeScore;
-    private Integer awayScore;
-    private Integer endingPeriod;
+    private Integer id; // in database
+
+    private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod; // in database
+
+    // private Integer period, minutes, seconds; // not in database
+
+    // private boolean isIntermission; // not in database
+
+    // Clock clock = new Clock(); // not in database
+
+
 
     public Integer getId() {
         return id;
@@ -72,4 +76,36 @@ public class Game {
     public void setEndingPeriod(Integer endingPeriod) {
         this.endingPeriod = endingPeriod;
     }
+
+    /*public Integer getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Integer period) {
+        this.period = period;
+    }
+
+    public Integer getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(Integer minutes) {
+        this.minutes = minutes;
+    }
+
+    public Integer getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(Integer seconds) {
+        this.seconds = seconds;
+    }
+
+    public boolean isIntermission() {
+        return isIntermission;
+    }
+
+    public void setIntermission(boolean isIntermission) {
+        isIntermission = isIntermission;
+    }*/
 }

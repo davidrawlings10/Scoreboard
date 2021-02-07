@@ -27,9 +27,9 @@ public class GameService {
             // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // accelerated (season 1, 4 teams)
             // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3, 16 teams)
-            public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
+            // public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (32 teams) HAVEN'T PLAYED
-            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
@@ -37,38 +37,29 @@ public class GameService {
         return playHockeyV2(null, homeTeamId, awayTeamId, seasonId);
     }
 
-    private String playHockeyV1(int homeTeamId, int awayTeamId, Integer seasonId) {
-        Random rand = new Random();
-
-        final int maxScore = 6;
-
-        int homeScore = rand.nextInt(maxScore);
-        int awayScore = rand.nextInt(maxScore);
-
-        save(null, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, 1);
-        return "HOME: " + homeScore + " AWAY: " + awayScore;
-    }
-
     public String playHockeyV2(Game game) throws InterruptedException {
         return playHockeyV2(game.getId(), game.getHomeTeamId(), game.getAwayTeamId(), game.getSeasonId());
     }
 
     private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) throws InterruptedException {
-        int homeScore = 0, awayScore = 0, period = 1, minutes = 20, seconds = 0;
-        boolean isIntermission = true;
+        Clock clock = new Clock();
+        clock.setMinutes(20);
+
+        int homeScore = 0, awayScore = 0; //, period = 1; // , minutes = 20, seconds = 0;
+        // boolean isIntermission = true;
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
         homeTeamName = getByTeamId(homeTeamId).getName();
         awayTeamName = getByTeamId(awayTeamId).getName();
 
-        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
+        System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()/*isIntermission*/));
 
         while (true) {
 
             TimeUnit.MILLISECONDS.sleep(Config.TimeDelay.gameplayTickMilli);
 
-            if (period == 5 && !isIntermission) {
+            if (clock.getPeriod()/*period*/ == 5 && !clock.isIntermission()/*!isIntermission*/) {
                 if (shootout()) {
                     homeScore++;
                 } else {
@@ -84,56 +75,57 @@ public class GameService {
             // .9 / 20 = .045 average goals per minutes
             // .045 / 60 = .00075 average goals per second
 
-            if (!isIntermission && RandomService.occur(homeChance)) {
+            if (!clock.isIntermission()/*!isIntermission*/ && RandomService.occur(homeChance)) {
                 homeScore++;
-                if (period == 4)
+                if (clock.getPeriod()/*period*/ == 4)
                     break;
             }
-            if (!isIntermission && RandomService.occur(awayChance)) {
+            if (!clock.isIntermission()/*!isIntermission*/ && RandomService.occur(awayChance)) {
                 awayScore++;
-                if (period == 4)
+                if (clock.getPeriod()/*period*/ == 4)
                     break;
             }
 
-            seconds--;
+            // seconds--;
+            clock.tickDown();
 
-            if (seconds == -1) {
+            /*if (seconds == -1) {
                 minutes--;
                 seconds = 59;
-            } else if (seconds == 0 && minutes == 0) {
+            } else*/ if (clock.isExpired()/*seconds == 0 && minutes == 0*/) {
                 // period ends
 
-                System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
+                System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()/*isIntermission*/));
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
-                if (period == 3 && !isIntermission && homeScore != awayScore) {
+                if (clock.getPeriod()/*period*/ == 3 && !clock.isIntermission()/*!isIntermission*/ && homeScore != awayScore) {
                     break;
                 } else {
                     // TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
-                    if (!isIntermission) {
-                        period++;
+                    if (!clock.isIntermission()/*!isIntermission*/) {
+                        clock.setPeriod(clock.getPeriod() + 1); // period++;
                     }
-                    isIntermission = !isIntermission;
+                    clock.setIntermission(!clock.isIntermission()); // isIntermission = !isIntermission;
                 }
 
                 // minutes are reset to 5 for overtime and 20 for periods 2 and 3
-                minutes = period > 3 ? 5 : 20;
-                seconds = 0;
+                clock.setMinutes(clock.getPeriod()/*period*/ > 3 ? 5 : 20); // minutes = period > 3 ? 5 : 20;
+                clock.setSeconds(0); // seconds = 0;
 
                 // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
-                if (period == 4) {
+                if (clock.getPeriod()/*period*/ == 4) {
                     homeChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreHomeWeight;
                     awayChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreAwayWeight;
                 }
             }
 
-            System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, false, isIntermission));
+            System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()/*isIntermission*/));
         }
 
-        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, period);
-        System.out.println(printScoreboard(homeScore, awayScore, period, minutes, seconds, true, isIntermission));
+        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, clock.getPeriod()/*period*/);
+        System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission()/*isIntermission*/));
 
-        return printScoreboard(homeScore, awayScore, period, minutes, seconds, true, isIntermission);
+        return printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission()/*isIntermission*/);
     }
 
     private boolean shootout() throws InterruptedException {
@@ -161,6 +153,18 @@ public class GameService {
         }
 
         return homeShootoutScore > awayShootoutScore;
+    }
+
+    private String playHockeyV1(int homeTeamId, int awayTeamId, Integer seasonId) {
+        Random rand = new Random();
+
+        final int maxScore = 6;
+
+        int homeScore = rand.nextInt(maxScore);
+        int awayScore = rand.nextInt(maxScore);
+
+        save(null, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, 1);
+        return "HOME: " + homeScore + " AWAY: " + awayScore;
     }
 
     private String printScoreboard(int homeScore, int awayScore, int period, int minutes, int seconds, boolean isFinal, boolean isIntermission) {

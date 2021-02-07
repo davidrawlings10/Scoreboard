@@ -61,6 +61,9 @@ public class StandingService {
     public String getSeasonListJSON(List<Standing> standings) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String standingsJSON = objectMapper.writeValueAsString(standings);
+
+        // List<StandingResponse> standingResponseList = new ArrayList<>();
+
         return "{\"standingList\":" + standingsJSON + "}";
     }
 }

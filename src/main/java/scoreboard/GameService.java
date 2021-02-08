@@ -27,9 +27,9 @@ public class GameService {
             // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // accelerated (season 1, 4 teams)
             // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3, 16 teams)
-            // public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
+            public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (32 teams) HAVEN'T PLAYED
-            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
     }
 
@@ -43,6 +43,7 @@ public class GameService {
 
     private String playHockeyV2(Integer id, int homeTeamId, int awayTeamId, Integer seasonId) throws InterruptedException {
         Clock clock = new Clock();
+        clock.setPeriod(1);
         clock.setMinutes(20);
 
         int homeScore = 0, awayScore = 0; //, period = 1; // , minutes = 20, seconds = 0;

@@ -14,7 +14,13 @@ public class GameController {
     @CrossOrigin
     @GetMapping(path="/play")
     public @ResponseBody String play() throws InterruptedException {
-        return gameService.playGame(52, 53, Sport.HOCKEY, null);
+        // return gameService.playGame(52, 53, Sport.HOCKEY, null);
+        Game game = new Game();
+        game.setHomeTeamId(54);
+        game.setAwayTeamId(55);
+        game.setHomeScore(0);
+        game.setAwayScore(0);
+        return gameService.playGame(game);
     }
 
     // http://localhost:8080/game/findById?gameId=120

@@ -12,10 +12,11 @@ public class GameService {
 
     @Autowired private GameRepository gameRepository;
     @Autowired private TeamService teamService;
+    @Autowired private HockeyPlayService hockeyPlayService;
 
     private static String homeTeamName, awayTeamName;
 
-    public class Config {
+    /*public class Config {
         public class Chance {
             public final static double regulationScore = 0.075, regulationScoreHomeWeight = 0.005, regulationScoreAwayWeight = -0.005;
             public final static double overtimeScore = 0.1, overtimeScoreHomeWeight = 0.005, overtimeScoreAwayWeight = -0.005;
@@ -27,13 +28,19 @@ public class GameService {
             // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // accelerated (season 1, 4 teams)
             // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3, 16 teams)
-            public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
+            // public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
             // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (32 teams) HAVEN'T PLAYED
-            // public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
         }
+    }*/
+
+    public String playGame(Game game) throws InterruptedException {
+        hockeyPlayService.playGame(game);
+        gameRepository.save(game);
+        return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
-    public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) throws InterruptedException {
+    /* public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) throws InterruptedException {
         return playHockeyV2(null, homeTeamId, awayTeamId, seasonId);
     }
 
@@ -171,7 +178,7 @@ public class GameService {
         return homeTeamName + " | " + homeShootoutScore + " | " + awayTeamName +  " | " + awayShootoutScore + " | " +
                 "Round | " + shootoutRound;
         // return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound;
-    }
+    } */
 
     // data access
 

@@ -19,8 +19,6 @@ public class Game {
 
     // Clock clock = new Clock(); // not in database
 
-
-
     public Integer getId() {
         return id;
     }

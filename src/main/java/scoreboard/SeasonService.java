@@ -51,7 +51,7 @@ public class SeasonService {
     }
 
     private String playGame(Game game) throws InterruptedException {
-        String gameResultString = gameService.playHockeyV2(game);
+        String gameResultString = gameService.playGame(game);
 
         Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
         Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());

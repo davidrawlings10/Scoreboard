@@ -46,21 +46,20 @@ public class GameService {
         clock.setPeriod(1);
         clock.setMinutes(20);
 
-        int homeScore = 0, awayScore = 0; //, period = 1; // , minutes = 20, seconds = 0;
-        // boolean isIntermission = true;
+        int homeScore = 0, awayScore = 0;
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
         homeTeamName = getByTeamId(homeTeamId).getName();
         awayTeamName = getByTeamId(awayTeamId).getName();
 
-        System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()/*isIntermission*/));
+        System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod(), clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()));
 
         while (true) {
 
             TimeUnit.MILLISECONDS.sleep(Config.TimeDelay.gameplayTickMilli);
 
-            if (clock.getPeriod()/*period*/ == 5 && !clock.isIntermission()/*!isIntermission*/) {
+            if (clock.getPeriod() == 5 && !clock.isIntermission()) {
                 if (shootout()) {
                     homeScore++;
                 } else {
@@ -76,57 +75,52 @@ public class GameService {
             // .9 / 20 = .045 average goals per minutes
             // .045 / 60 = .00075 average goals per second
 
-            if (!clock.isIntermission()/*!isIntermission*/ && RandomService.occur(homeChance)) {
+            if (!clock.isIntermission() && RandomService.occur(homeChance)) {
                 homeScore++;
-                if (clock.getPeriod()/*period*/ == 4)
+                if (clock.getPeriod() == 4)
                     break;
             }
-            if (!clock.isIntermission()/*!isIntermission*/ && RandomService.occur(awayChance)) {
+            if (!clock.isIntermission() && RandomService.occur(awayChance)) {
                 awayScore++;
-                if (clock.getPeriod()/*period*/ == 4)
+                if (clock.getPeriod() == 4)
                     break;
             }
 
-            // seconds--;
             clock.tickDown();
 
-            /*if (seconds == -1) {
-                minutes--;
-                seconds = 59;
-            } else*/ if (clock.isExpired()/*seconds == 0 && minutes == 0*/) {
+            if (clock.isExpired()) {
                 // period ends
 
-                System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()/*isIntermission*/));
+                System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod(), clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()));
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
-                if (clock.getPeriod()/*period*/ == 3 && !clock.isIntermission()/*!isIntermission*/ && homeScore != awayScore) {
+                if (clock.getPeriod() == 3 && !clock.isIntermission() && homeScore != awayScore) {
                     break;
                 } else {
-                    // TimeUnit.SECONDS.sleep(Config.TimeDelay.intermissionSec);
-                    if (!clock.isIntermission()/*!isIntermission*/) {
-                        clock.setPeriod(clock.getPeriod() + 1); // period++;
+                    if (!clock.isIntermission()) {
+                        clock.setPeriod(clock.getPeriod() + 1);
                     }
-                    clock.setIntermission(!clock.isIntermission()); // isIntermission = !isIntermission;
+                    clock.setIntermission(!clock.isIntermission());
                 }
 
                 // minutes are reset to 5 for overtime and 20 for periods 2 and 3
-                clock.setMinutes(clock.getPeriod()/*period*/ > 3 ? 5 : 20); // minutes = period > 3 ? 5 : 20;
-                clock.setSeconds(0); // seconds = 0;
+                clock.setMinutes(clock.getPeriod() > 3 ? 5 : 20);
+                clock.setSeconds(0);
 
                 // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
-                if (clock.getPeriod()/*period*/ == 4) {
+                if (clock.getPeriod() == 4) {
                     homeChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreHomeWeight;
                     awayChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreAwayWeight;
                 }
             }
 
-            System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()/*isIntermission*/));
+            System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod(), clock.getMinutes(), clock.getSeconds(), false, clock.isIntermission()));
         }
 
-        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, clock.getPeriod()/*period*/);
-        System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission()/*isIntermission*/));
+        save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, clock.getPeriod());
+        System.out.println(printScoreboard(homeScore, awayScore, clock.getPeriod(), clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission()));
 
-        return printScoreboard(homeScore, awayScore, clock.getPeriod()/*period*/, clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission()/*isIntermission*/);
+        return printScoreboard(homeScore, awayScore, clock.getPeriod(), clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission());
     }
 
     private boolean shootout() throws InterruptedException {

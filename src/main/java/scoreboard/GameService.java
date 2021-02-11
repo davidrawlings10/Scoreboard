@@ -11,12 +11,12 @@ import java.util.concurrent.TimeUnit;
 public class GameService {
 
     @Autowired private GameRepository gameRepository;
-    @Autowired private TeamService teamService;
+    // @Autowired private TeamService teamService; `1
     @Autowired private HockeyPlayService hockeyPlayService;
 
-    private static String homeTeamName, awayTeamName;
+    /* private static String homeTeamName, awayTeamName; `1
 
-    /*public class Config {
+    public class Config {
         public class Chance {
             public final static double regulationScore = 0.075, regulationScoreHomeWeight = 0.005, regulationScoreAwayWeight = -0.005;
             public final static double overtimeScore = 0.1, overtimeScoreHomeWeight = 0.005, overtimeScoreAwayWeight = -0.005;
@@ -40,7 +40,7 @@ public class GameService {
         return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
-    /* public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) throws InterruptedException {
+    /* public String playGame(int homeTeamId, int awayTeamId, Sport sport, Integer seasonId) throws InterruptedException { `1
         return playHockeyV2(null, homeTeamId, awayTeamId, seasonId);
     }
 
@@ -211,7 +211,7 @@ public class GameService {
         return gameRepository.findBySeasonId(leagueId);
     }
 
-    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
+    // public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); } `1
 
 
 

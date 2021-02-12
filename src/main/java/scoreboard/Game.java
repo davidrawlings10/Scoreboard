@@ -1,9 +1,6 @@
 package scoreboard;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Game {
@@ -17,7 +14,12 @@ public class Game {
 
     // private boolean isIntermission; // not in database
 
-    // Clock clock = new Clock(); // not in database
+    @Transient
+    Clock clock; // not in database
+
+    public Game() {
+        clock = new Clock();
+    }
 
     public Integer getId() {
         return id;
@@ -73,6 +75,14 @@ public class Game {
 
     public void setEndingPeriod(Integer endingPeriod) {
         this.endingPeriod = endingPeriod;
+    }
+
+    public Clock getClock() {
+        return clock;
+    }
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
     }
 
     /*public Integer getPeriod() {

@@ -19,32 +19,21 @@ public class HockeyPlayService {
         }
         // time in seconds for how long things take
         public class TimeDelay {
-            // public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 1, 4 teams)
-            // public final static int gameplayTickMilli = 100, shootoutSec = 15, intermissionSec = 120; // accelerated (season 1, 4 teams)
-            // public final static int gameplayTickMilli = 130, shootoutSec = 15, intermissionSec = 30; // accelerated (season 2, 8 teams)
-            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (season 3, 16 teams)
-            // public final static int gameplayTickMilli = 1000, shootoutSec = 40, intermissionSec = 1020; // standard (season 4, 8 teams)
-            // public final static int gameplayTickMilli = 50, shootoutSec = 12, intermissionSec = 12; // accelerated (32 teams) HAVEN'T PLAYED
-            public final static int gameplayTickMilli = 0, shootoutSec = 0, intermissionSec = 0; // immediate
+            // public final static int gameplayTickMilli = 1000, shootoutSec = 40; // standard
+            // public final static int gameplayTickMilli = 100, shootoutSec = 15; // accelerated
+            public final static int gameplayTickMilli = 0, shootoutSec = 0; // immediate
         }
     }
 
     public Game playGame(Game game) throws InterruptedException {
-        /* Clock clock = new Clock();
-        clock.setPeriod(1);
-        clock.setMinutes(20);*/
-
         game.getClock().setPeriod(1);
         game.getClock().setMinutes(20);
-
-        // int homeScore = 0, awayScore = 0; `1
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
         homeTeamName = getByTeamId(game.getHomeTeamId()).getName();
         awayTeamName = getByTeamId(game.getAwayTeamId()).getName();
 
-        // System.out.println(printScoreboard(game.getHomeScore(), game.getAwayScore(), game.getClock().getPeriod(), game.getClock().getMinutes(), game.getClock().getSeconds(), false, game.getClock().isIntermission()));
         System.out.println(printScoreboard(game, false));
 
         while (true) {
@@ -83,7 +72,6 @@ public class HockeyPlayService {
             if (game.getClock().isExpired()) {
                 // period ends
 
-                // System.out.println(printScoreboard(game.getHomeScore(), game.getAwayScore(), game.getClock().getPeriod(), game.getClock().getMinutes(), game.getClock().getSeconds(), false, game.getClock().isIntermission()));
                 System.out.println(printScoreboard(game, false));
 
                 // end of the game in regulation if scores are different, otherwise period will become 4
@@ -107,17 +95,13 @@ public class HockeyPlayService {
                 }
             }
 
-            // System.out.println(printScoreboard(game.getHomeScore(), game.getAwayScore(), game.getClock().getPeriod(), game.getClock().getMinutes(), game.getClock().getSeconds(), false, game.getClock().isIntermission()));
             System.out.println(printScoreboard(game, false));
         }
 
-        // save(id, homeTeamId, awayTeamId, homeScore, awayScore, seasonId, clock.getPeriod()); `1
-        // System.out.println(printScoreboard(game.getHomeScore(), game.getAwayScore(), game.getClock().getPeriod(), game.getClock().getMinutes(), game.getClock().getSeconds(), true, game.getClock().isIntermission()));
         System.out.println(printScoreboard(game, false));
 
         game.setEndingPeriod(game.getClock().getPeriod());
         return game;
-        // return printScoreboard(homeScore, awayScore, clock.getPeriod(), clock.getMinutes(), clock.getSeconds(), true, clock.isIntermission()); `1
     }
 
     private boolean shootout() throws InterruptedException {
@@ -147,9 +131,7 @@ public class HockeyPlayService {
         return homeShootoutScore > awayShootoutScore;
     }
 
-    private String printScoreboard(Game game, boolean isFinal /*int homeScore, int awayScore, int period, int minutes, int seconds, boolean isFinal, boolean isIntermission*/) {
-        /*return homeTeamName + " | " + homeScore + " | " + awayTeamName +  " | " + awayScore + " | "
-                + (isFinal ? "Final" : (isIntermission ? "Intermission" : "Period" ) + " | " + period + " | " + minutes + ":" + seconds);*/
+    private String printScoreboard(Game game, boolean isFinal) {
         return homeTeamName + " | " + game.getHomeScore() + " | " + awayTeamName +  " | " + game.getAwayScore() + " | "
                 + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
     }
@@ -157,7 +139,6 @@ public class HockeyPlayService {
     private String printScoreboardShootout(int homeShootoutScore, int awayShootoutScore, int shootoutRound) {
         return homeTeamName + " | " + homeShootoutScore + " | " + awayTeamName +  " | " + awayShootoutScore + " | " +
                 "Round | " + shootoutRound;
-        // return homeTeamName + ": " + homeShootoutScore + " " + awayTeamName + ": " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound; `1
     }
 
     public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }

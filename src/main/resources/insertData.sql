@@ -99,3 +99,5 @@ INSERT INTO team (league_id, location, name) VALUES (3, 'Location3', 'Team3');
 INSERT INTO team (league_id, location, name) VALUES (3, 'Location4', 'Team4');
 INSERT INTO team (league_id, location, name) VALUES (3, 'Location5', 'Team5');
 
+INSERT INTO sport (name) VALUES ('Hockey');
+INSERT INTO sport (name) VALUES ('Basketball');

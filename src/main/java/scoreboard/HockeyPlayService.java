@@ -13,6 +13,12 @@ public class HockeyPlayService {
 
     public class Config {
         public class Chance {
+            // total GA (goals for) in 18-19 NHL regular season was 7664
+            // games played in 18-19 NHL regular season was 82 * 31 = 2542
+            // 7664 / 2542 = 3.014 goals a game
+            // considering overtime goals rounding down to .9 goals a period
+            // .9 / 20 = .045 average goals per minutes
+            // .045 / 60 = .00075 average goals per second
             public final static double regulationScore = 0.075, regulationScoreHomeWeight = 0.005, regulationScoreAwayWeight = -0.005;
             public final static double overtimeScore = 0.1, overtimeScoreHomeWeight = 0.005, overtimeScoreAwayWeight = -0.005;
             public final static double shootoutScore = 31.94, shootoutScoreHomeWeight = 1, shootoutScoreAwayWeight = -1;
@@ -48,13 +54,6 @@ public class HockeyPlayService {
                 }
                 break;
             }
-
-            // total GA (goals for) in 18-19 NHL regular season was 7664
-            // games played in 18-19 NHL regular season was 82 * 31 = 2542
-            // 7664 / 2542 = 3.014 goals a game
-            // considering overtime goals rounding down to .9 goals a period
-            // .9 / 20 = .045 average goals per minutes
-            // .045 / 60 = .00075 average goals per second
 
             if (!game.getClock().isIntermission() && RandomService.occur(homeChance)) {
                 game.setHomeScore(game.getHomeScore() + 1);
@@ -102,6 +101,18 @@ public class HockeyPlayService {
 
         game.setEndingPeriod(game.getClock().getPeriod());
         return game;
+    }
+
+    private void handleShootout() {
+
+    }
+
+    private void handleScore() {
+
+    }
+
+    private void handleClock() {
+
     }
 
     private boolean shootout() throws InterruptedException {

@@ -6,16 +6,10 @@ import javax.persistence.*;
 public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id; // in database
+    private Integer id;
+    private Integer sportId, seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
-    private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod; // in database
-
-    // private Integer period, minutes, seconds; // not in database
-
-    // private boolean isIntermission; // not in database
-
-    @Transient
-    Clock clock; // not in database
+    @Transient Clock clock;
 
     public Game() {
         clock = new Clock();
@@ -27,6 +21,14 @@ public class Game {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Integer sportId) {
+        this.sportId = sportId;
     }
 
     public Integer getHomeTeamId() {
@@ -84,36 +86,4 @@ public class Game {
     public void setClock(Clock clock) {
         this.clock = clock;
     }
-
-    /*public Integer getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(Integer period) {
-        this.period = period;
-    }
-
-    public Integer getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(Integer minutes) {
-        this.minutes = minutes;
-    }
-
-    public Integer getSeconds() {
-        return seconds;
-    }
-
-    public void setSeconds(Integer seconds) {
-        this.seconds = seconds;
-    }
-
-    public boolean isIntermission() {
-        return isIntermission;
-    }
-
-    public void setIntermission(boolean isIntermission) {
-        isIntermission = isIntermission;
-    }*/
 }

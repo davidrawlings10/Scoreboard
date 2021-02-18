@@ -16,6 +16,7 @@ public class GameController {
     public @ResponseBody String play() throws InterruptedException {
         // return gameService.playGame(52, 53, Sport.HOCKEY, null);
         Game game = new Game();
+        game.setSportId(1);
         game.setHomeTeamId(54);
         game.setAwayTeamId(55);
         game.setHomeScore(0);

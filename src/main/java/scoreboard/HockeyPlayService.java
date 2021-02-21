@@ -32,15 +32,7 @@ public class HockeyPlayService {
         }
     }
 
-    /* final int ENDING_PERIOD = 3;
-    final int MINUTES_IN_PERIOD = 20;
-    final int MINUTES_IN_OVERTIME = 5;
-    final int MINUTES_IN_INTERMISSION = 20;
-    final int MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5; */
-
     public Game playGame(Game game) throws InterruptedException {
-        // game.getClock().setPeriod(1);
-        // game.getClock().setMinutes(MINUTES_IN_INTERMISSION);
         game.getClock().reset();
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
@@ -91,17 +83,7 @@ public class HockeyPlayService {
                     game.getClock().setIntermission(!game.getClock().isIntermission());
                 }
 
-                // minutes are reset to 5 for overtime and 20 for periods 2 and 3
-                /*int minutes = 0;
-                if (game.getClock().getPeriod() <= ENDING_PERIOD) {
-                    minutes = game.getClock().isIntermission() ? MINUTES_IN_INTERMISSION : MINUTES_IN_PERIOD;
-                } else {
-                    minutes = game.getClock().isIntermission() ? MINUTES_IN_OVERTIME : MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
-                }*/
                 game.getClock().reset();
-
-                // game.getClock().setMinutes(/*game.getClock().getPeriod() > ENDING_PERIOD ? MINUTES_IN_OVERTIME : MINUTES_IN_PERIOD*/minutes);
-                game.getClock().setSeconds(0);
 
                 // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
                 if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1) {
@@ -116,6 +98,7 @@ public class HockeyPlayService {
         System.out.println(printScoreboard(game, false));
 
         game.setEndingPeriod(game.getClock().getPeriod());
+
         return game;
     }
 

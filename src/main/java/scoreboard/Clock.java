@@ -85,4 +85,24 @@ public class Clock {
     public void setIntermission(boolean isIntermission) {
         this.isIntermission = isIntermission;
     }
+
+    public int getENDING_PERIOD() {
+        return ENDING_PERIOD;
+    }
+
+    public int getMINUTES_IN_PERIOD() {
+        return MINUTES_IN_PERIOD;
+    }
+
+    public int getMINUTES_IN_OVERTIME() {
+        return MINUTES_IN_OVERTIME;
+    }
+
+    public int getMINUTES_IN_INTERMISSION() {
+        return MINUTES_IN_INTERMISSION;
+    }
+
+    public int getMINUTES_IN_INTERMISSION_BEFORE_OVERTIME() {
+        return MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+    }
 }

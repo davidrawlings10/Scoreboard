@@ -20,7 +20,7 @@ public class GameService {
     // data access
 
     public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
-        Game game = new Game();
+        Game game = new Game(1);
         game.setId(id);
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);

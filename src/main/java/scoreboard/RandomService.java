@@ -14,4 +14,9 @@ public class RandomService {
         //System.out.println("random: "+random + ", weight: "+weight);
         return random < weightInt;
     }
+
+    public static int getRandom(int bound) {
+        Random rand = new Random();
+        return rand.nextInt(bound);
+    }
 }

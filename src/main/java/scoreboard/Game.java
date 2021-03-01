@@ -1,25 +1,20 @@
 package scoreboard;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id; // in database
+    private Integer id;
+    private Integer sportId, seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
-    private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod; // in database
+    @Transient Clock clock;
 
-    // private Integer period, minutes, seconds; // not in database
-
-    // private boolean isIntermission; // not in database
-
-    // Clock clock = new Clock(); // not in database
-
-
+    public Game(int sportId) {
+        this.sportId = sportId;
+        this.clock = new Clock(sportId);
+    }
 
     public Integer getId() {
         return id;
@@ -27,6 +22,14 @@ public class Game {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Integer sportId) {
+        this.sportId = sportId;
     }
 
     public Integer getHomeTeamId() {
@@ -77,35 +80,11 @@ public class Game {
         this.endingPeriod = endingPeriod;
     }
 
-    /*public Integer getPeriod() {
-        return period;
+    public Clock getClock() {
+        return clock;
     }
 
-    public void setPeriod(Integer period) {
-        this.period = period;
+    public void setClock(Clock clock) {
+        this.clock = clock;
     }
-
-    public Integer getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(Integer minutes) {
-        this.minutes = minutes;
-    }
-
-    public Integer getSeconds() {
-        return seconds;
-    }
-
-    public void setSeconds(Integer seconds) {
-        this.seconds = seconds;
-    }
-
-    public boolean isIntermission() {
-        return isIntermission;
-    }
-
-    public void setIntermission(boolean isIntermission) {
-        isIntermission = isIntermission;
-    }*/
 }

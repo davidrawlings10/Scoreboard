@@ -3,7 +3,7 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SeasonService {
@@ -21,15 +21,86 @@ public class SeasonService {
 
     public Season scheduleSeason(int leagueId) {
         Season season = save(leagueId);
-        Iterable<Team> teams = teamService.getByLeagueId(season.getLeagueId());
-        for (Team team_home : teams) {
-            standingService.save(null, season.getId(), team_home.getId(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
+        for (Integer teamHomeId : teamIds) {
+            standingService.save(null, season.getId(), teamHomeId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            for (Integer teamAwayId : teamIds) {
+                if (!teamHomeId.equals(teamAwayId))
+                    gameService.save(null, teamHomeId, teamAwayId, null, null, season.getId(), null);
+            }
+        }
+        return season;
+    }
+
+    public Season scheduleSeason2(int leagueId, int num_games) {
+        Season season = save(leagueId);
+        List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
+
+        for (Integer teamId : teamIds) {
+            standingService.save(null, season.getId(), teamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+
+        List<Integer> homeTeamIds = new ArrayList<>();
+        List<Integer> awayTeamIds = new ArrayList<>();
+        List<Integer> roundTeamIds = new ArrayList<>();
+
+        for (int i = 0; i < num_games / 2; ++i) {
+            homeTeamIds.addAll(teamIds);
+            awayTeamIds.addAll(teamIds);
+        }
+
+        for (int i = 0; i < num_games; ++i) {
+            roundTeamIds.addAll(teamIds);
+            while (roundTeamIds.size() > 0) {
+
+                // determine home team
+                List<Integer> homeCandidates = new ArrayList<>();
+
+                for (Integer roundTeamId : roundTeamIds) {
+                    if (homeTeamIds.contains(roundTeamId)) {
+                        homeCandidates.add(roundTeamId);
+                    }
+                }
+
+                int homeCandidatesIndex = RandomService.getRandom(homeCandidates.size());
+                int homeTeamId = homeCandidates.get(homeCandidatesIndex);
+                roundTeamIds.remove(roundTeamIds.indexOf(homeTeamId));
+                homeTeamIds.remove(homeTeamIds.indexOf(homeTeamId));
+
+                // determine away team
+                List<Integer> awayCandidates = new ArrayList<>();
+
+                for (Integer roundTeamId : roundTeamIds) {
+                    if (awayTeamIds.contains(roundTeamId)) {
+                        awayCandidates.add(roundTeamId);
+                    }
+                }
+
+                int awayCandidatesIndex = RandomService.getRandom(awayCandidates.size());
+                int awayTeamId = awayCandidates.get(awayCandidatesIndex);
+                roundTeamIds.remove(roundTeamIds.indexOf(awayTeamId));
+                awayTeamIds.remove(awayTeamIds.indexOf(awayTeamId));
+
+                gameService.save(null, homeTeamId, awayTeamId, null, null, season.getId(), null);
+            }
+        }
+
+        /*for (Team team_home : teams) {
             for (Team team_away : teams) {
                 if (team_home.getId() != team_away.getId())
                     gameService.save(null, team_home.getId(), team_away.getId(), null, null, season.getId(), null);
             }
-        }
+        }*/
+
         return season;
+    }
+
+    private List<Team> getArrayList(Iterable<Team> teams) {
+        List list = new ArrayList();
+        for (Team team : teams) {
+            list.add(team);
+        }
+        return list;
     }
 
     public void playSeason(int seasonId, Integer numOfGames) throws InterruptedException {
@@ -51,7 +122,7 @@ public class SeasonService {
     }
 
     private String playGame(Game game) throws InterruptedException {
-        String gameResultString = gameService.playHockeyV2(game);
+        String gameResultString = gameService.playGame(game);
 
         Standing homeTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
         Standing awayTeamStanding = standingService.findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());

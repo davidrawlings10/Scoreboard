@@ -12,6 +12,7 @@ public class GameService {
     @Autowired private HockeyPlayService hockeyPlayService;
 
     public String playGame(Game game) throws InterruptedException {
+        game.setClock(new Clock(game.getSportId()));
         game.setHomeScore(0);
         game.setAwayScore(0);
         hockeyPlayService.playGame(game);

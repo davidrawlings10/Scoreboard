@@ -11,14 +11,10 @@ public class Game {
 
     @Transient Clock clock;
 
-    public Game() {
-        this.sportId = 1;
-        this.clock = new Clock(sportId);
-    }
+    public Game() {}
 
     public Game(int sportId) {
         this.sportId = sportId;
-        this.clock = new Clock(sportId);
     }
 
     public Integer getId() {

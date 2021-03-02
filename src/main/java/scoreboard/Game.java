@@ -12,7 +12,8 @@ public class Game {
     @Transient Clock clock;
 
     public Game() {
-        this.clock = new Clock(1);
+        this.sportId = 1;
+        this.clock = new Clock(sportId);
     }
 
     public Game(int sportId) {

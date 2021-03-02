@@ -18,8 +18,6 @@ public class GameController {
         Game game = new Game(1);
         game.setHomeTeamId(59);
         game.setAwayTeamId(60);
-        game.setHomeScore(0);
-        game.setAwayScore(0);
         return gameService.playGame(game);
     }
 

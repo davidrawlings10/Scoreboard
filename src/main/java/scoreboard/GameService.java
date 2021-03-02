@@ -12,6 +12,8 @@ public class GameService {
     @Autowired private HockeyPlayService hockeyPlayService;
 
     public String playGame(Game game) throws InterruptedException {
+        game.setHomeScore(0);
+        game.setAwayScore(0);
         hockeyPlayService.playGame(game);
         gameRepository.save(game);
         return game.getHomeScore() + "-" + game.getAwayScore();

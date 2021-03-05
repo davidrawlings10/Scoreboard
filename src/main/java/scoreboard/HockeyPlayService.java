@@ -27,7 +27,7 @@ public class HockeyPlayService {
         // time in seconds for how long things take
         public class TimeDelay {
             // public final static int gameplayTickMilli = 1000, shootoutSec = 40; // standard
-            public final static int gameplayTickMilli = 25, shootoutSec = 15; // accelerated
+            public final static int gameplayTickMilli = 25, shootoutSec = 3; // accelerated
             // public final static int gameplayTickMilli = 0, shootoutSec = 0; // immediate
         }
     }

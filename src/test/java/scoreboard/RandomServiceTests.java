@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ScoreboardApplicationTests {
+public class RandomServiceTests {
 
 	@Test
 	public void test100() {

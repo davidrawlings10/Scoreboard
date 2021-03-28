@@ -1,3 +1,87 @@
+-- remove existing schema
+DROP SCHEMA hockey_dev;
+
+-- create schema
+CREATE SCHEMA hockey_dev;
+
+-- create tables
+CREATE TABLE `team` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `league_id` int unsigned DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `game` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sport_id` int NOT NULL,
+  `season_id` int DEFAULT NULL,
+  `home_team_id` int NOT NULL,
+  `away_team_id` int NOT NULL,
+  `home_score` int DEFAULT NULL,
+  `away_score` int DEFAULT NULL,
+  `ending_period` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `season` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `league_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `standing` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `season_id` int NOT NULL,
+  `team_id` int NOT NULL,
+  `win` int DEFAULT NULL,
+  `loss` int DEFAULT NULL,
+  `tie` int DEFAULT NULL,
+  `otloss` int DEFAULT NULL,
+  `point` int DEFAULT NULL,
+  `gp` int DEFAULT NULL,
+  `gf` int DEFAULT NULL,
+  `ga` int DEFAULT NULL,
+  `home_win` int DEFAULT NULL,
+  `home_loss` int DEFAULT NULL,
+  `away_win` int DEFAULT NULL,
+  `away_loss` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `league` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `parent_league_id` int unsigned DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `sport` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- insert data
 INSERT INTO league (name) VALUES ('Aves');
 INSERT INTO team (league_id, name) VALUES (1, 'Hummingbird');
 INSERT INTO team (league_id, name) VALUES (1, 'Sparrow');
@@ -92,12 +176,12 @@ INSERT INTO team (league_id, location, name) VALUES (3, 'LocationW', 'TeamW');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationX', 'TeamX');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationY', 'TeamY');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationZ', 'TeamZ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location0', 'Team0');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location1', 'Team1');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location2', 'Team2');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location3', 'Team3');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location4', 'Team4');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location5', 'Team5');
+INSERT INTO team (league_id, location, name) VALUES (3, 'Location0', 'TeamAA');
+INSERT INTO team (league_id, location, name) VALUES (3, 'Location1', 'TeamAB');
+INSERT INTO team (league_id, location, name) VALUES (3, 'Location2', 'TeamAC');
+INSERT INTO team (league_id, location, name) VALUES (3, 'Location3', 'TeamAD');
+INSERT INTO team (league_id, location, name) VALUES (3, 'Location4', 'TeamAE');
+INSERT INTO team (league_id, location, name) VALUES (3, 'Location5', 'TeamAF');
 
 INSERT INTO sport (name) VALUES ('Hockey');
 INSERT INTO sport (name) VALUES ('Basketball');

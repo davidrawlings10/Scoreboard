@@ -53,6 +53,14 @@ public class SeasonService {
             roundTeamIds.addAll(teamIds);
             while (roundTeamIds.size() > 0) {
 
+                // check for teams that don't have any away games left. if found they should be set to next home team now
+                Integer homeTeamIdForce = null;
+                for (Integer teamId : teamIds) {
+                    if (!awayTeamIds.contains(teamId) && homeTeamIds.contains(teamId) && roundTeamIds.contains(teamId)) {
+                        homeTeamIdForce = teamId;
+                    }
+                }
+
                 // determine home team
                 List<Integer> homeCandidates = new ArrayList<>();
 
@@ -63,7 +71,7 @@ public class SeasonService {
                 }
 
                 int homeCandidatesIndex = RandomService.getRandom(homeCandidates.size());
-                int homeTeamId = homeCandidates.get(homeCandidatesIndex);
+                int homeTeamId = homeTeamIdForce != null ? homeTeamIdForce : homeCandidates.get(homeCandidatesIndex);
                 roundTeamIds.remove(roundTeamIds.indexOf(homeTeamId));
                 homeTeamIds.remove(homeTeamIds.indexOf(homeTeamId));
 
@@ -93,6 +101,14 @@ public class SeasonService {
         }*/
 
         return season;
+    }
+
+    private boolean includes(int id_, List<Integer> ids) {
+        for (Integer id : ids) {
+            if (id_ == id)
+                return true;
+        }
+        return false;
     }
 
     private List<Team> getArrayList(Iterable<Team> teams) {

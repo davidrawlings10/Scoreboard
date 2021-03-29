@@ -3,6 +3,7 @@ DROP SCHEMA hockey_dev;
 
 -- create schema
 CREATE SCHEMA hockey_dev;
+USE hockey_dev;
 
 -- create tables
 CREATE TABLE `team` (
@@ -154,34 +155,6 @@ INSERT INTO team (league_id, location, name) VALUES (3, 'LocationA', 'TeamA');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationB', 'TeamB');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationC', 'TeamC');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationD', 'TeamD');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationE', 'TeamE');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationF', 'TeamF');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationG', 'TeamG');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationH', 'TeamH');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationI', 'TeamI');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationJ', 'TeamJ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationK', 'TeamK');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationL', 'TeamL');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationM', 'TeamM');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationN', 'TeamN');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationO', 'TeamO');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationP', 'TeamP');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationQ', 'TeamQ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationR', 'TeamR');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationS', 'TeamS');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationT', 'TeamT');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationU', 'TeamU');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationV', 'TeamV');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationW', 'TeamW');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationX', 'TeamX');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationY', 'TeamY');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationZ', 'TeamZ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location0', 'TeamAA');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location1', 'TeamAB');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location2', 'TeamAC');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location3', 'TeamAD');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location4', 'TeamAE');
-INSERT INTO team (league_id, location, name) VALUES (3, 'Location5', 'TeamAF');
 
 INSERT INTO sport (name) VALUES ('Hockey');
 INSERT INTO sport (name) VALUES ('Basketball');

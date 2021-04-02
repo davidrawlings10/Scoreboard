@@ -10,20 +10,10 @@ public class Standing {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    private Integer seasonId;
-    private Integer teamId;
-    private Integer win;
-    private Integer loss;
-    private Integer tie;
-    private Integer otloss;
-    private Integer point;
-    private Integer gf;
-    private Integer ga;
-    private Integer gp;
-    private Integer homeWin;
-    private Integer homeLoss;
-    private Integer awayWin;
-    private Integer awayLoss;
+
+    private Integer seasonId, teamId, win, loss, tie, otloss, point, gf, ga, gp,
+                    homeWin, homeLoss, homeTie, homeOtloss, homePoint, homeGp,
+                    awayWin, awayLoss, awayTie, awayOtloss, awayPoint, awayGp;
 
     public Integer getId() {
         return id;
@@ -143,5 +133,69 @@ public class Standing {
 
     public void setAwayLoss(Integer awayLoss) {
         this.awayLoss = awayLoss;
+    }
+
+    public Integer getHomeTie() {
+        return homeTie;
+    }
+
+    public void setHomeTie(Integer homeTie) {
+        this.homeTie = homeTie;
+    }
+
+    public Integer getHomeOtloss() {
+        return homeOtloss;
+    }
+
+    public void setHomeOtloss(Integer homeOtloss) {
+        this.homeOtloss = homeOtloss;
+    }
+
+    public Integer getHomePoint() {
+        return homePoint;
+    }
+
+    public void setHomePoint(Integer homePoint) {
+        this.homePoint = homePoint;
+    }
+
+    public Integer getAwayTie() {
+        return awayTie;
+    }
+
+    public void setAwayTie(Integer awayTie) {
+        this.awayTie = awayTie;
+    }
+
+    public Integer getAwayOtloss() {
+        return awayOtloss;
+    }
+
+    public void setAwayOtloss(Integer awayOtloss) {
+        this.awayOtloss = awayOtloss;
+    }
+
+    public Integer getAwayPoint() {
+        return awayPoint;
+    }
+
+    public void setAwayPoint(Integer awayPoint) {
+        this.awayPoint = awayPoint;
+    }
+
+    public Integer getHomeGp() {
+        return homeGp;
+    }
+
+    public void setHomeGp(Integer homeGp) {
+        this.homeGp = homeGp;
+    }
+
+    public Integer getAwayGp() {
+        return awayGp;
+    }
+
+    public void setAwayGp(Integer awayGp) {
+        this.awayGp = awayGp;
     }
 }

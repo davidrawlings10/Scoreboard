@@ -57,8 +57,16 @@ CREATE TABLE `standing` (
   `ga` int DEFAULT NULL,
   `home_win` int DEFAULT NULL,
   `home_loss` int DEFAULT NULL,
+  `home_tie` int DEFAULT NULL,
+  `home_otloss` int DEFAULT NULL,
+  `home_point` int DEFAULT NULL,
+  `home_gp` int DEFAULT NULL,
   `away_win` int DEFAULT NULL,
   `away_loss` int DEFAULT NULL,
+  `away_tie` int DEFAULT NULL,
+  `away_otloss` int DEFAULT NULL,
+  `away_point` int DEFAULT NULL,
+  `away_gp` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -122,7 +130,7 @@ INSERT INTO team (league_id, location, name) VALUES (2, 'Boston', 'Bruins');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Tampa Bay', 'Lightning');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Toronto', 'Maple Leafs');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Florida', 'Panthers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'Canadiens');
+INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'canadiens');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Buffalo', 'Sabres');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Ottawa', 'Senators');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Detroit', 'Red Wings');

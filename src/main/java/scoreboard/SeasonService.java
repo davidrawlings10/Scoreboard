@@ -23,7 +23,7 @@ public class SeasonService {
         Season season = save(leagueId);
         List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
         for (Integer teamHomeId : teamIds) {
-            standingService.save(null, season.getId(), teamHomeId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            standingService.save(null, season.getId(), teamHomeId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             for (Integer teamAwayId : teamIds) {
                 if (!teamHomeId.equals(teamAwayId))
                     gameService.save(null, teamHomeId, teamAwayId, null, null, season.getId(), null);
@@ -37,7 +37,7 @@ public class SeasonService {
         List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
 
         for (Integer teamId : teamIds) {
-            standingService.save(null, season.getId(), teamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            standingService.save(null, season.getId(), teamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         List<Integer> homeTeamIds = new ArrayList<>();
@@ -154,29 +154,39 @@ public class SeasonService {
     private void updateStanding(Standing homeTeamStanding, Standing awayTeamStanding, Game game) {
         homeTeamStanding.setGp(homeTeamStanding.getGp() + 1);
         awayTeamStanding.setGp(awayTeamStanding.getGp() + 1);
+        homeTeamStanding.setHomeGp(homeTeamStanding.getHomeGp() + 1);
+        awayTeamStanding.setAwayGp(awayTeamStanding.getAwayGp() + 1);
 
         // !!! refactor all this in a separate function
         if (game.getHomeScore() > game.getAwayScore()) {
             homeTeamStanding.setWin(homeTeamStanding.getWin() + 1);
-            homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 2);
             homeTeamStanding.setHomeWin(homeTeamStanding.getHomeWin() + 1);
-            awayTeamStanding.setAwayLoss(awayTeamStanding.getAwayLoss() + 1);
+            homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 2);
+            homeTeamStanding.setHomePoint(homeTeamStanding.getHomePoint() + 2);
+
             if (game.getEndingPeriod() < 4) {
                 awayTeamStanding.setLoss(awayTeamStanding.getLoss() + 1);
+                awayTeamStanding.setAwayLoss(awayTeamStanding.getAwayLoss() + 1);
             } else {
                 awayTeamStanding.setOtloss(awayTeamStanding.getOtloss() + 1);
+                awayTeamStanding.setAwayOtloss(awayTeamStanding.getAwayOtloss() + 1);
                 awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 1);
+                awayTeamStanding.setAwayPoint(awayTeamStanding.getAwayPoint() + 1);
             }
         } else {
             awayTeamStanding.setWin(awayTeamStanding.getWin() + 1);
-            awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 2);
             awayTeamStanding.setAwayWin(awayTeamStanding.getAwayWin() + 1);
-            homeTeamStanding.setHomeLoss(homeTeamStanding.getHomeLoss() + 1);
+            awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 2);
+            awayTeamStanding.setAwayPoint(awayTeamStanding.getAwayPoint() + 2);
+
             if (game.getEndingPeriod() < 4) {
                 homeTeamStanding.setLoss(homeTeamStanding.getLoss() + 1);
+                homeTeamStanding.setHomeLoss(homeTeamStanding.getHomeLoss() + 1);
             } else {
                 homeTeamStanding.setOtloss(homeTeamStanding.getOtloss() + 1);
+                homeTeamStanding.setHomeOtloss(homeTeamStanding.getHomeOtloss() + 1);
                 homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 1);
+                homeTeamStanding.setHomePoint(homeTeamStanding.getHomePoint() + 1);
             }
         }
 

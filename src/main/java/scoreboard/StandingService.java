@@ -19,11 +19,13 @@ public class StandingService {
     public Standing save(Standing standing) {
         return save(standing.getId(), standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(),
                 standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa(), standing.getGp(),
-                standing.getHomeWin(), standing.getHomeLoss(), standing.getAwayWin(), standing.getAwayLoss());
+                standing.getHomeWin(), standing.getHomeLoss(), standing.getHomeTie(), standing.getHomeOtloss(), standing.getHomePoint(), standing.getHomeGp(),
+                standing.getAwayWin(), standing.getAwayLoss(), standing.getAwayTie(), standing.getAwayOtloss(), standing.getAwayPoint(), standing.getAwayGp());
     }
 
     public Standing save(Integer id, int seasonId, int teamId, int win, int loss, int tie, int otloss, int point, int gf, int ga, int gp,
-                         int homeWin, int homeLoss, int awayWin, int awayLoss) {
+                         int homeWin, int homeLoss, int homeTie, int homeOtloss, int homePoint, int homeGp,
+                         int awayWin, int awayLoss, int awayTie, int awayOtloss, int awayPoint, int awayGp) {
         Standing standing = new Standing();
         standing.setId(id);
         standing.setSeasonId(seasonId);
@@ -38,8 +40,16 @@ public class StandingService {
         standing.setGp(gp);
         standing.setHomeWin(homeWin);
         standing.setHomeLoss(homeLoss);
+        standing.setHomeTie(homeTie);
+        standing.setHomeOtloss(homeOtloss);
+        standing.setHomePoint(homePoint);
+        standing.setHomeGp(homeGp);
         standing.setAwayWin(awayWin);
         standing.setAwayLoss(awayLoss);
+        standing.setAwayTie(awayTie);
+        standing.setAwayOtloss(awayOtloss);
+        standing.setAwayPoint(awayPoint);
+        standing.setAwayGp(awayGp);
         return standingRepository.save(standing);
     }
 

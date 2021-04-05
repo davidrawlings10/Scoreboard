@@ -36,6 +36,18 @@ public class GameController {
     }
 
     @CrossOrigin
+    @GetMapping(path="/startGame")
+    public @ResponseBody String startGame() {
+        return gameService.startGame();
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/playSec")
+    public @ResponseBody String playSec() {
+        return gameService.playSec();
+    }
+
+    @CrossOrigin
     @GetMapping(path="/test")
     public @ResponseBody String test() {
         return "{\"name\": \"31\"}";

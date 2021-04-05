@@ -32,6 +32,12 @@ public class HockeyPlayService {
         }
     }
 
+    public void playSec(Game game) {
+        double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
+        game.getClock().tickDown();
+        System.out.println(printScoreboard(game, false));
+    }
+
     public Game playGame(Game game) throws InterruptedException {
         game.getClock().reset();
 

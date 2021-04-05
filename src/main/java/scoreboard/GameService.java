@@ -3,6 +3,8 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -10,6 +12,27 @@ public class GameService {
 
     @Autowired private GameRepository gameRepository;
     @Autowired private HockeyPlayService hockeyPlayService;
+
+    List<Game> currentGames = new ArrayList<>();
+
+    public String startGame() {
+        Game game = new Game(1);
+        game.setClock(new Clock(game.getSportId()));
+        game.getClock().reset();
+        game.setHomeScore(0);
+        game.setAwayScore(0);
+        currentGames.add(game);
+        return "game started";
+    }
+
+    public String playSec() {
+        for (Game game : currentGames) {
+            if (game.getSportId() == 1 /*Sport.HOCKEY*/) {
+                hockeyPlayService.playSec(game);
+            }
+        }
+        return "sec played";
+    }
 
     public String playGame(Game game) throws InterruptedException {
         game.setClock(new Clock(game.getSportId()));

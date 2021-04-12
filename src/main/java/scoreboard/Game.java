@@ -10,6 +10,7 @@ public class Game {
     private Integer sportId, seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
     @Transient Clock clock;
+    @Transient String homeName, awayName;
 
     public Game() {}
 
@@ -87,5 +88,26 @@ public class Game {
 
     public void setClock(Clock clock) {
         this.clock = clock;
+    }
+
+    public String getHomeName() {
+        return homeName;
+    }
+
+    public void setHomeName(String homeName) {
+        this.homeName = homeName;
+    }
+
+    public String getAwayName() {
+        return awayName;
+    }
+
+    public void setAwayName(String awayName) {
+        this.awayName = awayName;
+    }
+
+    public boolean isFinal() {
+        return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.isIntermission // game ends in regulation
+                || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
     }
 }

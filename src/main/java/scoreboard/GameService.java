@@ -12,26 +12,47 @@ public class GameService {
 
     @Autowired private GameRepository gameRepository;
     @Autowired private HockeyPlayService hockeyPlayService;
+    @Autowired private TeamService teamService;
 
     List<Game> currentGames = new ArrayList<>();
 
     public String startGame() {
         Game game = new Game(1);
+
+        game.setHomeTeamId(35);
+        game.setAwayTeamId(36);
+
+        game.setHomeName(teamService.getByTeamId(game.getHomeTeamId()).getName());
+        game.setAwayName(teamService.getByTeamId(game.getAwayTeamId()).getName());
+
         game.setClock(new Clock(game.getSportId()));
         game.getClock().reset();
         game.setHomeScore(0);
         game.setAwayScore(0);
+
+        // debugging
+        game.getClock().setSeconds(5);
+        game.getClock().setMinutes(0);
+        game.getClock().setPeriod(3);
+        game.getClock().setIntermission(false);
+        // debugging
+
         currentGames.add(game);
-        return "game started";
+        return printScoreboard(currentGames.get(0), false);
     }
 
-    public String playSec() {
+    public List<Game> playSec() {
         for (Game game : currentGames) {
-            if (game.getSportId() == 1 /*Sport.HOCKEY*/) {
+            if (game.getSportId() == 1 /*Sport.HOCKEY (should eventually use this enum)*/) {
                 hockeyPlayService.playSec(game);
             }
         }
-        return "sec played";
+        return currentGames; // printScoreboard(currentGames.get(0), false);
+    }
+
+    private String printScoreboard(Game game, boolean isFinal) {
+        return game.getHomeScore() + " - " + game.getAwayScore() + " | "
+                + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
     }
 
     public String playGame(Game game) throws InterruptedException {
@@ -74,7 +95,7 @@ public class GameService {
         return gameRepository.findBySeasonId(leagueId);
     }
 
-    // public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); } `1
+    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
 
 
 

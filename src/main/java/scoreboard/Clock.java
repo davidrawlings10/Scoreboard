@@ -50,7 +50,7 @@ public class Clock {
         }
     }
 
-    public boolean isExpired() {
+    public boolean isPeriodEnded() {
         return minutes == 0 && seconds == 0;
     }
 

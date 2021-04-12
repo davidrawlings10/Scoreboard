@@ -130,7 +130,7 @@ INSERT INTO team (league_id, location, name) VALUES (2, 'Boston', 'Bruins');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Tampa Bay', 'Lightning');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Toronto', 'Maple Leafs');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Florida', 'Panthers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'canadiens');
+INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'Canadiens');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Buffalo', 'Sabres');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Ottawa', 'Senators');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Detroit', 'Red Wings');

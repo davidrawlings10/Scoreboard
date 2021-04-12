@@ -1,8 +1,10 @@
 package scoreboard;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping(path="/game") // This means URL's start with /demo (after Application path)
@@ -43,8 +45,9 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/playSec")
-    public @ResponseBody String playSec() {
-        return gameService.playSec();
+    public @ResponseBody String playSec() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(gameService.playSec());
     }
 
     @CrossOrigin

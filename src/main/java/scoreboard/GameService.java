@@ -16,7 +16,7 @@ public class GameService {
 
     List<Game> currentGames = new ArrayList<>();
 
-    public String startGame() {
+    public List<Game> startGame() {
         Game game = new Game(1);
 
         game.setHomeTeamId(35);
@@ -30,24 +30,27 @@ public class GameService {
         game.setHomeScore(0);
         game.setAwayScore(0);
 
-        // debugging
-        game.getClock().setSeconds(5);
-        game.getClock().setMinutes(0);
+        // debugging `1
+        /* game.getClock().setSeconds(0);
+        game.getClock().setMinutes(10);
         game.getClock().setPeriod(3);
-        game.getClock().setIntermission(false);
+        game.getClock().setIntermission(false); */
         // debugging
 
-        currentGames.add(game);
-        return printScoreboard(currentGames.get(0), false);
+        currentGames.add(0, game);
+        return currentGames;
     }
 
     public List<Game> playSec() {
         for (Game game : currentGames) {
-            if (game.getSportId() == 1 /*Sport.HOCKEY (should eventually use this enum)*/) {
+            if (game.getSportId() == 1 /*TODO: Sport.HOCKEY (should eventually use this enum)*/) {
                 hockeyPlayService.playSec(game);
             }
+            // TODO: should remove game from currentGames if the game ends
+            /*if (game.isFinal())
+                currentGames.remove(game);*/
         }
-        return currentGames; // printScoreboard(currentGames.get(0), false);
+        return currentGames;
     }
 
     private String printScoreboard(Game game, boolean isFinal) {

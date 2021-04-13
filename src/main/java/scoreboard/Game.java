@@ -110,4 +110,12 @@ public class Game {
         return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.isIntermission // game ends in regulation
                 || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
     }
+
+    public void increaseHomeScore(int inc) {
+        homeScore += inc;
+    }
+
+    public void increaseAwayScore(int inc) {
+        awayScore += inc;
+    }
 }

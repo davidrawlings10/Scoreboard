@@ -39,8 +39,9 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/startGame")
-    public @ResponseBody String startGame() {
-        return gameService.startGame();
+    public @ResponseBody String startGame() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(gameService.startGame());
     }
 
     @CrossOrigin

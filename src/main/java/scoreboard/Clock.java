@@ -10,16 +10,16 @@ public class Clock {
             case 1:
                 ENDING_PERIOD = 3;
                 MINUTES_IN_PERIOD = 20;
-                MINUTES_IN_OVERTIME = 5;
+                MINUTES_IN_OVERTIME = 20;
                 MINUTES_IN_INTERMISSION = 20;
-                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5;
+                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 20;
                 break;
             default:
-                ENDING_PERIOD = 0;
-                MINUTES_IN_PERIOD = 0;
-                MINUTES_IN_OVERTIME = 0;
-                MINUTES_IN_INTERMISSION = 0;
-                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 0;
+                ENDING_PERIOD = 1;
+                MINUTES_IN_PERIOD = 1;
+                MINUTES_IN_OVERTIME = 1;
+                MINUTES_IN_INTERMISSION = 1;
+                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
                 break;
         }
         period = 1;
@@ -39,6 +39,16 @@ public class Clock {
         if (seconds == -1) {
             minutes--;
             seconds = 59;
+        }
+    }
+
+    public void handlePeriodEnd() {
+        if (isPeriodEnded()) {
+            if (!isIntermission) {
+                period += 1;
+            }
+            isIntermission = !isIntermission;
+            reset();
         }
     }
 

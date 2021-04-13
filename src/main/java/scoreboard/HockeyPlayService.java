@@ -38,15 +38,13 @@ public class HockeyPlayService {
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
-        if (!game.getClock().isIntermission() && RandomService.occur(homeChance)) {
-            game.setHomeScore(game.getHomeScore() + 1);
-            /*if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1)
-                game.getClock().setFinal(true);*/
-        }
-        if (!game.getClock().isIntermission() && RandomService.occur(awayChance)) {
-            game.setAwayScore(game.getAwayScore() + 1);
-            /*if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1)
-                game.getClock().setFinal(true);*/
+        if (!game.getClock().isIntermission()) {
+            if (RandomService.occur(homeChance)) {
+                game.increaseHomeScore(1);
+            }
+            if (RandomService.occur(awayChance)) {
+                game.increaseAwayScore(1);
+            }
         }
 
         game.getClock().tickDown();
@@ -54,30 +52,16 @@ public class HockeyPlayService {
         if (game.isFinal())
             return;
 
-        if (game.getClock().isPeriodEnded()) {
+        game.getClock().handlePeriodEnd();
+
+        /* if (game.getClock().isPeriodEnded()) {
             // period ends
             if (!game.getClock().isIntermission()) {
                 game.getClock().setPeriod(game.getClock().getPeriod() + 1);
             }
             game.getClock().setIntermission(!game.getClock().isIntermission());
             game.getClock().reset();
-
-            // end of the game in regulation if scores are different, otherwise period will become 4
-            /*if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() && !game.getClock().isIntermission() && !game.getHomeScore().equals(game.getAwayScore())) {
-                game.getClock().setFinal(true);
-            } else {
-                if (!game.getClock().isIntermission()) {
-                    game.getClock().setPeriod(game.getClock().getPeriod() + 1);
-                }
-                game.getClock().setIntermission(!game.getClock().isIntermission());
-            }*/
-
-            // if overtime is starting update increase the chance of a goal as overtime is played 3 on 3
-            /*if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1) {
-                homeChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreHomeWeight;
-                awayChance = Config.Chance.overtimeScore + Config.Chance.overtimeScoreAwayWeight;
-            }*/
-        }
+        } */
 
         System.out.println(printScoreboard(game, false));
     }
@@ -192,7 +176,7 @@ public class HockeyPlayService {
     }
 
     private String printScoreboard(Game game, boolean isFinal) {
-        return homeTeamName + " | " + game.getHomeScore() + " | " + awayTeamName +  " | " + game.getAwayScore() + " | "
+        return game.getHomeName() + " | " + game.getHomeScore() + " | " + game.getAwayName() +  " | " + game.getAwayScore() + " | "
                 + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
     }
 

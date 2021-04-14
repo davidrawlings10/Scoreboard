@@ -30,13 +30,6 @@ public class GameService {
         game.setHomeScore(0);
         game.setAwayScore(0);
 
-        // debugging `1
-        /* game.getClock().setSeconds(0);
-        game.getClock().setMinutes(10);
-        game.getClock().setPeriod(3);
-        game.getClock().setIntermission(false); */
-        // debugging
-
         currentGames.add(0, game);
         return currentGames;
     }

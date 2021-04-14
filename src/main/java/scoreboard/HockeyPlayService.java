@@ -54,15 +54,6 @@ public class HockeyPlayService {
 
         game.getClock().handlePeriodEnd();
 
-        /* if (game.getClock().isPeriodEnded()) {
-            // period ends
-            if (!game.getClock().isIntermission()) {
-                game.getClock().setPeriod(game.getClock().getPeriod() + 1);
-            }
-            game.getClock().setIntermission(!game.getClock().isIntermission());
-            game.getClock().reset();
-        } */
-
         System.out.println(printScoreboard(game, false));
     }
 

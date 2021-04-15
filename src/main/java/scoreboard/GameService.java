@@ -3,9 +3,7 @@ package scoreboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GameService {
@@ -15,6 +13,7 @@ public class GameService {
     @Autowired private TeamService teamService;
 
     List<Game> currentGames = new ArrayList<>();
+    Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
 
     public List<Game> startGame() {
         Game game = new Game(1);
@@ -39,17 +38,14 @@ public class GameService {
             if (game.getSportId() == 1 /*TODO: Sport.HOCKEY (should eventually use this enum)*/) {
                 hockeyPlayService.playSec(game);
             }
-            // TODO: should remove game from currentGames if the game ends
-            /*if (game.isFinal())
-                currentGames.remove(game);*/
         }
         return currentGames;
     }
 
-    private String printScoreboard(Game game, boolean isFinal) {
+    /*private String printScoreboard(Game game, boolean isFinal) {
         return game.getHomeScore() + " - " + game.getAwayScore() + " | "
                 + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
-    }
+    }*/
 
     public String playGame(Game game) throws InterruptedException {
         game.setClock(new Clock(game.getSportId()));

@@ -18,8 +18,8 @@ public class GameController {
     public @ResponseBody String play() throws InterruptedException {
         // return gameService.playGame(52, 53, Sport.HOCKEY, null);
         Game game = new Game(1);
-        game.setHomeTeamId(59);
-        game.setAwayTeamId(60);
+        game.setHomeTeamId(50);
+        game.setAwayTeamId(40);
         return gameService.playGame(game);
     }
 
@@ -48,13 +48,17 @@ public class GameController {
     @GetMapping(path="/playSec")
     public @ResponseBody String playSec() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(gameService.playSec());
+        String json = mapper.writeValueAsString(gameService.playSec());
+        // return json;
+        String jsonB = "{\"homeScore\":159561, \"awayScore\":159562, \"homeName\":\"Home\", \"awayName\":\"Away\"}";
+        String trimmedJson = json.substring(1, json.length() -1);
+        return /*"{\"game\":" +*/ trimmedJson; /*+ "}";*/
     }
 
     @CrossOrigin
     @GetMapping(path="/test")
     public @ResponseBody String test() {
-        return "{\"name\": \"31\"}";
+        return "{\"homeScore\":159561, \"awayScore\":159562, \"homeName\":\"Home\", \"awayName\":\"Away\"}";
     }
 
     /*@GetMapping(path="/findAll")

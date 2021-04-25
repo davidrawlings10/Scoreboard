@@ -18,8 +18,8 @@ public class GameService {
     public List<Game> startGame() {
         Game game = new Game(1);
 
-        game.setHomeTeamId(35);
-        game.setAwayTeamId(36);
+        game.setHomeTeamId(50);
+        game.setAwayTeamId(40);
 
         game.setHomeName(teamService.getByTeamId(game.getHomeTeamId()).getName());
         game.setAwayName(teamService.getByTeamId(game.getAwayTeamId()).getName());

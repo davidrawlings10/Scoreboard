@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GameController {
 
     @Autowired GameService gameService;
+    ObjectMapper mapper = new ObjectMapper();
 
     // http://localhost:8080/game/play
     @CrossOrigin
@@ -47,12 +48,8 @@ public class GameController {
     @CrossOrigin
     @GetMapping(path="/playSec")
     public @ResponseBody String playSec() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(gameService.playSec());
-        // return json;
-        String jsonB = "{\"homeScore\":159561, \"awayScore\":159562, \"homeName\":\"Home\", \"awayName\":\"Away\"}";
-        String trimmedJson = json.substring(1, json.length() -1);
-        return /*"{\"game\":" +*/ trimmedJson; /*+ "}";*/
+        return json.substring(1, json.length() -1);
     }
 
     @CrossOrigin

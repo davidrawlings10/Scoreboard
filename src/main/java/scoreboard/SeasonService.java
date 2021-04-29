@@ -13,26 +13,56 @@ public class SeasonService {
     @Autowired private TeamService teamService;
     @Autowired private StandingService standingService;
 
-    public int schedulePlaySeason(int leagueId) throws InterruptedException {
-        Season season = scheduleSeason(leagueId);
+    public int schedulePlaySeason(int leagueId) throws Exception {
+        Season season = scheduleSeason(ScheduleType.HOME_ROTATION, 1, leagueId, null);
         playSeason(season, null);
         return season.getId();
     }
 
-    public Season scheduleSeason(int leagueId) {
+    public Season scheduleSeason(ScheduleType scheduleType, int sportId, int leagueId, Integer numGames) throws Exception {
+        switch (scheduleType) {
+            case HOME_ROTATION:
+                return homeRotation(leagueId, sportId);
+            case ROUNDS:
+                return rounds(leagueId, sportId, numGames);
+            default:
+                throw new Exception("Unrecognized leagueId: " + leagueId);
+        }
+    }
+
+    public Season homeRotation(int leagueId, int sportId) {
         Season season = save(leagueId);
+
         List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
+
         for (Integer teamHomeId : teamIds) {
             standingService.save(null, season.getId(), teamHomeId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+
+        List<Game> games = new ArrayList<>();
+        for (Integer teamHomeId : teamIds) {
             for (Integer teamAwayId : teamIds) {
-                if (!teamHomeId.equals(teamAwayId))
-                    gameService.save(null, teamHomeId, teamAwayId, null, null, season.getId(), null);
+                if (!teamHomeId.equals(teamAwayId)) {
+                    Game game = new Game(sportId);
+                    game.setHomeTeamId(teamHomeId);
+                    game.setAwayTeamId(teamAwayId);
+                    games.add(game);
+                }
             }
         }
+
+        for (Game game : games) {
+            gameService.save(null, game.getHomeTeamId(), game.getAwayTeamId(), null, null, season.getId(), null);
+        }
+
         return season;
     }
 
-    public Season scheduleSeason2(int leagueId, int num_games) {
+    public Season rounds(int leagueId, int sport, Integer numGames) throws Exception {
+        if (numGames == null)
+            throw new Exception("numGames was not defined.");
+
+        // setup --------------------------------------------------------------------------
         Season season = save(leagueId);
         List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
 
@@ -44,15 +74,17 @@ public class SeasonService {
         List<Integer> awayTeamIds = new ArrayList<>();
         List<Integer> roundTeamIds = new ArrayList<>();
 
-        for (int i = 0; i < num_games / 2; ++i) {
+        for (int i = 0; i < numGames / 2; ++i) {
             homeTeamIds.addAll(teamIds);
             awayTeamIds.addAll(teamIds);
         }
 
-        for (int i = 0; i < num_games; ++i) {
+        // schedule -----------------------------------------------------------------------------------------------------
+        for (int i = 0; i < numGames; ++i) {
             roundTeamIds.addAll(teamIds);
             while (roundTeamIds.size() > 0) {
 
+                // home -------------------------------------------------------------------------------------------------------------
                 // check for teams that don't have any away games left. if found they should be set to next home team now
                 Integer homeTeamIdForce = null;
                 for (Integer teamId : teamIds) {
@@ -64,6 +96,7 @@ public class SeasonService {
                 // determine home team
                 List<Integer> homeCandidates = new ArrayList<>();
 
+                // set homeCandidates to the intersection of roundTeamIds & homeTeamIds
                 for (Integer roundTeamId : roundTeamIds) {
                     if (homeTeamIds.contains(roundTeamId)) {
                         homeCandidates.add(roundTeamId);
@@ -75,9 +108,19 @@ public class SeasonService {
                 roundTeamIds.remove(roundTeamIds.indexOf(homeTeamId));
                 homeTeamIds.remove(homeTeamIds.indexOf(homeTeamId));
 
+                // away -------------------------------------------------------------------------------------------------------------
+                // check for teams that don't have any away games left. if found they should be set to next home team now
+                Integer awayTeamIdForce = null;
+                for (Integer teamId : teamIds) {
+                    if (!homeTeamIds.contains(teamId) && awayTeamIds.contains(teamId) && roundTeamIds.contains(teamId)) {
+                        awayTeamIdForce = teamId;
+                    }
+                }
+
                 // determine away team
                 List<Integer> awayCandidates = new ArrayList<>();
 
+                // set awayCandidates to the intersection of roundTeamIds & awayTeamIds
                 for (Integer roundTeamId : roundTeamIds) {
                     if (awayTeamIds.contains(roundTeamId)) {
                         awayCandidates.add(roundTeamId);
@@ -103,7 +146,7 @@ public class SeasonService {
         return season;
     }
 
-    private boolean includes(int id_, List<Integer> ids) {
+    /*private boolean includes(int id_, List<Integer> ids) {
         for (Integer id : ids) {
             if (id_ == id)
                 return true;
@@ -117,7 +160,7 @@ public class SeasonService {
             list.add(team);
         }
         return list;
-    }
+    }*/
 
     public void playSeason(int seasonId, Integer numOfGames) throws InterruptedException {
         playSeason(findById(seasonId), numOfGames);

@@ -58,7 +58,7 @@ public class SeasonService {
         return season;
     }
 
-    public Season rounds(int leagueId, int sport, Integer numGames) throws Exception {
+    public Season rounds(int leagueId, int sportId, Integer numGames) throws Exception {
         if (numGames == null)
             throw new Exception("numGames was not defined.");
 

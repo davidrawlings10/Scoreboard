@@ -23,7 +23,7 @@ public class SeasonController {
     @CrossOrigin
     @GetMapping(path="/schedule")
     public @ResponseBody String scheduleSeason(@RequestParam String leagueId) throws Exception {
-        Season season = seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, 1, Integer.parseInt(leagueId), 4);
+        Season season = seasonService.scheduleSeason(ScheduleType.ROUNDS, 1, Integer.parseInt(leagueId), 4);
         return "Season scheduled, id:" + season.getId();
     }
 

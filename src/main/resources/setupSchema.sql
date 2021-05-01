@@ -90,6 +90,20 @@ CREATE TABLE `sport` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+/*CREATE TABLE `game_event` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `game_id` int unsigned DEFAULT NULL,
+  `team_id` int unsigned DEFAULT NULL,
+  `event_type` int unsigned DEFAULT NULL,
+  `period` int DEFAULT NULL,
+  `minutes` int DEFAULT NULL,
+  `second` int DEFAULT NULL
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
+
 -- insert data
 INSERT INTO league (name) VALUES ('Aves');
 INSERT INTO team (league_id, name) VALUES (1, 'Hummingbird');

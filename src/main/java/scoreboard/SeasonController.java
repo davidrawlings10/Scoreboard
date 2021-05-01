@@ -15,7 +15,7 @@ public class SeasonController {
     // http://localhost:8080/season/schedulePlay?leagueId=1
     @GetMapping(path="/schedulePlay")
     public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {
-        int seasonId = seasonService.schedulePlaySeason(Integer.parseInt(leagueId));
+        int seasonId = seasonService.scheduleAndPlaySeason(Integer.parseInt(leagueId));
         return "Season played, id:" + seasonId;
     }
 
@@ -23,7 +23,7 @@ public class SeasonController {
     @CrossOrigin
     @GetMapping(path="/schedule")
     public @ResponseBody String scheduleSeason(@RequestParam String leagueId) throws Exception {
-        Season season = seasonService.scheduleSeason(ScheduleType.ROUNDS, 1, Integer.parseInt(leagueId), 4);
+        Season season = seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY.getValue(), Integer.parseInt(leagueId), 4);
         return "Season scheduled, id:" + season.getId();
     }
 

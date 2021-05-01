@@ -48,7 +48,7 @@ public class SeasonService {
         return season;
     }
 
-    private List<Game> scheduleSeasonHomeRotation(List<Integer> teamIds) {
+    public List<Game> scheduleSeasonHomeRotation(List<Integer> teamIds) {
         List<Game> games = new ArrayList<>();
         for (Integer homeTeamId : teamIds) {
             for (Integer awayTeamId : teamIds) {
@@ -60,7 +60,7 @@ public class SeasonService {
         return games;
     }
 
-    private List<Game> scheduleSeasonRound(List<Integer> teamIds, int numGames) {
+    public List<Game> scheduleSeasonRound(List<Integer> teamIds, int numGames) {
         List<Game> games = new ArrayList<>();
 
         List<Integer> homeTeamIds = new ArrayList<>();

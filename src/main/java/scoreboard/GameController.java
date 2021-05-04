@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(path="/game") // This means URL's start with /demo (after Application path)
 public class GameController {
@@ -39,17 +41,57 @@ public class GameController {
     }
 
     @CrossOrigin
-    @GetMapping(path="/startGame")
-    public @ResponseBody String startGame() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(gameService.startGame());
+    @GetMapping(path="/addGame")
+    public @ResponseBody String addGame() throws JsonProcessingException {
+        return mapper.writeValueAsString(gameService.addGame());
     }
 
-    @CrossOrigin
+    /*@CrossOrigin
     @GetMapping(path="/playSec")
     public @ResponseBody String playSec() throws JsonProcessingException {
         String json = mapper.writeValueAsString(gameService.playSec());
         return json.substring(1, json.length() -1);
+    }*/
+
+    @CrossOrigin
+    @GetMapping(path="/getGames")
+    public @ResponseBody String getGames() throws JsonProcessingException {
+        List<Game> games = gameService.getGames();
+        String json =  mapper.writeValueAsString(games);
+        return json.substring(1, json.length() -1);
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/playGames")
+    public @ResponseBody String playGames() throws JsonProcessingException, InterruptedException {
+        gameService.playGames();
+        return "";
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/pauseGames")
+    public @ResponseBody String pauseGames() throws JsonProcessingException, InterruptedException {
+        gameService.pauseGames();
+        return "";
+    }
+
+    // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
+    /*@CrossOrigin
+    @GetMapping(path="/getGamesBySeasonId")
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws InterruptedException, JsonProcessingException {
+        String json = mapper.writeValueAsString(gameService.getBySeasonId(Integer.parseInt(seasonId)));
+        return json.substring(1, json.length() - 1);
+    }*/
+
+    // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
+    @CrossOrigin
+    @GetMapping(path="/getGamesBySeasonId")
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws InterruptedException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Game> games = gameService.getBySeasonId(Integer.parseInt(seasonId));
+        String json = mapper.writeValueAsString(games);
+        String gamesJSON = json.substring(1, json.length() -1);
+        return "{\"gameList\":[" + gamesJSON + "]}";
     }
 
     @CrossOrigin

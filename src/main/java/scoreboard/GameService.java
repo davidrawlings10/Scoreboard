@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService {
@@ -14,8 +15,9 @@ public class GameService {
 
     List<Game> currentGames = new ArrayList<>();
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
+    Boolean running = false;
 
-    public List<Game> startGame() {
+    public List<Game> addGame() {
         Game game = new Game(1);
 
         game.setHomeTeamId(50);
@@ -33,12 +35,32 @@ public class GameService {
         return currentGames;
     }
 
-    public List<Game> playSec() {
+    /*public List<Game> playSec() {
         for (Game game : currentGames) {
-            if (game.getSportId() == 1 /*TODO: Sport.HOCKEY (should eventually use this enum)*/) {
+            if (game.getSportId() == 1) {
                 hockeyPlayService.playSec(game);
             }
         }
+        return currentGames;
+    }*/
+
+    public void playGames() throws InterruptedException {
+        running = true;
+        while (running) {
+            TimeUnit.MILLISECONDS.sleep(HockeyPlayService.Config.TimeDelay.gameplayTickMilli);
+            for (Game game : currentGames) {
+                if (game.getSportId() == 1 /*TODO: Sport.HOCKEY (should eventually use this enum)*/) {
+                    hockeyPlayService.playSec(game);
+                }
+            }
+        }
+    }
+
+    public void pauseGames() {
+        running = false;
+    }
+
+    public List<Game> getGames() {
         return currentGames;
     }
 
@@ -83,8 +105,8 @@ public class GameService {
         return gameOptional.get();
     }
 
-    public Iterable<Game> getBySeasonId(int leagueId) {
-        return gameRepository.findBySeasonId(leagueId);
+    public List<Game> getBySeasonId(int seasonId) {
+        return gameRepository.findBySeasonId(seasonId);
     }
 
     public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }

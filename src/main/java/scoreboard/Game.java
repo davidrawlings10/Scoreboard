@@ -107,6 +107,9 @@ public class Game {
     }
 
     public boolean isFinal() {
+        if (homeScore == null || awayScore == null || clock == null)
+            return false;
+
         return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.isIntermission // game ends in regulation
                 || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
     }

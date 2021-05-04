@@ -280,7 +280,7 @@ public class SeasonService {
     }
 
     public void playSeason(Season season, Integer numOfGames) throws InterruptedException {
-        Iterable<Game> games = gameService.getBySeasonId(season.getId());
+        List<Game> games = gameService.getBySeasonId(season.getId());
         for (Game game : games) {
             if (game.getEndingPeriod() == null) {
                 playGame(game);

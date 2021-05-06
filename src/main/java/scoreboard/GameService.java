@@ -17,11 +17,11 @@ public class GameService {
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = false;
 
-    public List<Game> addGame() {
-        Game game = new Game(1);
+    public List<Game> addGame(int sportId, int homeTeamId, int awayTeamId) {
+        Game game = new Game(sportId);
 
-        game.setHomeTeamId(50);
-        game.setAwayTeamId(40);
+        game.setHomeTeamId(homeTeamId);
+        game.setAwayTeamId(awayTeamId);
 
         game.setHomeName(teamService.getByTeamId(game.getHomeTeamId()).getName());
         game.setAwayName(teamService.getByTeamId(game.getAwayTeamId()).getName());

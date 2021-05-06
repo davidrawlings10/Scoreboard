@@ -42,8 +42,10 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/addGame")
-    public @ResponseBody String addGame() throws JsonProcessingException {
-        return mapper.writeValueAsString(gameService.addGame());
+    public @ResponseBody String addGame(@RequestParam String sportId, @RequestParam String homeTeamId, @RequestParam String awayTeamId) throws JsonProcessingException {
+        gameService.addGame(Integer.parseInt(sportId), Integer.parseInt(homeTeamId), Integer.parseInt(awayTeamId));
+        return "";
+        // return mapper.writeValueAsString();
     }
 
     /*@CrossOrigin
@@ -56,9 +58,11 @@ public class GameController {
     @CrossOrigin
     @GetMapping(path="/getGames")
     public @ResponseBody String getGames() throws JsonProcessingException {
-        List<Game> games = gameService.getGames();
+        /*List<Game> games = gameService.getGames();
         String json =  mapper.writeValueAsString(games);
-        return json.substring(1, json.length() -1);
+        return json.substring(1, json.length() -1);*/
+
+        return JsonUtil.getJson(gameService.getGames());
     }
 
     @CrossOrigin
@@ -87,11 +91,13 @@ public class GameController {
     @CrossOrigin
     @GetMapping(path="/getGamesBySeasonId")
     public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws InterruptedException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
+        /*ObjectMapper mapper = new ObjectMapper();
         List<Game> games = gameService.getBySeasonId(Integer.parseInt(seasonId));
         String json = mapper.writeValueAsString(games);
         String gamesJSON = json.substring(1, json.length() -1);
-        return "{\"gameList\":[" + gamesJSON + "]}";
+        return "{\"gameList\":[" + gamesJSON + "]}";*/
+
+        return JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId)));
     }
 
     @CrossOrigin

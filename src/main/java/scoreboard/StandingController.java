@@ -16,7 +16,7 @@ public class StandingController {
     @CrossOrigin
     @GetMapping(path="get")
     public @ResponseBody String getStanding(@RequestParam String seasonId) throws JsonProcessingException {
-        /*StandingResponse standingResponse = new StandingResponse();
+        /*StandingResponse standingResponse = new StandingResponse(); `1
         standingResponse.setStandingList(standingService.findBySeasonId(Integer.parseInt(seasonId)));
         return standingResponse;*/
 

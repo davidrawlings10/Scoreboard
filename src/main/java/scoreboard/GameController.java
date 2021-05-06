@@ -13,7 +13,7 @@ import java.util.List;
 public class GameController {
 
     @Autowired GameService gameService;
-    ObjectMapper mapper = new ObjectMapper();
+    // ObjectMapper mapper = new ObjectMapper(); `1
 
     // http://localhost:8080/game/play
     @CrossOrigin
@@ -42,18 +42,11 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/addGame")
-    public @ResponseBody String addGame(@RequestParam String sportId, @RequestParam String homeTeamId, @RequestParam String awayTeamId) throws JsonProcessingException {
+    public @ResponseBody void addGame(@RequestParam String sportId, @RequestParam String homeTeamId, @RequestParam String awayTeamId) throws JsonProcessingException {
         gameService.addGame(Integer.parseInt(sportId), Integer.parseInt(homeTeamId), Integer.parseInt(awayTeamId));
-        return "";
+        // return "";
         // return mapper.writeValueAsString();
     }
-
-    /*@CrossOrigin
-    @GetMapping(path="/playSec")
-    public @ResponseBody String playSec() throws JsonProcessingException {
-        String json = mapper.writeValueAsString(gameService.playSec());
-        return json.substring(1, json.length() -1);
-    }*/
 
     @CrossOrigin
     @GetMapping(path="/getGames")
@@ -67,25 +60,17 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/playGames")
-    public @ResponseBody String playGames() throws JsonProcessingException, InterruptedException {
+    public @ResponseBody void playGames() throws JsonProcessingException, InterruptedException {
         gameService.playGames();
-        return "";
+        // return "";
     }
 
     @CrossOrigin
     @GetMapping(path="/pauseGames")
-    public @ResponseBody String pauseGames() throws JsonProcessingException, InterruptedException {
+    public @ResponseBody void pauseGames() throws JsonProcessingException, InterruptedException {
         gameService.pauseGames();
-        return "";
+        // return "";
     }
-
-    // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
-    /*@CrossOrigin
-    @GetMapping(path="/getGamesBySeasonId")
-    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws InterruptedException, JsonProcessingException {
-        String json = mapper.writeValueAsString(gameService.getBySeasonId(Integer.parseInt(seasonId)));
-        return json.substring(1, json.length() - 1);
-    }*/
 
     // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
     @CrossOrigin
@@ -99,6 +84,21 @@ public class GameController {
 
         return JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId)));
     }
+
+    /*@CrossOrigin
+    @GetMapping(path="/playSec")
+    public @ResponseBody String playSec() throws JsonProcessingException {
+        String json = mapper.writeValueAsString(gameService.playSec());
+        return json.substring(1, json.length() -1);
+    }*/
+
+    // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
+    /*@CrossOrigin
+    @GetMapping(path="/getGamesBySeasonId")
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws InterruptedException, JsonProcessingException {
+        String json = mapper.writeValueAsString(gameService.getBySeasonId(Integer.parseInt(seasonId)));
+        return json.substring(1, json.length() - 1);
+    }*/
 
     @CrossOrigin
     @GetMapping(path="/test")

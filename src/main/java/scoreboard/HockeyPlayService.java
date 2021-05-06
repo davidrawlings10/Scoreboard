@@ -1,6 +1,5 @@
 package scoreboard;
 
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,10 +38,10 @@ public class HockeyPlayService {
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
         if (!game.getClock().isIntermission()) {
-            if (RandomService.occur(homeChance)) {
+            if (RandomUtil.occur(homeChance)) {
                 game.increaseHomeScore(1);
             }
-            if (RandomService.occur(awayChance)) {
+            if (RandomUtil.occur(awayChance)) {
                 game.increaseAwayScore(1);
             }
         }
@@ -80,12 +79,12 @@ public class HockeyPlayService {
                 break;
             }
 
-            if (!game.getClock().isIntermission() && RandomService.occur(homeChance)) {
+            if (!game.getClock().isIntermission() && RandomUtil.occur(homeChance)) {
                 game.setHomeScore(game.getHomeScore() + 1);
                 if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1)
                     break;
             }
-            if (!game.getClock().isIntermission() && RandomService.occur(awayChance)) {
+            if (!game.getClock().isIntermission() && RandomUtil.occur(awayChance)) {
                 game.setAwayScore(game.getAwayScore() + 1);
                 if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1)
                     break;
@@ -142,14 +141,14 @@ public class HockeyPlayService {
     private boolean shootout() throws InterruptedException {
         int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
         while (true) {
-            if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreHomeWeight)) {
+            if (RandomUtil.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreHomeWeight)) {
                 homeShootoutScore++;
                 System.out.println(homeTeamName + " scores");
             } else {
                 System.out.println(homeTeamName + " misses");
             }
             TimeUnit.SECONDS.sleep(Config.TimeDelay.shootoutSec);
-            if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreAwayWeight)) {
+            if (RandomUtil.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreAwayWeight)) {
                 awayShootoutScore++;
                 System.out.println(awayTeamName + " scores");
             } else {

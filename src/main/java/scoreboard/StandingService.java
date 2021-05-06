@@ -1,12 +1,12 @@
 package scoreboard;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+/* import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper; */
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,7 +61,7 @@ public class StandingService {
         return standingRepository.findBySeasonId(seasonId);
     }
 
-    private class StandingList {
+    /*private class StandingList {
         List<Standing> standings;
         public StandingList(List<Standing> standings) {
             this.standings = standings;
@@ -75,5 +75,5 @@ public class StandingService {
         // List<StandingResponse> standingResponseList = new ArrayList<>();
 
         return "{\"standingList\":" + standingsJSON + "}";
-    }
+    }*/
 }

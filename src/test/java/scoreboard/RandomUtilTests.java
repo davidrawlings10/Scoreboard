@@ -7,23 +7,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RandomServiceTests {
+public class RandomUtilTests {
 
 	@Test
 	public void test100() {
-		assert(RandomService.occur(100.0));
+		assert(RandomUtil.occur(100.0));
 	}
 
 	@Test
 	public void test0() {
-		assert(!RandomService.occur(0.0));
+		assert(!RandomUtil.occur(0.0));
 	}
 
 	@Test
 	public void test50() {
 		int count = 0;
 		for (int i = 0; i < 10000; ++i) {
-			if (RandomService.occur(50.0))
+			if (RandomUtil.occur(50.0))
 				count++;
 		}
 		System.out.println("count: "+count);
@@ -39,7 +39,7 @@ public class RandomServiceTests {
 	public void test99() {
 		int count = 0;
 		for (int i = 0; i < 10000; ++i) {
-			if (RandomService.occur(99.9))
+			if (RandomUtil.occur(99.9))
 				count++;
 		}
 		System.out.println("count: "+count);
@@ -55,7 +55,7 @@ public class RandomServiceTests {
 	public void test1() {
 		int count = 0;
 		for (int i = 0; i < 10000; ++i) {
-			if (RandomService.occur(0.1))
+			if (RandomUtil.occur(0.1))
 				count++;
 		}
 		System.out.println("count: "+count);

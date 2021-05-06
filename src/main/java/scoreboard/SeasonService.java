@@ -96,7 +96,7 @@ public class SeasonService {
                     }
                 }
 
-                int homeCandidatesIndex = RandomService.getRandom(homeCandidates.size());
+                int homeCandidatesIndex = RandomUtil.getRandom(homeCandidates.size());
                 int homeTeamId = homeTeamIdForce != null ? homeTeamIdForce : homeCandidates.get(homeCandidatesIndex);
                 roundTeamIds.remove(roundTeamIds.indexOf(homeTeamId));
                 homeTeamIds.remove(homeTeamIds.indexOf(homeTeamId));
@@ -120,7 +120,7 @@ public class SeasonService {
                     }
                 }
 
-                int awayCandidatesIndex = RandomService.getRandom(awayCandidates.size());
+                int awayCandidatesIndex = RandomUtil.getRandom(awayCandidates.size());
                 int awayTeamId = awayCandidates.get(awayCandidatesIndex);
                 roundTeamIds.remove(roundTeamIds.indexOf(awayTeamId));
                 awayTeamIds.remove(awayTeamIds.indexOf(awayTeamId));

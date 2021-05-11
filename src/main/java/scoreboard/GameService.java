@@ -78,6 +78,10 @@ public class GameService {
         return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
+    public void playSeasonGames(int seasonId, int numGames) {
+        seasonNumOfGamesToPlay.put(seasonId, numGames);
+    }
+
     // data access
 
     public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {

@@ -14,12 +14,12 @@ public class SeasonService {
     @Autowired private StandingService standingService;
 
     public int scheduleAndPlaySeason(int leagueId) throws Exception {
-        Season season = scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY.getValue(), leagueId, null);
+        Season season = scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, leagueId, null);
         playSeason(season, null);
         return season.getId();
     }
 
-    public Season scheduleSeason(ScheduleType scheduleType, int sportId, int leagueId, Integer numGames) throws Exception {
+    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, int leagueId, Integer numGames) throws Exception {
         Season season = save(leagueId);
 
         List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());

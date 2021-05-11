@@ -9,8 +9,8 @@ public class JsonUtil {
     public static String getJsonList(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(object);
-        String standingJSON = json.substring(1, json.length() -1);
-        return "{\"list\":[" + standingJSON + "]}";
+        String listJSON = json.substring(1, json.length() -1);
+        return "{\"list\":[" + listJSON + "]}";
     }
 
     public static String getJson(Object object) throws JsonProcessingException {

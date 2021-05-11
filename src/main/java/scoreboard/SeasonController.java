@@ -19,11 +19,12 @@ public class SeasonController {
         return "Season played, id:" + seasonId;
     }
 
-    // http://localhost:8080/season/schedule?leagueId=1
+    // http://localhost:8080/season/schedule?scheduleType=ROUNDS&sport=HOCKEY&leagueId=1&numGames=4
+    // http://localhost:8080/season/schedule?scheduleType=HOME_ROTATION&sport=HOCKEY&leagueId=1
     @CrossOrigin
     @GetMapping(path="/schedule")
-    public @ResponseBody String scheduleSeason(@RequestParam String leagueId) throws Exception {
-        Season season = seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY.getValue(), Integer.parseInt(leagueId), 4);
+    public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String leagueId, @RequestParam(required = false) String numGames) throws Exception {
+        Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), Integer.parseInt(leagueId), numGames != null ? Integer.parseInt(numGames) : null);
         return "Season scheduled, id:" + season.getId();
     }
 

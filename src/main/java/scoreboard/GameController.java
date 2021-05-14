@@ -36,6 +36,12 @@ public class GameController {
         gameService.pauseGames();
     }
 
+    @CrossOrigin
+    @GetMapping(path="/startSeasonGame")
+    public @ResponseBody void startSeasonGame(@RequestParam Integer seasonId) {
+        gameService.startSeasonGame(seasonId);
+    }
+
     // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
     @CrossOrigin
     @GetMapping(path="/getGamesBySeasonId")

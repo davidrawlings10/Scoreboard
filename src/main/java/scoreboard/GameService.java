@@ -90,7 +90,7 @@ public class GameService {
         seasonNumOfGamesToPlay.put(seasonId, numGames);
     }
 
-    public void addSeasonGame(int seasonId) {
+    public void startSeasonGame(int seasonId) {
         // Game game = gameRepository.findNextGameBySeasonId(seasonId);
         // addGame()
     }

@@ -17,7 +17,7 @@ public class GameService {
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = false;
 
-    public List<Game> addGame(int sportId, int homeTeamId, int awayTeamId) {
+    public void startGame(int sportId, int homeTeamId, int awayTeamId) {
         Game game = new Game(sportId);
 
         game.setHomeTeamId(homeTeamId);
@@ -37,7 +37,6 @@ public class GameService {
         game.setAwayScore(0);
 
         currentGames.add(0, game);
-        return currentGames;
     }
 
     /*public List<Game> playSec() {

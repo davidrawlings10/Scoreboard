@@ -12,6 +12,9 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("select g from Game g where g.seasonId = ?1")
     public List<Game> findBySeasonId(int seasonId);
 
+    @Query("select g from Game g where g.seasonId = ?1 and endingPeriod is null order by g.id") // limit 1 (not working)
+    public Game findNextGameBySeasonId(int seasonId);
+
     @Query("select g from Game g where g.id = ?1")
     public Game findByGameId(int gameId);
 }

@@ -23,8 +23,13 @@ public class GameService {
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);
 
-        game.setHomeName(teamService.getByTeamId(game.getHomeTeamId()).getName());
-        game.setAwayName(teamService.getByTeamId(game.getAwayTeamId()).getName());
+        Team homeTeam = teamService.getByTeamId(game.getHomeTeamId());
+        Team awayTeam = teamService.getByTeamId(game.getAwayTeamId());
+
+        game.setHomeName(homeTeam.getLocation());
+        game.setAwayName(awayTeam.getLocation());
+        // game.setHomeName(homeTeam.getLocation() != null ?  homeTeam.getLocation() + ' ' + homeTeam.getName() : homeTeam.getName());
+        // game.setAwayName(awayTeam.getLocation() != null ?  awayTeam.getLocation() + ' ' + awayTeam.getName() : awayTeam.getName());
 
         game.setClock(new Clock(game.getSportId()));
         game.getClock().reset();
@@ -45,6 +50,10 @@ public class GameService {
     }*/
 
     public void playGames() throws InterruptedException {
+        if (running) {
+            return;
+        }
+
         running = true;
         while (running) {
             TimeUnit.MILLISECONDS.sleep(HockeyPlayService.Config.TimeDelay.gameplayTickMilli);
@@ -78,8 +87,13 @@ public class GameService {
         return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
-    public void playSeasonGames(int seasonId, int numGames) {
+    public void setSeasonNumOfGamesToPlay(int seasonId, int numGames) {
         seasonNumOfGamesToPlay.put(seasonId, numGames);
+    }
+
+    public void addSeasonGame(int seasonId) {
+        // Game game = gameRepository.findNextGameBySeasonId(seasonId);
+        // addGame()
     }
 
     // data access

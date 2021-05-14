@@ -86,9 +86,9 @@ public class GameController {
     }
 
     @CrossOrigin
-    @GetMapping(path="/playSeasonGames")
-    public @ResponseBody String playSeasonGames(@RequestParam Integer seasonId, @RequestParam Integer numGames) throws InterruptedException, JsonProcessingException {
-        gameService.playSeasonGames(seasonId, numGames);
+    @GetMapping(path="/setSeasonNumOfGamesToPlay")
+    public @ResponseBody String setSeasonNumOfGamesToPlay(@RequestParam Integer seasonId, @RequestParam Integer numGames) throws InterruptedException, JsonProcessingException {
+        gameService.setSeasonNumOfGamesToPlay(seasonId, numGames);
         return "";
     }
 

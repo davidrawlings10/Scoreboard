@@ -10,7 +10,9 @@ public class Game {
     private Integer sportId, seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
     @Transient Clock clock;
-    @Transient String homeName, awayName;
+
+    // caching
+    @Transient String homeLocation, awayLocation, homeName, awayName;
 
     public Game() {}
 
@@ -104,6 +106,22 @@ public class Game {
 
     public void setAwayName(String awayName) {
         this.awayName = awayName;
+    }
+
+    public String getHomeLocation() {
+        return homeLocation;
+    }
+
+    public void setHomeLocation(String homeLocation) {
+        this.homeLocation = homeLocation;
+    }
+
+    public String getAwayLocation() {
+        return awayLocation;
+    }
+
+    public void setAwayLocation(String awayLocation) {
+        this.awayLocation = awayLocation;
     }
 
     public boolean isFinal() {

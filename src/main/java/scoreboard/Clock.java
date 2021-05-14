@@ -5,9 +5,9 @@ public class Clock {
     boolean isIntermission = true;
     final private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
 
-    public Clock(int sportId) {
-        switch (sportId) {
-            case 1:
+    public Clock(Sport sport) {
+        switch (sport) {
+            case HOCKEY:
                 ENDING_PERIOD = 3;
                 MINUTES_IN_PERIOD = 20;
                 MINUTES_IN_OVERTIME = 20;

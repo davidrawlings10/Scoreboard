@@ -17,8 +17,8 @@ public class GameService {
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = false;
 
-    public void startGame(int sportId, int homeTeamId, int awayTeamId) {
-        Game game = new Game(sportId);
+    public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
+        Game game = new Game(sport);
 
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);
@@ -31,7 +31,7 @@ public class GameService {
         // game.setHomeName(homeTeam.getLocation() != null ?  homeTeam.getLocation() + ' ' + homeTeam.getName() : homeTeam.getName());
         // game.setAwayName(awayTeam.getLocation() != null ?  awayTeam.getLocation() + ' ' + awayTeam.getName() : awayTeam.getName());
 
-        game.setClock(new Clock(game.getSportId()));
+        game.setClock(new Clock(game.getSport()));
         game.getClock().reset();
         game.setHomeScore(0);
         game.setAwayScore(0);
@@ -57,7 +57,7 @@ public class GameService {
         while (running) {
             TimeUnit.MILLISECONDS.sleep(HockeyPlayService.Config.TimeDelay.gameplayTickMilli);
             for (Game game : currentGames) {
-                if (game.getSportId() == 1 /*TODO: Sport.HOCKEY (should eventually use this enum)*/) {
+                if (game.getSport() == Sport.HOCKEY) {
                     hockeyPlayService.playSec(game);
                 }
             }
@@ -78,7 +78,7 @@ public class GameService {
     }*/
 
     public String playGame(Game game) throws InterruptedException {
-        game.setClock(new Clock(game.getSportId()));
+        game.setClock(new Clock(game.getSport()));
         game.setHomeScore(0);
         game.setAwayScore(0);
         hockeyPlayService.playGame(game);
@@ -98,7 +98,7 @@ public class GameService {
     // data access
 
     public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
-        Game game = new Game(1);
+        Game game = new Game(Sport.HOCKEY);
         game.setId(id);
         game.setHomeTeamId(homeTeamId);
         game.setAwayTeamId(awayTeamId);

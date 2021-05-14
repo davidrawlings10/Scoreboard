@@ -13,8 +13,8 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/startGame")
-    public @ResponseBody void startGame(@RequestParam String sportId, @RequestParam String homeTeamId, @RequestParam String awayTeamId) {
-        gameService.startGame(Integer.parseInt(sportId), Integer.parseInt(homeTeamId), Integer.parseInt(awayTeamId));
+    public @ResponseBody void startGame(@RequestParam String sport, @RequestParam String homeTeamId, @RequestParam String awayTeamId) {
+        gameService.startGame(Sport.valueOf(sport), Integer.parseInt(homeTeamId), Integer.parseInt(awayTeamId));
     }
 
     @CrossOrigin

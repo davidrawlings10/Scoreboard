@@ -7,7 +7,8 @@ public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-    private Integer sportId, seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
+    private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
+    private Sport sport;
 
     @Transient Clock clock;
 
@@ -16,8 +17,8 @@ public class Game {
 
     public Game() {}
 
-    public Game(int sportId) {
-        this.sportId = sportId;
+    public Game(Sport sport) {
+        this.sport = sport;
     }
 
     public Integer getId() {
@@ -28,12 +29,12 @@ public class Game {
         this.id = id;
     }
 
-    public Integer getSportId() {
-        return sportId;
+    public Sport getSport() {
+        return sport;
     }
 
-    public void setSportId(Integer sportId) {
-        this.sportId = sportId;
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
     public Integer getHomeTeamId() {

@@ -39,15 +39,6 @@ public class GameService {
         currentGames.add(0, game);
     }
 
-    /*public List<Game> playSec() {
-        for (Game game : currentGames) {
-            if (game.getSportId() == 1) {
-                hockeyPlayService.playSec(game);
-            }
-        }
-        return currentGames;
-    }*/
-
     public void playGames() throws InterruptedException {
         if (running) {
             return;
@@ -70,20 +61,6 @@ public class GameService {
 
     public List<Game> getGames() {
         return currentGames;
-    }
-
-    /*private String printScoreboard(Game game, boolean isFinal) {
-        return game.getHomeScore() + " - " + game.getAwayScore() + " | "
-                + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
-    }*/
-
-    public String playGame(Game game) throws InterruptedException {
-        game.setClock(new Clock(game.getSport()));
-        game.setHomeScore(0);
-        game.setAwayScore(0);
-        hockeyPlayService.playGame(game);
-        gameRepository.save(game);
-        return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
     public void setSeasonNumOfGamesToPlay(int seasonId, int numGames) {
@@ -129,6 +106,29 @@ public class GameService {
     public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
 
 
+    // deprecated
+    public String playGame(Game game) throws InterruptedException {
+        game.setClock(new Clock(game.getSport()));
+        game.setHomeScore(0);
+        game.setAwayScore(0);
+        hockeyPlayService.playGame(game);
+        gameRepository.save(game);
+        return game.getHomeScore() + "-" + game.getAwayScore();
+    }
+
+    private String printScoreboard(Game game, boolean isFinal) {
+        return game.getHomeScore() + " - " + game.getAwayScore() + " | "
+                + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
+    }
+
+    /*public List<Game> playSec() {
+        for (Game game : currentGames) {
+            if (game.getSportId() == 1) {
+                hockeyPlayService.playSec(game);
+            }
+        }
+        return currentGames;
+    }*/
 
 
 

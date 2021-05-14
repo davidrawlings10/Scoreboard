@@ -12,13 +12,6 @@ public class SeasonController {
 
     @Autowired SeasonService seasonService;
 
-    // http://localhost:8080/season/schedulePlay?leagueId=1
-    @GetMapping(path="/schedulePlay")
-    public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {
-        int seasonId = seasonService.scheduleAndPlaySeason(Integer.parseInt(leagueId));
-        return "Season played, id:" + seasonId;
-    }
-
     // http://localhost:8080/season/schedule?scheduleType=ROUNDS&sport=HOCKEY&leagueId=1&numGames=4
     // http://localhost:8080/season/schedule?scheduleType=HOME_ROTATION&sport=HOCKEY&leagueId=1
     @CrossOrigin
@@ -28,12 +21,19 @@ public class SeasonController {
         return "Season scheduled, id:" + season.getId();
     }
 
+    // http://localhost:8080/season/schedulePlay?leagueId=1
+    /*@GetMapping(path="/schedulePlay")
+    public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {
+        int seasonId = seasonService.scheduleAndPlaySeason(Integer.parseInt(leagueId));
+        return "Season played, id:" + seasonId;
+    }*/
+
     // http://localhost:8080/season/play?seasonId=1&numOfGames=8
-    @CrossOrigin
+    /*@CrossOrigin
     @GetMapping(path="/play")
     public @ResponseBody String playSeason(@RequestParam String seasonId, @RequestParam(required=false) String numOfGames) throws InterruptedException {
         Integer numOfGamesInt = (numOfGames != null ? Integer.parseInt(numOfGames) : null);
         seasonService.playSeason(Integer.parseInt(seasonId), numOfGamesInt);
         return "Season games played, id:" + seasonId;
-    }
+    }*/
 }

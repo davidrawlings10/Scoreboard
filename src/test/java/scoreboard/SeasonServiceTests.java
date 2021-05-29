@@ -16,6 +16,7 @@ public class SeasonServiceTests {
     @Autowired
     private SeasonService seasonService;
 
+    // unit tests
     @Test
     public void testHomeRotation() {
         List<Integer> teamIds = Arrays.asList(1, 2, 3, 4);
@@ -34,5 +35,11 @@ public class SeasonServiceTests {
 
         assert(homeGameCountForTeam1 == awayGameCountForTeam1);
         assert(homeGameCountForTeam1 + awayGameCountForTeam1 == teamIds.size() * 3 / 2);
+    }
+
+    // tests with DB
+    @Test
+    public void testScheduleSeason() throws Exception {
+        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, 4);
     }
 }

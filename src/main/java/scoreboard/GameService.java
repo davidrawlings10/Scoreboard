@@ -12,31 +12,36 @@ public class GameService {
     @Autowired private GameRepository gameRepository;
     @Autowired private HockeyPlayService hockeyPlayService;
     @Autowired private TeamService teamService;
+    @Autowired private SeasonService seasonService;
+    @Autowired private StandingService standingService;
 
     List<Game> currentGames = new ArrayList<>();
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = false;
 
+    final int gameplayTickMilli = 1;
+
     public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
-        Game game = new Game(sport);
+        Game game = new Game(sport, homeTeamId, awayTeamId);
+        setupGameForPlay(game);
+        currentGames.add(0, game);
+    }
 
-        game.setHomeTeamId(homeTeamId);
-        game.setAwayTeamId(awayTeamId);
-
-        Team homeTeam = teamService.getByTeamId(game.getHomeTeamId());
-        Team awayTeam = teamService.getByTeamId(game.getAwayTeamId());
-
-        game.setHomeName(homeTeam.getLocation());
-        game.setAwayName(awayTeam.getLocation());
-        // game.setHomeName(homeTeam.getLocation() != null ?  homeTeam.getLocation() + ' ' + homeTeam.getName() : homeTeam.getName());
-        // game.setAwayName(awayTeam.getLocation() != null ?  awayTeam.getLocation() + ' ' + awayTeam.getName() : awayTeam.getName());
-
+    private void setupGameForPlay(Game game) {
         game.setClock(new Clock(game.getSport()));
         game.getClock().reset();
         game.setHomeScore(0);
         game.setAwayScore(0);
 
-        currentGames.add(0, game);
+        // cache home/away location and name
+        Team homeTeam = teamService.getByTeamId(game.getHomeTeamId());
+        Team awayTeam = teamService.getByTeamId(game.getAwayTeamId());
+
+        game.setHomeName(homeTeam.getName());
+        game.setAwayName(awayTeam.getName());
+        game.setHomeLocation(homeTeam.getLocation());
+        game.setAwayLocation(awayTeam.getLocation());
+
     }
 
     public void playGames() throws InterruptedException {
@@ -46,12 +51,37 @@ public class GameService {
 
         running = true;
         while (running) {
-            TimeUnit.MILLISECONDS.sleep(HockeyPlayService.Config.TimeDelay.gameplayTickMilli);
+            TimeUnit.MILLISECONDS.sleep(gameplayTickMilli);
             for (Game game : currentGames) {
+                if (game.isFinal())
+                    continue;
+
                 if (game.getSport() == Sport.HOCKEY) {
-                    hockeyPlayService.playSec(game);
+                    if (hockeyPlayService.playSec(game)) {
+                        handleGameEnd(game);
+                    }
                 }
             }
+        }
+    }
+
+    private void handleGameEnd(Game game) {
+        game.setEndingPeriod(game.getClock().getPeriod());
+        gameRepository.save(game);
+
+        Integer seasonId = game.getSeasonId();
+
+        if (seasonId == null) {
+            return;
+        }
+
+        standingService.updateStanding(game);
+
+        Integer seasonNumOfGamesToPlayForSeason = seasonNumOfGamesToPlay.get(seasonId);
+
+        if (seasonNumOfGamesToPlayForSeason != null && seasonNumOfGamesToPlayForSeason > 0) {
+            seasonNumOfGamesToPlay.replace(seasonId, --seasonNumOfGamesToPlayForSeason);
+            startNextSeasonGame(seasonId);
         }
     }
 
@@ -68,13 +98,18 @@ public class GameService {
     }
 
     public void startSeasonGame(int seasonId) {
-        // Game game = gameRepository.findNextGameBySeasonId(seasonId);
-        // addGame()
+        startNextSeasonGame(seasonId);
+    }
+
+    private void startNextSeasonGame(int seasonId) {
+        Game game = gameRepository.findNextGameBySeasonId(seasonId).get(0);
+        setupGameForPlay(game);
+        currentGames.add(0, game);
     }
 
     // data access
 
-    public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
+    /*public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
         Game game = new Game(Sport.HOCKEY);
         game.setId(id);
         game.setHomeTeamId(homeTeamId);
@@ -83,6 +118,10 @@ public class GameService {
         game.setAwayScore(awayScore);
         game.setSeasonId(seasonId);
         game.setEndingPeriod(endingPeriod);
+        return gameRepository.save(game);
+    }*/
+
+    public Game save(Game game) {
         return gameRepository.save(game);
     }
 

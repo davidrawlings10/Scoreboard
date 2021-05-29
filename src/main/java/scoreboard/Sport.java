@@ -1,13 +1,13 @@
 package scoreboard;
 
 public enum Sport {
-    HOCKEY(1), SOCCER(2);
+    HOCKEY, SOCCER;
 
-    private final int value;
+    /*private final int value;
 
     Sport(final int newValue) {
         value = newValue;
     }
 
-    public int getValue() { return value; }
+    public int getValue() { return value; }*/
 }

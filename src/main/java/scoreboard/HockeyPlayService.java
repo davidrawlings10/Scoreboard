@@ -31,29 +31,31 @@ public class HockeyPlayService {
         }
     }
 
-    public void playSec(Game game) {
+    public boolean playSec(Game game) {
         if (game.isFinal())
-            return;
+            return true;
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
         if (!game.getClock().isIntermission()) {
             if (RandomUtil.occur(homeChance)) {
-                game.increaseHomeScore(1);
+                game.incHomeScore(1);
             }
             if (RandomUtil.occur(awayChance)) {
-                game.increaseAwayScore(1);
+                game.incAwayScore(1);
             }
         }
 
         game.getClock().tickDown();
 
         if (game.isFinal())
-            return;
+            return true;
 
         game.getClock().handlePeriodEnd();
 
         System.out.println(printScoreboard(game, false));
+
+        return false;
     }
 
     public Game playGame(Game game) throws InterruptedException {

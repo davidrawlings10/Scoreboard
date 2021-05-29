@@ -53,6 +53,57 @@ public class StandingService {
         return standingRepository.save(standing);
     }
 
+    public void updateStanding(Game game) {
+        Standing homeTeamStanding = findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
+        Standing awayTeamStanding = findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());
+
+        homeTeamStanding.incGp(1);
+        awayTeamStanding.incGp(1);
+        homeTeamStanding.incHomeGp(1);
+        awayTeamStanding.incAwayGp(1);
+
+        // !!! refactor all this in a separate function
+        if (game.getHomeScore() > game.getAwayScore()) {
+            homeTeamStanding.incWin(1);
+            homeTeamStanding.incHomeWin(1);
+            homeTeamStanding.incPoint(2);
+            homeTeamStanding.incHomePoint(2);
+
+            if (game.getEndingPeriod() < 4) {
+                awayTeamStanding.incLoss(1);
+                awayTeamStanding.incAwayLoss(1);
+            } else {
+                awayTeamStanding.incOtloss(1);
+                awayTeamStanding.incAwayOtloss(1);
+                awayTeamStanding.incPoint(1);
+                awayTeamStanding.incAwayPoint(1);
+            }
+        } else {
+            awayTeamStanding.incWin(1);
+            awayTeamStanding.incAwayWin(1);
+            awayTeamStanding.incPoint(2);
+            awayTeamStanding.incAwayPoint(2);
+
+            if (game.getEndingPeriod() < 4) {
+                homeTeamStanding.incLoss(1);
+                homeTeamStanding.incHomeLoss(1);
+            } else {
+                homeTeamStanding.incOtloss(1);
+                homeTeamStanding.incHomeOtloss(1);
+                homeTeamStanding.incPoint(1);
+                homeTeamStanding.incHomePoint(1);
+            }
+        }
+
+        homeTeamStanding.incGf(game.getHomeScore());
+        homeTeamStanding.incGa(game.getAwayScore());
+        awayTeamStanding.incGf(game.getAwayScore());
+        awayTeamStanding.incGa(game.getHomeScore());
+
+        standingRepository.save(homeTeamStanding);
+        standingRepository.save(awayTeamStanding);
+    }
+
     public Standing findBySeasonIdAndTeamId(int seasonId, int teamId) {
         return standingRepository.findBySeasonIdAndTeamId(seasonId, teamId);
     }

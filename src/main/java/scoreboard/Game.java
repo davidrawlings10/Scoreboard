@@ -7,8 +7,14 @@ public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+
     private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
+
+    @Enumerated(EnumType.STRING)
+    // @Transient
     private Sport sport;
+
+    private Boolean test;
 
     @Transient Clock clock;
 
@@ -17,8 +23,11 @@ public class Game {
 
     public Game() {}
 
-    public Game(Sport sport) {
+    public Game(Sport sport, int homeTeamId, int awayTeamId) {
         this.sport = sport;
+        this.homeTeamId = homeTeamId;
+        this.awayTeamId = awayTeamId;
+        this.test = false;
     }
 
     public Integer getId() {
@@ -85,6 +94,14 @@ public class Game {
         this.endingPeriod = endingPeriod;
     }
 
+    public Boolean getTest() {
+        return test;
+    }
+
+    public void setTest(Boolean test) {
+        this.test = test;
+    }
+
     public Clock getClock() {
         return clock;
     }
@@ -133,11 +150,11 @@ public class Game {
                 || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
     }
 
-    public void increaseHomeScore(int inc) {
-        homeScore += inc;
+    public void incHomeScore(int val) {
+        homeScore += val;
     }
 
-    public void increaseAwayScore(int inc) {
-        awayScore += inc;
+    public void incAwayScore(int val) {
+        awayScore += val;
     }
 }

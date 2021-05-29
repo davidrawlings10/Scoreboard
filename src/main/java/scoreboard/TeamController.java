@@ -11,8 +11,16 @@ public class TeamController {
     @Autowired TeamService teamService;
 
     @CrossOrigin
-    @GetMapping(path="get")
+    @GetMapping(path="getTeams")
     public @ResponseBody String getTeams(@RequestParam String leagueId) throws JsonProcessingException {
-        return JsonUtil.getJsonList(teamService.getByLeagueId(Integer.parseInt(leagueId)));
+        String response = JsonUtil.getJsonList(teamService.getByLeagueId(Integer.parseInt(leagueId)));
+        return response;
+    }
+
+    @CrossOrigin
+    @GetMapping(path="getTeamById")
+    public @ResponseBody String getTeam(@RequestParam String teamId) throws JsonProcessingException {
+        String response =  JsonUtil.getJson(teamService.getByTeamId(Integer.parseInt(teamId)));
+        return response;
     }
 }

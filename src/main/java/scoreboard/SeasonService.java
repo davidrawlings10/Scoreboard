@@ -41,8 +41,16 @@ public class SeasonService {
                 throw new Exception("Unrecognized leagueId: " + leagueId);
         }
 
-        for (Game game : games) {
+        /*for (Game game : games) {
             gameService.save(null, game.getHomeTeamId(), game.getAwayTeamId(), null, null, season.getId(), null);
+        }*/
+
+        for (Game game : games) {
+            game.setSport(sport); // TODO: sport is not saving correctly https://stackoverflow.com/questions/14762904/incorrect-integer-value-for-column-id-at-row-1
+
+            game.setSeasonId(season.getId());
+            game.setTest(false);
+            gameService.save(game);
         }
 
         return season;

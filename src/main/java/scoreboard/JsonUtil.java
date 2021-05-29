@@ -10,12 +10,13 @@ public class JsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(object);
         String listJSON = json.substring(1, json.length() -1);
-        return "{\"list\":[" + listJSON + "]}";
+        String response = "{\"list\":[" + listJSON + "]}";
+        return response;
     }
 
     public static String getJson(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        String json =  mapper.writeValueAsString(object);
-        return json.substring(1, json.length() -1);
+        String json = mapper.writeValueAsString(object);
+        return json;
     }
 }

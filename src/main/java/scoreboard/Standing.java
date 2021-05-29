@@ -198,4 +198,84 @@ public class Standing {
     public void setAwayGp(Integer awayGp) {
         this.awayGp = awayGp;
     }
+
+    public void incWin(int val) {
+        this.win += val;
+    }
+
+    public void incLoss(int val) {
+        this.loss += val;
+    }
+
+    public void incTie(int val) {
+        this.tie += val;
+    }
+
+    public void incOtloss(int val) {
+        this.otloss += val;
+    }
+
+    public void incPoint(int val) {
+        this.point += val;
+    }
+
+    public void incGf(int val) {
+        this.gf += val;
+    }
+
+    public void incGa(int val) {
+        this.ga += val;
+    }
+
+    public void incGp(int val) {
+        this.gp += val;
+    }
+
+    public void incHomeWin(int val) {
+        this.homeWin += val;
+    }
+
+    public void incHomeLoss(int val) {
+        this.homeLoss += val;
+    }
+
+    public void incHomeTie(int val) {
+        this.homeTie += val;
+    }
+
+    public void incHomeOtloss(int val) {
+        this.homeOtloss += val;
+    }
+
+    public void incHomePoint(int val) {
+        this.homePoint += val;
+    }
+
+    public void incHomeGp(int val) {
+        this.homeGp += val;
+    }
+
+    public void incAwayWin(int val) {
+        this.awayWin += val;
+    }
+
+    public void incAwayLoss(int val) {
+        this.awayLoss += val;
+    }
+
+    public void incAwayTie(int val) {
+        this.awayTie += val;
+    }
+
+    public void incAwayOtloss(int val) {
+        this.awayOtloss += val;
+    }
+
+    public void incAwayPoint(int val) {
+        this.awayPoint += val;
+    }
+
+    public void incAwayGp(int val) {
+        this.awayGp += val;
+    }
 }

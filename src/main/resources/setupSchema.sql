@@ -21,13 +21,14 @@ CREATE TABLE `game` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `sport_id` int NOT NULL,
+  /*`sport` varchar(45) NOT NULL,*/
   `season_id` int DEFAULT NULL,
   `home_team_id` int NOT NULL,
   `away_team_id` int NOT NULL,
   `home_score` int DEFAULT NULL,
   `away_score` int DEFAULT NULL,
   `ending_period` int DEFAULT NULL,
+  `test` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -81,14 +82,14 @@ CREATE TABLE `league` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `sport` (
+/*CREATE TABLE `sport` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
 
 /*CREATE TABLE `game_event` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -206,5 +207,5 @@ INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAD', 'TeamAD');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAE', 'TeamAE');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAF', 'TeamAF');
 
-INSERT INTO sport (name) VALUES ('Hockey');
-INSERT INTO sport (name) VALUES ('Basketball');
+/*INSERT INTO sport (name) VALUES ('Hockey');
+INSERT INTO sport (name) VALUES ('Basketball');*/

@@ -1,6 +1,5 @@
 package scoreboard;
 
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +31,31 @@ public class HockeyPlayService {
         }
     }
 
-    public void playSec(Game game) {
+    public boolean playSec(Game game) {
+        if (game.isFinal())
+            return true;
+
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
+
+        if (!game.getClock().isIntermission()) {
+            if (RandomUtil.occur(homeChance)) {
+                game.incHomeScore(1);
+            }
+            if (RandomUtil.occur(awayChance)) {
+                game.incAwayScore(1);
+            }
+        }
+
         game.getClock().tickDown();
+
+        if (game.isFinal())
+            return true;
+
+        game.getClock().handlePeriodEnd();
+
         System.out.println(printScoreboard(game, false));
+
+        return false;
     }
 
     public Game playGame(Game game) throws InterruptedException {
@@ -61,12 +81,12 @@ public class HockeyPlayService {
                 break;
             }
 
-            if (!game.getClock().isIntermission() && RandomService.occur(homeChance)) {
+            if (!game.getClock().isIntermission() && RandomUtil.occur(homeChance)) {
                 game.setHomeScore(game.getHomeScore() + 1);
                 if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1)
                     break;
             }
-            if (!game.getClock().isIntermission() && RandomService.occur(awayChance)) {
+            if (!game.getClock().isIntermission() && RandomUtil.occur(awayChance)) {
                 game.setAwayScore(game.getAwayScore() + 1);
                 if (game.getClock().getPeriod() == game.getClock().getENDING_PERIOD() + 1)
                     break;
@@ -74,7 +94,7 @@ public class HockeyPlayService {
 
             game.getClock().tickDown();
 
-            if (game.getClock().isExpired()) {
+            if (game.getClock().isPeriodEnded()) {
                 // period ends
 
                 System.out.println(printScoreboard(game, false));
@@ -123,14 +143,14 @@ public class HockeyPlayService {
     private boolean shootout() throws InterruptedException {
         int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
         while (true) {
-            if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreHomeWeight)) {
+            if (RandomUtil.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreHomeWeight)) {
                 homeShootoutScore++;
                 System.out.println(homeTeamName + " scores");
             } else {
                 System.out.println(homeTeamName + " misses");
             }
             TimeUnit.SECONDS.sleep(Config.TimeDelay.shootoutSec);
-            if (RandomService.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreAwayWeight)) {
+            if (RandomUtil.occur(Config.Chance.shootoutScore + Config.Chance.shootoutScoreAwayWeight)) {
                 awayShootoutScore++;
                 System.out.println(awayTeamName + " scores");
             } else {
@@ -148,7 +168,7 @@ public class HockeyPlayService {
     }
 
     private String printScoreboard(Game game, boolean isFinal) {
-        return homeTeamName + " | " + game.getHomeScore() + " | " + awayTeamName +  " | " + game.getAwayScore() + " | "
+        return game.getHomeName() + " | " + game.getHomeScore() + " | " + game.getAwayName() +  " | " + game.getAwayScore() + " | "
                 + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
     }
 

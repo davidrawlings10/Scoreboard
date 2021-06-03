@@ -21,13 +21,14 @@ CREATE TABLE `game` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `sport_id` int NOT NULL,
+  /*`sport` varchar(45) NOT NULL,*/
   `season_id` int DEFAULT NULL,
   `home_team_id` int NOT NULL,
   `away_team_id` int NOT NULL,
   `home_score` int DEFAULT NULL,
   `away_score` int DEFAULT NULL,
   `ending_period` int DEFAULT NULL,
+  `test` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -81,14 +82,28 @@ CREATE TABLE `league` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `sport` (
+/*CREATE TABLE `sport` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
+
+/*CREATE TABLE `game_event` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `game_id` int unsigned DEFAULT NULL,
+  `team_id` int unsigned DEFAULT NULL,
+  `event_type` int unsigned DEFAULT NULL,
+  `period` int DEFAULT NULL,
+  `minutes` int DEFAULT NULL,
+  `second` int DEFAULT NULL
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
 
 -- insert data
 INSERT INTO league (name) VALUES ('Aves');
@@ -130,7 +145,7 @@ INSERT INTO team (league_id, location, name) VALUES (2, 'Boston', 'Bruins');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Tampa Bay', 'Lightning');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Toronto', 'Maple Leafs');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Florida', 'Panthers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'canadiens');
+INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'Canadiens');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Buffalo', 'Sabres');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Ottawa', 'Senators');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Detroit', 'Red Wings');
@@ -163,6 +178,34 @@ INSERT INTO team (league_id, location, name) VALUES (3, 'LocationA', 'TeamA');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationB', 'TeamB');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationC', 'TeamC');
 INSERT INTO team (league_id, location, name) VALUES (3, 'LocationD', 'TeamD');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationE', 'TeamE');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationF', 'TeamF');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationG', 'TeamG');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationH', 'TeamH');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationI', 'TeamI');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationJ', 'TeamJ');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationK', 'TeamK');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationL', 'TeamL');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationM', 'TeamM');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationN', 'TeamN');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationO', 'TeamO');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationP', 'TeamP');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationQ', 'TeamQ');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationR', 'TeamR');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationS', 'TeamS');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationT', 'TeamT');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationU', 'TeamU');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationV', 'TeamV');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationW', 'TeamW');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationX', 'TeamX');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationY', 'TeamY');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationZ', 'TeamZ');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAA', 'TeamAA');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAB', 'TeamAB');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAC', 'TeamAC');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAD', 'TeamAD');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAE', 'TeamAE');
+INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAF', 'TeamAF');
 
-INSERT INTO sport (name) VALUES ('Hockey');
-INSERT INTO sport (name) VALUES ('Basketball');
+/*INSERT INTO sport (name) VALUES ('Hockey');
+INSERT INTO sport (name) VALUES ('Basketball');*/

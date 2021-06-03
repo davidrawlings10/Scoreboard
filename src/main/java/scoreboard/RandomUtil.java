@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class RandomService {
+public class RandomUtil {
     public static boolean occur(double chance) {
         Random rand = new Random();
         final int MULTIPLIER = 10000000;

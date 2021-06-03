@@ -5,21 +5,21 @@ public class Clock {
     boolean isIntermission = true;
     final private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
 
-    public Clock(int sportId) {
-        switch (sportId) {
-            case 1:
+    public Clock(Sport sport) {
+        switch (sport) {
+            case HOCKEY:
                 ENDING_PERIOD = 3;
                 MINUTES_IN_PERIOD = 20;
-                MINUTES_IN_OVERTIME = 5;
+                MINUTES_IN_OVERTIME = 20;
                 MINUTES_IN_INTERMISSION = 20;
                 MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5;
                 break;
             default:
-                ENDING_PERIOD = 0;
-                MINUTES_IN_PERIOD = 0;
-                MINUTES_IN_OVERTIME = 0;
-                MINUTES_IN_INTERMISSION = 0;
-                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 0;
+                ENDING_PERIOD = 1;
+                MINUTES_IN_PERIOD = 1;
+                MINUTES_IN_OVERTIME = 1;
+                MINUTES_IN_INTERMISSION = 1;
+                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
                 break;
         }
         period = 1;
@@ -42,6 +42,16 @@ public class Clock {
         }
     }
 
+    public void handlePeriodEnd() {
+        if (isPeriodEnded()) {
+            if (!isIntermission) {
+                period += 1;
+            }
+            isIntermission = !isIntermission;
+            reset();
+        }
+    }
+
     public void tickUp() {
         seconds--;
         if (seconds == 60) {
@@ -50,7 +60,7 @@ public class Clock {
         }
     }
 
-    public boolean isExpired() {
+    public boolean isPeriodEnded() {
         return minutes == 0 && seconds == 0;
     }
 

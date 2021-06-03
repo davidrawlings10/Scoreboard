@@ -12,28 +12,28 @@ public class SeasonController {
 
     @Autowired SeasonService seasonService;
 
-    // http://localhost:8080/season/schedulePlay?leagueId=1
-    @GetMapping(path="/schedulePlay")
-    public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws InterruptedException {
-        int seasonId = seasonService.schedulePlaySeason(Integer.parseInt(leagueId));
-        return "Season played, id:" + seasonId;
-    }
-
-    // http://localhost:8080/season/schedule?leagueId=1
+    // http://localhost:8080/season/schedule?scheduleType=ROUNDS&sport=HOCKEY&leagueId=1&numGames=4
+    // http://localhost:8080/season/schedule?scheduleType=HOME_ROTATION&sport=HOCKEY&leagueId=1
     @CrossOrigin
     @GetMapping(path="/schedule")
-    public @ResponseBody String scheduleSeason(@RequestParam String leagueId) throws InterruptedException {
-        // Season season = seasonService.scheduleSeason(Integer.parseInt(leagueId));
-        Season season = seasonService.scheduleSeason2(Integer.parseInt(leagueId), 4);
+    public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String leagueId, @RequestParam(required = false) String numGames) throws Exception {
+        Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), Integer.parseInt(leagueId), numGames != null ? Integer.parseInt(numGames) : null);
         return "Season scheduled, id:" + season.getId();
     }
 
+    // http://localhost:8080/season/schedulePlay?leagueId=1
+    /*@GetMapping(path="/schedulePlay")
+    public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {
+        int seasonId = seasonService.scheduleAndPlaySeason(Integer.parseInt(leagueId));
+        return "Season played, id:" + seasonId;
+    }*/
+
     // http://localhost:8080/season/play?seasonId=1&numOfGames=8
-    @CrossOrigin
+    /*@CrossOrigin
     @GetMapping(path="/play")
     public @ResponseBody String playSeason(@RequestParam String seasonId, @RequestParam(required=false) String numOfGames) throws InterruptedException {
         Integer numOfGamesInt = (numOfGames != null ? Integer.parseInt(numOfGames) : null);
         seasonService.playSeason(Integer.parseInt(seasonId), numOfGamesInt);
         return "Season games played, id:" + seasonId;
-    }
+    }*/
 }

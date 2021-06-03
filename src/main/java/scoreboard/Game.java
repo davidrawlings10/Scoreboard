@@ -7,14 +7,27 @@ public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-    private Integer sportId, seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
+
+    private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
+
+    @Enumerated(EnumType.STRING)
+    // @Transient
+    private Sport sport;
+
+    private Boolean test;
 
     @Transient Clock clock;
 
+    // caching
+    @Transient String homeLocation, awayLocation, homeName, awayName;
+
     public Game() {}
 
-    public Game(int sportId) {
-        this.sportId = sportId;
+    public Game(Sport sport, int homeTeamId, int awayTeamId) {
+        this.sport = sport;
+        this.homeTeamId = homeTeamId;
+        this.awayTeamId = awayTeamId;
+        this.test = false;
     }
 
     public Integer getId() {
@@ -25,12 +38,12 @@ public class Game {
         this.id = id;
     }
 
-    public Integer getSportId() {
-        return sportId;
+    public Sport getSport() {
+        return sport;
     }
 
-    public void setSportId(Integer sportId) {
-        this.sportId = sportId;
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
     public Integer getHomeTeamId() {
@@ -81,11 +94,67 @@ public class Game {
         this.endingPeriod = endingPeriod;
     }
 
+    public Boolean getTest() {
+        return test;
+    }
+
+    public void setTest(Boolean test) {
+        this.test = test;
+    }
+
     public Clock getClock() {
         return clock;
     }
 
     public void setClock(Clock clock) {
         this.clock = clock;
+    }
+
+    public String getHomeName() {
+        return homeName;
+    }
+
+    public void setHomeName(String homeName) {
+        this.homeName = homeName;
+    }
+
+    public String getAwayName() {
+        return awayName;
+    }
+
+    public void setAwayName(String awayName) {
+        this.awayName = awayName;
+    }
+
+    public String getHomeLocation() {
+        return homeLocation;
+    }
+
+    public void setHomeLocation(String homeLocation) {
+        this.homeLocation = homeLocation;
+    }
+
+    public String getAwayLocation() {
+        return awayLocation;
+    }
+
+    public void setAwayLocation(String awayLocation) {
+        this.awayLocation = awayLocation;
+    }
+
+    public boolean isFinal() {
+        if (homeScore == null || awayScore == null || clock == null)
+            return false;
+
+        return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.isIntermission // game ends in regulation
+                || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
+    }
+
+    public void incHomeScore(int val) {
+        homeScore += val;
+    }
+
+    public void incAwayScore(int val) {
+        awayScore += val;
     }
 }

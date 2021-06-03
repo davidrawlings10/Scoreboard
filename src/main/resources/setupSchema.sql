@@ -157,7 +157,7 @@ INSERT INTO team (league_id, location, name) VALUES (2, 'Carolina', 'Hurricanes'
 INSERT INTO team (league_id, location, name) VALUES (2, 'Columbus', 'Blue Jackets');
 INSERT INTO team (league_id, location, name) VALUES (2, 'New York', 'Islanders');
 INSERT INTO team (league_id, location, name) VALUES (2, 'New York', 'Rangers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'New Jersey', '');
+INSERT INTO team (league_id, location, name) VALUES (2, 'New Jersey', 'Angels');
 INSERT INTO team (league_id, location, name) VALUES (2, 'St. Louis', 'Blues');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Colorado', 'Avalanche');
 INSERT INTO team (league_id, location, name) VALUES (2, 'Dallas', 'Stars');

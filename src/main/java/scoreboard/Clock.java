@@ -12,7 +12,7 @@ public class Clock {
                 MINUTES_IN_PERIOD = 20;
                 MINUTES_IN_OVERTIME = 20;
                 MINUTES_IN_INTERMISSION = 20;
-                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 20;
+                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5;
                 break;
             default:
                 ENDING_PERIOD = 1;

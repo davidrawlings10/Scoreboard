@@ -13,6 +13,7 @@ CREATE TABLE `team` (
   `league_id` int unsigned DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
+  `active` boolean NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

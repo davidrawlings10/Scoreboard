@@ -1,5 +1,6 @@
 package scoreboard;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,13 @@ public class SeasonController {
     public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String leagueId, @RequestParam(required = false) String numGames) throws Exception {
         Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), Integer.parseInt(leagueId), numGames != null ? Integer.parseInt(numGames) : null);
         return "Season scheduled, id:" + season.getId();
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/getSeasons")
+    public @ResponseBody String getSeasons() throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(seasonService.findAll());
+        return response;
     }
 
     // http://localhost:8080/season/schedulePlay?leagueId=1

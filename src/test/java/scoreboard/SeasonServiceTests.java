@@ -39,7 +39,12 @@ public class SeasonServiceTests {
 
     // tests with DB
     @Test
-    public void testScheduleSeason() throws Exception {
+    public void testScheduleSeasonHomeRotation() throws Exception {
         seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, 4);
+    }
+
+    @Test
+    public void testScheduleSeasonRounds() throws Exception {
+        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, 3, 4);
     }
 }

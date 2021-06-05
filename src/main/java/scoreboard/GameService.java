@@ -19,7 +19,7 @@ public class GameService {
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = true;
 
-    final int gameplayTickMilli = 1000;
+    final int gameplayTickMilli = 10;
 
     public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
         Game game = new Game(sport, homeTeamId, awayTeamId);

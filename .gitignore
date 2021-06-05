@@ -30,3 +30,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Manually added ###
+.~lock.scoreboard_history.ods*
+*.log

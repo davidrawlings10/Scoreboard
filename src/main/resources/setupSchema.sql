@@ -107,106 +107,103 @@ CREATE TABLE `league` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
 
 -- insert data
-INSERT INTO league (name) VALUES ('Aves');
-INSERT INTO team (league_id, name) VALUES (1, 'Hummingbird');
-INSERT INTO team (league_id, name) VALUES (1, 'Sparrow');
-INSERT INTO team (league_id, name) VALUES (1, 'Goldfinch');
-INSERT INTO team (league_id, name) VALUES (1, 'Chickadee');
-INSERT INTO team (league_id, name) VALUES (1, 'Cardinal');
-INSERT INTO team (league_id, name) VALUES (1, 'Oriole');
-INSERT INTO team (league_id, name) VALUES (1, 'Robin');
-INSERT INTO team (league_id, name) VALUES (1, 'Woodpecker');
-INSERT INTO team (league_id, name) VALUES (1, 'Canary');
-INSERT INTO team (league_id, name) VALUES (1, 'Bluebird');
-INSERT INTO team (league_id, name) VALUES (1, 'Warbler');
-INSERT INTO team (league_id, name) VALUES (1, 'Blue Jay');
-INSERT INTO team (league_id, name) VALUES (1, 'Purple Martin');
-INSERT INTO team (league_id, name) VALUES (1, 'Mourning Dove');
-INSERT INTO team (league_id, name) VALUES (1, 'Killdeer');
-INSERT INTO team (league_id, name) VALUES (1, 'Mockingbird');
-INSERT INTO team (league_id, name) VALUES (1, 'Mallard');
-INSERT INTO team (league_id, name) VALUES (1, 'Sea Gull');
-INSERT INTO team (league_id, name) VALUES (1, 'Penguin');
-INSERT INTO team (league_id, name) VALUES (1, 'Swan');
-INSERT INTO team (league_id, name) VALUES (1, 'Flamingo');
-INSERT INTO team (league_id, name) VALUES (1, 'Ostrich');
-INSERT INTO team (league_id, name) VALUES (1, 'Parrot');
-INSERT INTO team (league_id, name) VALUES (1, 'Heron');
-INSERT INTO team (league_id, name) VALUES (1, 'Dove');
-INSERT INTO team (league_id, name) VALUES (1, 'Eagle');
-INSERT INTO team (league_id, name) VALUES (1, 'Owl');
-INSERT INTO team (league_id, name) VALUES (1, 'Hawk');
-INSERT INTO team (league_id, name) VALUES (1, 'Turkey');
-INSERT INTO team (league_id, name) VALUES (1, 'Peacock');
-INSERT INTO team (league_id, name) VALUES (1, 'Pelican');
-INSERT INTO team (league_id, name) VALUES (1, 'Roadrunner');
-
-INSERT INTO league (name) VALUES ('NHL');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Boston', 'Bruins');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Tampa Bay', 'Lightning');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Toronto', 'Maple Leafs');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Florida', 'Panthers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Montreal', 'Canadiens');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Buffalo', 'Sabres');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Ottawa', 'Senators');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Detroit', 'Red Wings');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Washington', 'Capitals');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Philadelphia', 'Flyers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Pittsburgh', 'Penguins');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Carolina', 'Hurricanes');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Columbus', 'Blue Jackets');
-INSERT INTO team (league_id, location, name) VALUES (2, 'New York', 'Islanders');
-INSERT INTO team (league_id, location, name) VALUES (2, 'New York', 'Rangers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'New Jersey', '');
-INSERT INTO team (league_id, location, name) VALUES (2, 'St. Louis', 'Blues');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Colorado', 'Avalanche');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Dallas', 'Stars');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Winnipeg', 'Jets');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Nashville', 'Predators');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Minnesota', 'Wild');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Chicago', 'Blackhawks');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Vegas', 'Golden Knights');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Edmonton', 'Oilers');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Calgary', 'Flames');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Vancouver', 'Canucks');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Arizona', 'Coyotes');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Anaheim', 'Ducks');
-INSERT INTO team (league_id, location, name) VALUES (2, 'Los Angeles', 'Kings');
-INSERT INTO team (league_id, location, name) VALUES (2, 'San Jose', 'Sharks');
-
-INSERT INTO league (name) VALUES ('Test');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationA', 'TeamA');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationB', 'TeamB');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationC', 'TeamC');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationD', 'TeamD');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationE', 'TeamE');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationF', 'TeamF');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationG', 'TeamG');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationH', 'TeamH');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationI', 'TeamI');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationJ', 'TeamJ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationK', 'TeamK');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationL', 'TeamL');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationM', 'TeamM');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationN', 'TeamN');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationO', 'TeamO');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationP', 'TeamP');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationQ', 'TeamQ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationR', 'TeamR');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationS', 'TeamS');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationT', 'TeamT');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationU', 'TeamU');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationV', 'TeamV');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationW', 'TeamW');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationX', 'TeamX');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationY', 'TeamY');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationZ', 'TeamZ');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAA', 'TeamAA');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAB', 'TeamAB');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAC', 'TeamAC');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAD', 'TeamAD');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAE', 'TeamAE');
-INSERT INTO team (league_id, location, name) VALUES (3, 'LocationAF', 'TeamAF');
+INSERT INTO league (name) VALUES ('Aves'),('NHL'),('Test');
+INSERT INTO team (league_id, location, name) VALUES
+(1, null, 'Hummingbird'),
+(1, null, 'Sparrow'),
+(1, null, 'Goldfinch'),
+(1, null, 'Chickadee'),
+(1, null, 'Cardinal'),
+(1, null, 'Oriole'),
+(1, null, 'Robin'),
+(1, null, 'Woodpecker'),
+(1, null, 'Canary'),
+(1, null, 'Bluebird'),
+(1, null, 'Warbler'),
+(1, null, 'Blue Jay'),
+(1, null, 'Purple Martin'),
+(1, null, 'Mourning Dove'),
+(1, null, 'Killdeer'),
+(1, null, 'Mockingbird'),
+(1, null, 'Mallard'),
+(1, null, 'Sea Gull'),
+(1, null, 'Penguin'),
+(1, null, 'Swan'),
+(1, null, 'Flamingo'),
+(1, null, 'Ostrich'),
+(1, null, 'Parrot'),
+(1, null, 'Heron'),
+(1, null, 'Dove'),
+(1, null, 'Eagle'),
+(1, null, 'Owl'),
+(1, null, 'Hawk'),
+(1, null, 'Turkey'),
+(1, null, 'Peacock'),
+(1, null, 'Pelican'),
+(1, null, 'Roadrunner'),
+(2, 'Boston', 'Bruins'),
+(2, 'Tampa Bay', 'Lightning'),
+(2, 'Toronto', 'Maple Leafs'),
+(2, 'Florida', 'Panthers'),
+(2, 'Montreal', 'Canadiens'),
+(2, 'Buffalo', 'Sabres'),
+(2, 'Ottawa', 'Senators'),
+(2, 'Detroit', 'Red Wings'),
+(2, 'Washington', 'Capitals'),
+(2, 'Philadelphia', 'Flyers'),
+(2, 'Pittsburgh', 'Penguins'),
+(2, 'Carolina', 'Hurricanes'),
+(2, 'Columbus', 'Blue Jackets'),
+(2, 'New York', 'Islanders'),
+(2, 'New York', 'Rangers'),
+(2, 'New Jersey', 'Angels'),
+(2, 'St. Louis', 'Blues'),
+(2, 'Colorado', 'Avalanche'),
+(2, 'Dallas', 'Stars'),
+(2, 'Winnipeg', 'Jets'),
+(2, 'Nashville', 'Predators'),
+(2, 'Minnesota', 'Wild'),
+(2, 'Chicago', 'Blackhawks'),
+(2, 'Vegas', 'Golden Knights'),
+(2, 'Edmonton', 'Oilers'),
+(2, 'Calgary', 'Flames'),
+(2, 'Vancouver', 'Canucks'),
+(2, 'Arizona', 'Coyotes'),
+(2, 'Anaheim', 'Ducks'),
+(2, 'Los Angeles', 'Kings'),
+(2, 'San Jose', 'Sharks'),
+(3, 'LocationA', 'TeamA'),
+(3, 'LocationB', 'TeamB'),
+(3, 'LocationC', 'TeamC'),
+(3, 'LocationD', 'TeamD'),
+(3, 'LocationE', 'TeamE'),
+(3, 'LocationF', 'TeamF'),
+(3, 'LocationG', 'TeamG'),
+(3, 'LocationH', 'TeamH'),
+(3, 'LocationI', 'TeamI'),
+(3, 'LocationJ', 'TeamJ'),
+(3, 'LocationK', 'TeamK'),
+(3, 'LocationL', 'TeamL'),
+(3, 'LocationM', 'TeamM'),
+(3, 'LocationN', 'TeamN'),
+(3, 'LocationO', 'TeamO'),
+(3, 'LocationP', 'TeamP'),
+(3, 'LocationQ', 'TeamQ'),
+(3, 'LocationR', 'TeamR'),
+(3, 'LocationS', 'TeamS'),
+(3, 'LocationT', 'TeamT'),
+(3, 'LocationU', 'TeamU'),
+(3, 'LocationV', 'TeamV'),
+(3, 'LocationW', 'TeamW'),
+(3, 'LocationX', 'TeamX'),
+(3, 'LocationY', 'TeamY'),
+(3, 'LocationZ', 'TeamZ'),
+(3, 'LocationAA', 'TeamAA'),
+(3, 'LocationAB', 'TeamAB'),
+(3, 'LocationAC', 'TeamAC'),
+(3, 'LocationAD', 'TeamAD'),
+(3, 'LocationAE', 'TeamAE'),
+(3, 'LocationAF', 'TeamAF');
 
 /*INSERT INTO sport (name) VALUES ('Hockey');
 INSERT INTO sport (name) VALUES ('Basketball');*/

@@ -221,6 +221,11 @@ public class SeasonService {
         return seasonOptional.get();
     }
 
+    public List<Season> findAll() {
+        List<Season> seasons = seasonRepository.findAll();
+        return seasons;
+    }
+
     // deprecated
 
     public void playSeason(int seasonId, Integer numOfGames) throws InterruptedException {

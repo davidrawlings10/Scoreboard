@@ -50,6 +50,7 @@ public class SeasonService {
 
             game.setSeasonId(season.getId());
             game.setTest(false);
+            game.setStatus(Status.SCHEDULED);
             gameService.save(game);
         }
 

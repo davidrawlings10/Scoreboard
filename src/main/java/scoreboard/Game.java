@@ -14,6 +14,9 @@ public class Game {
     // @Transient
     private Sport sport;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     private Boolean test;
 
     @Transient Clock clock;
@@ -156,5 +159,13 @@ public class Game {
 
     public void incAwayScore(int val) {
         awayScore += val;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

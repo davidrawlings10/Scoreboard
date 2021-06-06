@@ -32,8 +32,10 @@ public class HockeyPlayService {
     }
 
     public boolean playSec(Game game) {
-        if (game.isFinal())
+        if (game.isFinal()) {
+            game.setStatus(Status.FINAL);
             return true;
+        }
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
@@ -48,8 +50,10 @@ public class HockeyPlayService {
 
         game.getClock().tickDown();
 
-        if (game.isFinal())
+        if (game.isFinal()) {
+            game.setStatus(Status.FINAL);
             return true;
+        }
 
         game.getClock().handlePeriodEnd();
 

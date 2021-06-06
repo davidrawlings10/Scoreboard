@@ -19,7 +19,7 @@ public class GameService {
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = true;
 
-    final int gameplayTickMilli = 10;
+    final int gameplayTickMilli = 1;
 
     public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
         Game game = new Game(sport, homeTeamId, awayTeamId);
@@ -32,6 +32,8 @@ public class GameService {
         game.getClock().reset();
         game.setHomeScore(0);
         game.setAwayScore(0);
+        game.setStatus(Status.PLAYING);
+        gameRepository.save(game);
 
         // cache home/away location and name
         Team homeTeam = teamService.getByTeamId(game.getHomeTeamId());
@@ -53,10 +55,11 @@ public class GameService {
         while (running) {
             TimeUnit.MILLISECONDS.sleep(gameplayTickMilli);
             for (Game game : currentGames) {
-                if (game.isFinal())
+                if (Status.FINAL.equals(game.getStatus())) {
                     continue;
+                }
 
-                if (game.getSport() == Sport.HOCKEY) {
+                if (game.getSport().equals(Sport.HOCKEY)) {
                     if (hockeyPlayService.playSec(game)) {
                         handleGameEnd(game);
                     }

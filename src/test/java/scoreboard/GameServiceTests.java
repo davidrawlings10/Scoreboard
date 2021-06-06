@@ -23,8 +23,20 @@ public class GameServiceTests {
     }
 
     @Test
-    public void testSaveUnplayedGame() throws Exception {
+    public void testSaveScheduledGame() throws Exception {
         Game game = new Game(Sport.HOCKEY, 65, 66);
+        game.setTest(true);
+        game.setStatus(Status.SCHEDULED);
+        gameService.save(game);
+    }
+
+    @Test
+    public void testSavePlayingGame() throws Exception {
+        Game game = new Game(Sport.HOCKEY, 65, 66);
+        game.setTest(true);
+        game.setHomeScore(0);
+        game.setAwayScore(0);
+        game.setStatus(Status.PLAYING);
         gameService.save(game);
     }
 
@@ -34,6 +46,7 @@ public class GameServiceTests {
         game.setHomeScore(3);
         game.setAwayScore(2);
         game.setEndingPeriod(3);
+        game.setStatus(Status.FINAL);
         game.setTest(true);
         gameService.save(game);
     }

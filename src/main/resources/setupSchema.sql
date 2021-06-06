@@ -22,7 +22,7 @@ CREATE TABLE `game` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  /*`sport` varchar(45) NOT NULL,*/
+  `sport` varchar(45) NOT NULL,
   `season_id` int DEFAULT NULL,
   `home_team_id` int NOT NULL,
   `away_team_id` int NOT NULL,

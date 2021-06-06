@@ -105,7 +105,12 @@ public class GameService {
     }
 
     private void startNextSeasonGame(int seasonId) {
-        Game game = gameRepository.findNextGameBySeasonId(seasonId).get(0);
+        List<Game> games = gameRepository.findNextGameBySeasonId(seasonId);
+
+        if (games.size() == 0)
+            return;
+
+        Game game = games.get(0);
         setupGameForPlay(game);
         currentGames.add(0, game);
     }

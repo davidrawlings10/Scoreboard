@@ -30,7 +30,7 @@ public class Clock {
         if (period <= ENDING_PERIOD) {
             minutes = isIntermission ? MINUTES_IN_INTERMISSION : MINUTES_IN_PERIOD;
         } else {
-            minutes = isIntermission ? MINUTES_IN_OVERTIME : MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+            minutes = isIntermission ? MINUTES_IN_INTERMISSION_BEFORE_OVERTIME : MINUTES_IN_OVERTIME;
         }
     }
 

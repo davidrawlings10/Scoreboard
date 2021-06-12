@@ -28,8 +28,8 @@ CREATE TABLE `game` (
   `away_team_id` int NOT NULL,
   `home_score` int DEFAULT NULL,
   `away_score` int DEFAULT NULL,
+  `status` varchar(45) NOT NULL,
   `ending_period` int DEFAULT NULL,
-  `test` boolean NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

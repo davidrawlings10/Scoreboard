@@ -14,7 +14,7 @@ public class GameServiceTests {
     private GameService gameService;
 
     // unit tests
-    // @Test
+    /* (none yet) */
 
     // tests with DB
     @Test
@@ -25,7 +25,6 @@ public class GameServiceTests {
     @Test
     public void testSaveScheduledGame() throws Exception {
         Game game = new Game(Sport.HOCKEY, 65, 66);
-        game.setTest(true);
         game.setStatus(Status.SCHEDULED);
         gameService.save(game);
     }
@@ -33,7 +32,6 @@ public class GameServiceTests {
     @Test
     public void testSavePlayingGame() throws Exception {
         Game game = new Game(Sport.HOCKEY, 65, 66);
-        game.setTest(true);
         game.setHomeScore(0);
         game.setAwayScore(0);
         game.setStatus(Status.PLAYING);
@@ -47,7 +45,6 @@ public class GameServiceTests {
         game.setAwayScore(2);
         game.setEndingPeriod(3);
         game.setStatus(Status.FINAL);
-        game.setTest(true);
         gameService.save(game);
     }
 }

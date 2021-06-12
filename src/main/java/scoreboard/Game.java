@@ -17,8 +17,6 @@ public class Game {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private Boolean test;
-
     @Transient Clock clock;
 
     // caching
@@ -30,7 +28,6 @@ public class Game {
         this.sport = sport;
         this.homeTeamId = homeTeamId;
         this.awayTeamId = awayTeamId;
-        this.test = false;
     }
 
     public Integer getId() {
@@ -95,14 +92,6 @@ public class Game {
 
     public void setEndingPeriod(Integer endingPeriod) {
         this.endingPeriod = endingPeriod;
-    }
-
-    public Boolean getTest() {
-        return test;
-    }
-
-    public void setTest(Boolean test) {
-        this.test = test;
     }
 
     public Clock getClock() {

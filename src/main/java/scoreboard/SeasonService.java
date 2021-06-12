@@ -49,7 +49,6 @@ public class SeasonService {
             game.setSport(sport); // TODO: sport is not saving correctly https://stackoverflow.com/questions/14762904/incorrect-integer-value-for-column-id-at-row-1
 
             game.setSeasonId(season.getId());
-            game.setTest(false);
             game.setStatus(Status.SCHEDULED);
             gameService.save(game);
         }

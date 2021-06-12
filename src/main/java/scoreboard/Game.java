@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity // This tells Hibernate to make a table out of this class
 public class Game {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;

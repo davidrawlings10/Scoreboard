@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Standing {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
     private Integer seasonId, teamId, win, loss, tie, otloss, point, gf, ga, gp,

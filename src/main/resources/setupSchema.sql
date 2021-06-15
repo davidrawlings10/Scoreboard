@@ -39,9 +39,9 @@ CREATE TABLE `season` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `league_id` int DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
+  `title` varchar(45) DEFAULT NULL,
   `winner_team_id` int DEFAULT NULL,
-  `detail` varchar(45) DEFAULT NULL,
+  `summary` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

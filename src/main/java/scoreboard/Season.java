@@ -10,7 +10,9 @@ public class Season {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-    private Integer leagueId;
+
+    private Integer leagueId, winnerTeamId;
+    private String title, summary;
 
     public Integer getId() {
         return id;
@@ -26,5 +28,29 @@ public class Season {
 
     public void setLeagueId(Integer leagueId) {
         this.leagueId = leagueId;
+    }
+
+    public Integer getWinnerTeamId() {
+        return winnerTeamId;
+    }
+
+    public void setWinnerTeamId(Integer winnerTeamId) {
+        this.winnerTeamId = winnerTeamId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }

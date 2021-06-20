@@ -3,10 +3,10 @@ INSERT INTO `season` (id, created, updated, league_id, title, winner_team_id, su
 (1,'2021-06-03 20:11:03','2021-06-03 20:11:03',1,'Aves Season 1',3,'Goldfinch wins the first scoreboard season on a goal diff tiebreaker');
 
 INSERT INTO `standing` (id, created, updated, season_id, team_id, win, loss, tie, otloss, point, gp, gf, ga, home_win, home_loss, home_tie, home_otloss, home_point, home_gp, away_win, away_loss, away_tie, away_otloss, away_point, away_gp) VALUES
-(1,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,1,3,3,0,0,6,4,18,19,null,null,null,null,null,null,null,null,null,null,null,null),
-(2,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,2,1,5,0,0,2,4,13,23,null,null,null,null,null,null,null,null,null,null,null,null),
-(3,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,3,4,2,0,0,8,4,18,9,null,null,null,null,null,null,null,null,null,null,null,null),
-(4,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,4,4,2,0,0,8,4,16,14,null,null,null,null,null,null,null,null,null,null,null,null);
+(1,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,1,3,3,0,0,6,6,18,19,null,null,null,null,null,null,null,null,null,null,null,null),
+(2,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,2,1,5,0,0,2,6,13,23,null,null,null,null,null,null,null,null,null,null,null,null),
+(3,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,3,4,2,0,0,8,6,18,9,null,null,null,null,null,null,null,null,null,null,null,null),
+(4,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,4,4,2,0,0,8,6,16,14,null,null,null,null,null,null,null,null,null,null,null,null);
 
 INSERT INTO `game` (id, created, updated, sport, season_id, home_team_id, away_team_id, home_score, away_score, status, ending_period) VALUES
 (1,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000','HOCKEY',1,1,2,5,3,'FINAL',3),

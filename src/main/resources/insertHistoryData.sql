@@ -1,6 +1,6 @@
 -- season 1
-INSERT INTO `season` (id, created, updated, league_id, title, winner_team_id, summary) VALUES
-(1,'2021-06-03 20:11:03','2021-06-03 20:11:03',1,'Aves Season 1',3,'Goldfinch wins the first scoreboard season on a goal diff tiebreaker');
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(1,'2021-06-03 20:11:03','2021-06-03 20:11:03',1,4,'Aves Season 1',3,'Goldfinch wins the first scoreboard season on a goal diff tiebreaker', 'HOME_ROTATION');
 
 INSERT INTO `standing` (id, created, updated, season_id, team_id, win, loss, tie, otloss, point, gp, gf, ga, home_win, home_loss, home_tie, home_otloss, home_point, home_gp, away_win, away_loss, away_tie, away_otloss, away_point, away_gp) VALUES
 (1,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000',1,1,3,3,0,0,6,6,18,19,null,null,null,null,null,null,null,null,null,null,null,null),
@@ -23,14 +23,28 @@ INSERT INTO `game` (id, created, updated, sport, season_id, home_team_id, away_t
 (12,'2020-04-03 00:00:00.000','2020-04-03 00:00:00.000','HOCKEY',1,4,3,1,0,'FINAL',3);
 
 -- season 2
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(2,'2020-04-10 00:00:00','2020-04-10 00:00:00',1,8,'Aves Season 2',6,'Oriole wins season 2.', 'HOME_ROTATION');
+
 -- season 3
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(3,'2020-04-20 00:00:00','2020-04-20 00:00:00',1,16,'Aves Season 3',8,'Woodpecker wins season 3.', 'HOME_ROTATION');
+
 -- season 4
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(4,'2021-01-25 18:00:52','2021-02-17 16:43:04',1,8,'Aves Season 4',1,'Hummingbird and Goldfinch break away from the pack both winning an improbable number of away games. Hummingbird prevails and wins the season losing only 2 games to Goldfinch and 1 to Sparrow.', 'HOME_ROTATION');
+
 -- season 5
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(5,'2021-03-01 12:16:07','2021-03-31 17:33:00',1,32,'Aves Season 5',19,'Penguin runs away with Season 5 with an improbable home stand.', 'HOME_ROTATION');
+
 -- season 6
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(6,'2021-04-12 14:01:22','2021-04-15 17:09:18',1,4,'Aves Season 6',3,'Goldfinch wins season 6. This was the first season scheduled using the Rounds algorithm.', 'ROUNDS');
 
 -- season 7
-INSERT INTO `season` (id, created, updated, league_id, title, winner_team_id, summary) VALUES
-(7,'2021-06-03 20:11:03','2021-06-03 20:11:03',1,'Aves Season 7',8,'Woodpecker wins season 7');
+INSERT INTO `season` (id, created, updated, league_id, num_teams, title, winner_team_id, summary, schedule_type) VALUES
+(7,'2021-06-03 20:11:03','2021-06-03 20:11:03',1,4,'Aves Season 7',8,'Woodpecker wins season 7. This was the first season played using the react ui. Before this the back end was used by itself.', 'ROUNDS');
 
 INSERT INTO `standing` (id, created, updated, season_id, team_id, win, loss, tie, otloss, point, gp, gf, ga, home_win, home_loss, home_tie, home_otloss, home_point, home_gp, away_win, away_loss, away_tie, away_otloss, away_point, away_gp) VALUES
 (1002,'2021-06-03 20:11:03','2021-06-10 21:38:28',7,5,3,8,0,1,7,12,24,38,1,4,0,1,3,6,2,4,0,0,4,6),

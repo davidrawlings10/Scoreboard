@@ -1,12 +1,17 @@
 package scoreboard;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+// import java.time.LocalDateTime;
+// import java.time.ZoneOffset;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Game {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
+
+    private Timestamp created, updated;
 
     private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
@@ -36,6 +41,22 @@ public class Game {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated; //.atOffset("America/Los_Angeles");
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
     }
 
     public Sport getSport() {

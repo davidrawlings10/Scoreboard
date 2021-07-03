@@ -11,7 +11,8 @@ public class Game {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private Timestamp created, updated;
+    // commenting this out because this the mySql default should be used and it is not if this exists
+    // private Timestamp created, updated;
 
     private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
@@ -43,7 +44,7 @@ public class Game {
         this.id = id;
     }
 
-    public Timestamp getCreated() {
+    /*public Timestamp getCreated() {
         return created;
     }
 
@@ -57,7 +58,7 @@ public class Game {
 
     public void setUpdated(Timestamp updated) {
         this.updated = updated;
-    }
+    }*/
 
     public Sport getSport() {
         return sport;

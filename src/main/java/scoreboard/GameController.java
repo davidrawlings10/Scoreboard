@@ -56,6 +56,12 @@ public class GameController {
         gameService.setSeasonNumOfGamesToPlay(seasonId, numGames);
     }
 
+    @CrossOrigin
+    @GetMapping(path="/setGameplayTickMilli")
+    public @ResponseBody void setGameplayTickMilli(@RequestParam Integer value) {
+        gameService.setGameplayTickMilli(value);
+    }
+
     // http://localhost:8080/game/findById?gameId=120
     @GetMapping(path="/findById")
     public @ResponseBody String findById(@RequestParam String gameId) {

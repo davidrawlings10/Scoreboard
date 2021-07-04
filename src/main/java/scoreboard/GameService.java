@@ -18,8 +18,7 @@ public class GameService {
     List<Game> currentGames = new ArrayList<>();
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
     Boolean running = true;
-
-    final int gameplayTickMilli = 500;
+    int gameplayTickMilli = 1000;
 
     public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
         Game game = new Game(sport, homeTeamId, awayTeamId);
@@ -113,6 +112,10 @@ public class GameService {
         Game game = games.get(0);
         setupGameForPlay(game);
         currentGames.add(0, game);
+    }
+
+    public void setGameplayTickMilli(int value) {
+        gameplayTickMilli = value;
     }
 
     // data access

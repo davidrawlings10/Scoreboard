@@ -57,9 +57,9 @@ public class GameController {
     }
 
     @CrossOrigin
-    @GetMapping(path="/setGameplayTickMilli")
-    public @ResponseBody void setGameplayTickMilli(@RequestParam Integer value) {
-        gameService.setGameplayTickMilli(value);
+    @GetMapping(path="/setTickMilliseconds")
+    public @ResponseBody void setTickMilli(@RequestParam Integer value) {
+        gameService.setTickMilliseconds(value);
     }
 
     // http://localhost:8080/game/findById?gameId=120

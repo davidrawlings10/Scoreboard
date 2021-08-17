@@ -19,8 +19,11 @@ public class SeasonService {
         return season.getId();
     }*/
 
-    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, int leagueId, Integer numGames) throws Exception {
-        Season season = save(leagueId);
+    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, int leagueId, Integer numGames, String title) throws Exception {
+        Season season = new Season();
+        season.setTitle(title);
+        season.setLeagueId(leagueId);
+        seasonRepository.save(season);
 
         List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
 
@@ -210,11 +213,6 @@ public class SeasonService {
 
     // data access
 
-    public Season save(int leagueId) {
-        Season season = new Season();
-        season.setLeagueId(leagueId);
-        return seasonRepository.save(season);
-    }
 
     public Season findById(int id) {
         Optional<Season> seasonOptional = seasonRepository.findById(id);
@@ -227,6 +225,13 @@ public class SeasonService {
     }
 
     // deprecated
+
+
+    public Season save(int leagueId) {
+        Season season = new Season();
+        season.setLeagueId(leagueId);
+        return seasonRepository.save(season);
+    }
 
     public void playSeason(int seasonId, Integer numOfGames) throws InterruptedException {
         playSeason(findById(seasonId), numOfGames);

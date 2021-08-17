@@ -64,12 +64,12 @@ public class SeasonServiceTests {
     // tests with DB
     @Test
     public void testScheduleSeasonHomeRotation() throws Exception {
-        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, 4);
+        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, 4, "Unit Test: testScheduleSeasonHomeRotation()");
     }
 
     @Ignore
     @Test
     public void testScheduleSeasonRounds() throws Exception {
-        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, 3, 4);
+        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, 3, 4, "Unit Test: testScheduleSeasonRounds()");
     }
 }

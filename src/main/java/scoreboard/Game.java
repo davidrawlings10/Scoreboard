@@ -17,7 +17,6 @@ public class Game {
     private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
     @Enumerated(EnumType.STRING)
-    // @Transient
     private Sport sport;
 
     @Enumerated(EnumType.STRING)

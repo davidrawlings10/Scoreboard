@@ -17,8 +17,8 @@ public class SeasonController {
     // http://localhost:8080/season/schedule?scheduleType=HOME_ROTATION&sport=HOCKEY&leagueId=1
     @CrossOrigin
     @GetMapping(path="/schedule")
-    public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String leagueId, @RequestParam(required = false) String numGames, @RequestParam String title) throws Exception {
-        Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), Integer.parseInt(leagueId), numGames != null ? Integer.parseInt(numGames) : null, title);
+    public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String leagueId, @RequestParam List<Integer> teamIds, @RequestParam(required = false) String numGames, @RequestParam String title) throws Exception {
+        Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), Integer.parseInt(leagueId), teamIds, numGames != null ? Integer.parseInt(numGames) : null, title);
         return "Season scheduled, id:" + season.getId();
     }
 

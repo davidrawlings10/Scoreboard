@@ -19,13 +19,15 @@ public class SeasonService {
         return season.getId();
     }*/
 
-    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, int leagueId, Integer numGames, String title) throws Exception {
+    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, int leagueId, List<Integer> teamIds, Integer numGames, String title) throws Exception {
         Season season = new Season();
         season.setTitle(title);
         season.setLeagueId(leagueId);
+        season.setScheduleType(scheduleType);
+        season.setNumTeams(teamIds.size());
         seasonRepository.save(season);
 
-        List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
+        // List<Integer> teamIds = teamService.getTeamIdsByLeagueId(season.getLeagueId());
 
         for (Integer teamHomeId : teamIds) {
             standingService.save(null, season.getId(), teamHomeId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);

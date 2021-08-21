@@ -1,6 +1,9 @@
 package scoreboard;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+// import java.time.LocalDateTime;
+// import java.time.ZoneOffset;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Game {
@@ -8,10 +11,12 @@ public class Game {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
+    // commenting this out because this the mySql default should be used and it is not if this exists
+    // private Timestamp created, updated;
+
     private Integer seasonId, homeTeamId, awayTeamId, homeScore, awayScore, endingPeriod;
 
     @Enumerated(EnumType.STRING)
-    // @Transient
     private Sport sport;
 
     @Enumerated(EnumType.STRING)
@@ -37,6 +42,22 @@ public class Game {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    /*public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated; //.atOffset("America/Los_Angeles");
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
+    }*/
 
     public Sport getSport() {
         return sport;

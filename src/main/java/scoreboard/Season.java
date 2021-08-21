@@ -1,9 +1,6 @@
 package scoreboard;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Season {
@@ -11,8 +8,11 @@ public class Season {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer leagueId, winnerTeamId;
+    private Integer leagueId, winnerTeamId, numTeams;
     private String title, summary;
+
+    @Enumerated(EnumType.STRING)
+    private ScheduleType scheduleType;
 
     public Integer getId() {
         return id;
@@ -52,5 +52,21 @@ public class Season {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Integer getNumTeams() {
+        return numTeams;
+    }
+
+    public void setNumTeams(Integer numTeams) {
+        this.numTeams = numTeams;
+    }
+
+    public ScheduleType getScheduleType() {
+        return scheduleType;
+    }
+
+    public void setScheduleType(ScheduleType scheduleType) {
+        this.scheduleType = scheduleType;
     }
 }

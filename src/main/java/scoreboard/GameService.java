@@ -17,9 +17,9 @@ public class GameService {
 
     List<Game> currentGames = new ArrayList<>();
     Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
-    Boolean running = true;
 
-    final int gameplayTickMilli = 1000;
+    Boolean running = false;
+    int tickMilliseconds = 1000;
 
     public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
         Game game = new Game(sport, homeTeamId, awayTeamId);
@@ -53,7 +53,7 @@ public class GameService {
 
         running = true;
         while (running) {
-            TimeUnit.MILLISECONDS.sleep(gameplayTickMilli);
+            TimeUnit.MILLISECONDS.sleep(tickMilliseconds);
             for (Game game : currentGames) {
                 if (Status.FINAL.equals(game.getStatus())) {
                     continue;
@@ -113,6 +113,10 @@ public class GameService {
         Game game = games.get(0);
         setupGameForPlay(game);
         currentGames.add(0, game);
+    }
+
+    public void setTickMilliseconds(int value) {
+        tickMilliseconds = value;
     }
 
     // data access

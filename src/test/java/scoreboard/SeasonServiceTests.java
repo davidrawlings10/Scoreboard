@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,12 +66,23 @@ public class SeasonServiceTests {
     // tests with DB
     @Test
     public void testScheduleSeasonHomeRotation() throws Exception {
-        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, 4);
+        List<Integer> teamIds = new ArrayList<>();
+        teamIds.add(65);
+        teamIds.add(66);
+        teamIds.add(67);
+        teamIds.add(70);
+        teamIds.add(72);
+        teamIds.add(74);
+        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, teamIds, null, "Unit Test: testScheduleSeasonHomeRotation()");
     }
 
-    @Ignore
     @Test
     public void testScheduleSeasonRounds() throws Exception {
-        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, 3, 4);
+        List<Integer> teamIds = new ArrayList<>();
+        teamIds.add(71);
+        teamIds.add(72);
+        teamIds.add(73);
+        teamIds.add(76);
+        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, 3, teamIds, 6, "Unit Test: testScheduleSeasonRounds()");
     }
 }

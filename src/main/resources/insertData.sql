@@ -1,3 +1,6 @@
+-- point at schema
+USE hockey_dev;
+
 -- insert teams
 INSERT INTO league (name) VALUES ('Aves'),('NHL'),('Test');
 INSERT INTO team (league_id, location, name) VALUES

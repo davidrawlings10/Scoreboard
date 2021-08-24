@@ -25,6 +25,13 @@ public class GameController {
     }
 
     @CrossOrigin
+    @GetMapping(path="/getScoreboardState")
+    public @ResponseBody String getScoreboardState() throws JsonProcessingException {
+        String response = JsonUtil.getJson(gameService.getScoreboardState());
+        return response;
+    }
+
+    @CrossOrigin
     @GetMapping(path="/playGames")
     public @ResponseBody void playGames() throws InterruptedException {
         gameService.playGames();

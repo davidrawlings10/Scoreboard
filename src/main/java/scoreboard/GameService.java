@@ -96,6 +96,44 @@ public class GameService {
         return currentGames;
     }
 
+    class ScoreboardState {
+        Boolean running;
+        int tickMilliseconds;
+        List<Game> games;
+
+        public Boolean getRunning() {
+            return running;
+        }
+
+        public void setRunning(Boolean running) {
+            this.running = running;
+        }
+
+        public int getTickMilliseconds() {
+            return tickMilliseconds;
+        }
+
+        public void setTickMilliseconds(int tickMilliseconds) {
+            this.tickMilliseconds = tickMilliseconds;
+        }
+
+        public List<Game> getGames() {
+            return games;
+        }
+
+        public void setGames(List<Game> games) {
+            this.games = games;
+        }
+    }
+
+    public ScoreboardState getScoreboardState() {
+        ScoreboardState scoreboardState = new ScoreboardState();
+        scoreboardState.setRunning(running);
+        scoreboardState.setTickMilliseconds(tickMilliseconds);
+        scoreboardState.setGames(currentGames);
+        return scoreboardState;
+    }
+
     public void setSeasonNumOfGamesToPlay(int seasonId, int numGames) {
         seasonNumOfGamesToPlay.put(seasonId, numGames);
     }

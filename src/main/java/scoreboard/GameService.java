@@ -92,10 +92,6 @@ public class GameService {
         running = false;
     }
 
-    public List<Game> getGames() {
-        return currentGames;
-    }
-
     class ScoreboardState {
         Boolean running;
         int tickMilliseconds;
@@ -157,6 +153,9 @@ public class GameService {
         tickMilliseconds = value;
     }
 
+
+
+
     // data access
 
     /*public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
@@ -196,6 +195,10 @@ public class GameService {
 
 
     // deprecated
+    /*public List<Game> getGames() {
+        return currentGames;
+    }*/
+
     public String playGame(Game game) throws InterruptedException {
         game.setClock(new Clock(game.getSport()));
         game.setHomeScore(0);

@@ -1,9 +1,9 @@
 -- remove existing schema
-DROP SCHEMA hockey_dev;
+DROP SCHEMA hockey;
 
 -- create schema
-CREATE SCHEMA hockey_dev;
-USE hockey_dev;
+CREATE SCHEMA hockey;
+USE hockey;
 
 -- create tables
 CREATE TABLE `team` (
@@ -42,7 +42,7 @@ CREATE TABLE `season` (
   `num_teams` int DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
   `winner_team_id` int DEFAULT NULL,
-  `summary` varchar(256) DEFAULT NULL,
+  `summary` varchar(1000) DEFAULT NULL,
   `schedule_type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)

@@ -51,9 +51,9 @@ public class GameController {
     }
 
     @CrossOrigin
-    @GetMapping(path="/setSeasonNumOfGamesToPlay")
-    public @ResponseBody void setSeasonNumOfGamesToPlay(@RequestParam Integer seasonId, @RequestParam Integer numGames) {
-        gameService.setSeasonNumOfGamesToPlay(seasonId, numGames);
+    @GetMapping(path="/setGamesToPlay")
+    public @ResponseBody void setGamesToPlay(@RequestParam Integer numGames) {
+        gameService.setGamesToPlay(numGames);
     }
 
     @CrossOrigin

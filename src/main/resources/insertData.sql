@@ -1,5 +1,5 @@
 -- point at schema
-USE hockey;
+USE hockey_dev;
 
 -- insert teams
 INSERT INTO league (name) VALUES ('Aves'),('NHL'),('Test');

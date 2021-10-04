@@ -18,13 +18,6 @@ public class GameController {
     }
 
     @CrossOrigin
-    @GetMapping(path="/getGames")
-    public @ResponseBody String getGames() throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(gameService.getGames());
-        return response;
-    }
-
-    @CrossOrigin
     @GetMapping(path="/getScoreboardState")
     public @ResponseBody String getScoreboardState() throws JsonProcessingException {
         String response = JsonUtil.getJson(gameService.getScoreboardState());
@@ -58,9 +51,9 @@ public class GameController {
     }
 
     @CrossOrigin
-    @GetMapping(path="/setSeasonNumOfGamesToPlay")
-    public @ResponseBody void setSeasonNumOfGamesToPlay(@RequestParam Integer seasonId, @RequestParam Integer numGames) {
-        gameService.setSeasonNumOfGamesToPlay(seasonId, numGames);
+    @GetMapping(path="/setGamesToPlay")
+    public @ResponseBody void setGamesToPlay(@RequestParam Integer numGames) {
+        gameService.setGamesToPlay(numGames);
     }
 
     @CrossOrigin
@@ -82,6 +75,13 @@ public class GameController {
         Game game = gameService.updateById(Integer.parseInt(gameId));
         return "updated to " + game.getHomeScore() + "-" + game.getAwayScore();
     }
+
+    /*@CrossOrigin
+    @GetMapping(path="/getGames")
+    public @ResponseBody String getGames() throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameService.getGames());
+        return response;
+    }*/
 
     /*// http://localhost:8080/game/play
     @CrossOrigin

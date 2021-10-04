@@ -16,10 +16,10 @@ public class GameService {
     @Autowired private StandingService standingService;
 
     List<Game> currentGames = new ArrayList<>();
-    Map<Integer, Integer> seasonNumOfGamesToPlay = new HashMap<>();
 
     Boolean running = false;
     int tickMilliseconds = 1000;
+    int gamesToPlay = 0;
 
     public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
         Game game = new Game(sport, homeTeamId, awayTeamId);
@@ -80,10 +80,8 @@ public class GameService {
 
         standingService.updateStanding(game);
 
-        Integer seasonNumOfGamesToPlayForSeason = seasonNumOfGamesToPlay.get(seasonId);
-
-        if (seasonNumOfGamesToPlayForSeason != null && seasonNumOfGamesToPlayForSeason > 0) {
-            seasonNumOfGamesToPlay.replace(seasonId, --seasonNumOfGamesToPlayForSeason);
+        if (gamesToPlay > 0) {
+            gamesToPlay--;
             startNextSeasonGame(seasonId);
         }
     }
@@ -92,13 +90,10 @@ public class GameService {
         running = false;
     }
 
-    public List<Game> getGames() {
-        return currentGames;
-    }
-
     class ScoreboardState {
         Boolean running;
         int tickMilliseconds;
+        int gamesToPlay;
         List<Game> games;
 
         public Boolean getRunning() {
@@ -117,6 +112,14 @@ public class GameService {
             this.tickMilliseconds = tickMilliseconds;
         }
 
+        public int getGamesToPlay() {
+            return gamesToPlay;
+        }
+
+        public void setGamesToPlay(int gamesToPlay) {
+            this.gamesToPlay = gamesToPlay;
+        }
+
         public List<Game> getGames() {
             return games;
         }
@@ -130,12 +133,13 @@ public class GameService {
         ScoreboardState scoreboardState = new ScoreboardState();
         scoreboardState.setRunning(running);
         scoreboardState.setTickMilliseconds(tickMilliseconds);
+        scoreboardState.setGamesToPlay(gamesToPlay);
         scoreboardState.setGames(currentGames);
         return scoreboardState;
     }
 
-    public void setSeasonNumOfGamesToPlay(int seasonId, int numGames) {
-        seasonNumOfGamesToPlay.put(seasonId, numGames);
+    public void setGamesToPlay(int numberOfGames) {
+        gamesToPlay = numberOfGames;
     }
 
     public void startSeasonGame(int seasonId) {
@@ -156,6 +160,9 @@ public class GameService {
     public void setTickMilliseconds(int value) {
         tickMilliseconds = value;
     }
+
+
+
 
     // data access
 
@@ -196,6 +203,10 @@ public class GameService {
 
 
     // deprecated
+    /*public List<Game> getGames() {
+        return currentGames;
+    }*/
+
     public String playGame(Game game) throws InterruptedException {
         game.setClock(new Clock(game.getSport()));
         game.setHomeScore(0);

@@ -1,9 +1,9 @@
 -- remove existing schema
-DROP SCHEMA hockey;
+DROP SCHEMA hockey_dev;
 
 -- create schema
-CREATE SCHEMA hockey;
-USE hockey;
+CREATE SCHEMA hockey_dev;
+USE hockey_dev;
 
 -- create tables
 CREATE TABLE `team` (

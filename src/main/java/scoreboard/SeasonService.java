@@ -42,6 +42,9 @@ public class SeasonService {
             case ROUNDS:
                 games = scheduleSeasonRound(teamIds, numGames);
                 break;
+            case HOME_ROTATION_RANDOM:
+                games = scheduleSeasonHomeRotationRandom(teamIds);
+                break;
             default:
                 throw new Exception("Unrecognized leagueId: " + leagueId);
         }
@@ -71,6 +74,20 @@ public class SeasonService {
             }
         }
         return games;
+    }
+
+    public List<Game> scheduleSeasonHomeRotationRandom(List<Integer> teamIds) {
+        return shuffle(scheduleSeasonHomeRotation(teamIds));
+    }
+
+    public List<Game> shuffle(List<Game> games) {
+        List<Game> shuffledGames = new ArrayList<>();
+        while (games.size() > 0) {
+            int randomIndex = RandomUtil.getRandom(games.size());
+            shuffledGames.add(games.get(randomIndex));
+            games.remove(randomIndex);
+        }
+        return shuffledGames;
     }
 
     public List<Game> scheduleSeasonRound(List<Integer> teamIds, int numGames) {

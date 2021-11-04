@@ -29,6 +29,13 @@ public class SeasonController {
         return response;
     }
 
+    // http://localhost:8080/season/findById?seasonId=7
+    @GetMapping(path="/findById")
+    public @ResponseBody String findById(@RequestParam String seasonId) throws JsonProcessingException {
+        String response = JsonUtil.getJson(seasonService.findById(Integer.parseInt(seasonId)));
+        return response;
+    }
+
     // http://localhost:8080/season/schedulePlay?leagueId=1
     /*@GetMapping(path="/schedulePlay")
     public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {

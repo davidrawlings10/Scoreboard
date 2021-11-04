@@ -30,6 +30,7 @@ public class SeasonController {
     }
 
     // http://localhost:8080/season/findById?seasonId=7
+    @CrossOrigin
     @GetMapping(path="/findById")
     public @ResponseBody String findById(@RequestParam String seasonId) throws JsonProcessingException {
         String response = JsonUtil.getJson(seasonService.findById(Integer.parseInt(seasonId)));

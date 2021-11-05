@@ -62,6 +62,7 @@ public class GameController {
         gameService.setTickMilliseconds(value);
     }
 
+    @CrossOrigin
     // http://localhost:8080/game/findById?gameId=120
     @GetMapping(path="/findById")
     public @ResponseBody String findById(@RequestParam String gameId) {
@@ -69,6 +70,7 @@ public class GameController {
         return game.getHomeScore() + "-" + game.getAwayScore();
     }
 
+    @CrossOrigin
     // http://localhost:8080/game/updateById?gameId=120 (will update away score to 10 just as proof of concept)
     @GetMapping(path="/updateById")
     public @ResponseBody String updateById(@RequestParam String gameId) {

@@ -78,6 +78,20 @@ public class GameController {
         return "updated to " + game.getHomeScore() + "-" + game.getAwayScore();
     }
 
+    @CrossOrigin
+    @GetMapping(path="/adjustCurrentGame")
+    public @ResponseBody String adjustCurrentGame(@RequestParam String gameId) {
+        // gameService.terminateCurrentGame(Integer.parseInt(gameId));
+        return "ok";
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/terminateCurrentGame")
+    public @ResponseBody String terminateCurrentGame(@RequestParam String gameId) {
+        gameService.terminateCurrentGame(Integer.parseInt(gameId));
+        return "ok";
+    }
+
     /*@CrossOrigin
     @GetMapping(path="/getGames")
     public @ResponseBody String getGames() throws JsonProcessingException {

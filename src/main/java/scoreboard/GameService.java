@@ -161,6 +161,28 @@ public class GameService {
         tickMilliseconds = value;
     }
 
+    public void adjustCurrentGame(Game game) {
+
+    }
+
+    public void terminateCurrentGame(int gameId) {
+        Iterator<Game> iterator = currentGames.iterator();
+
+        if (!iterator.hasNext())
+            return;
+
+        while (iterator.hasNext()) {
+            Game game = iterator.next();
+            if (game.getId().equals(gameId)) {
+                if (game.getSeasonId() != null) {
+                    game.setStatus(Status.SCHEDULED);
+                    save(game);
+                }
+                iterator.remove();
+            }
+        }
+    }
+
 
 
 

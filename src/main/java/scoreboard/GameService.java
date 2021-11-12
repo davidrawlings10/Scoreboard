@@ -176,6 +176,8 @@ public class GameService {
             if (game.getId().equals(gameId)) {
                 if (game.getSeasonId() != null) {
                     game.setStatus(Status.SCHEDULED);
+                    game.setHomeScore(null);
+                    game.setAwayScore(null);
                     save(game);
                 }
                 iterator.remove();

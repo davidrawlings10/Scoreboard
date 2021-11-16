@@ -104,9 +104,11 @@ CREATE TABLE `league` (
   `game_id` int unsigned DEFAULT NULL,
   `team_id` int unsigned DEFAULT NULL,
   `event_type` int unsigned DEFAULT NULL,
+  `home_score` int DEFAULT NULL,
+  `away_score` int DEFAULT NULL,
   `period` int DEFAULT NULL,
   `minutes` int DEFAULT NULL,
-  `second` int DEFAULT NULL
+  `seconds` int DEFAULT NULL
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/

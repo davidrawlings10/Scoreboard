@@ -231,7 +231,7 @@ public class GameService {
         return currentGames;
     }*/
 
-    public String playGame(Game game) throws InterruptedException {
+    /*public String playGame(Game game) throws InterruptedException {
         game.setClock(new Clock(game.getSport()));
         game.setHomeScore(0);
         game.setAwayScore(0);
@@ -243,7 +243,7 @@ public class GameService {
     private String printScoreboard(Game game, boolean isFinal) {
         return game.getHomeScore() + " - " + game.getAwayScore() + " | "
                 + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
-    }
+    }*/
 
     /*public List<Game> playSec() {
         for (Game game : currentGames) {

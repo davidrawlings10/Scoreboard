@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class HockeyPlayService {
     @Autowired private TeamService teamService;
+    @Autowired private GameEventService gameEventService;
 
     private static String homeTeamName, awayTeamName;
 
@@ -41,10 +42,10 @@ public class HockeyPlayService {
 
         if (!game.getClock().isIntermission()) {
             if (RandomUtil.occur(homeChance)) {
-                game.incHomeScore(1);
+                incHomeScore(game, 1);
             }
             if (RandomUtil.occur(awayChance)) {
-                game.incAwayScore(1);
+                incAwayScore(game, 1);
             }
         }
 
@@ -62,7 +63,22 @@ public class HockeyPlayService {
         return false;
     }
 
-    public Game playGame(Game game) throws InterruptedException {
+    private void incHomeScore(Game game, int amount) {
+        game.incHomeScore(amount);
+        gameEventService.save(new GameEvent(game,true));
+    }
+
+    private void incAwayScore(Game game, int amount) {
+        game.incAwayScore(amount);
+        gameEventService.save(new GameEvent(game,false));
+    }
+
+    private String printScoreboard(Game game, boolean isFinal) {
+        return game.getHomeName() + " | " + game.getHomeScore() + " | " + game.getAwayName() +  " | " + game.getAwayScore() + " | "
+                + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
+    }
+
+    /*public Game playGame(Game game) throws InterruptedException {
         game.getClock().reset();
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
@@ -171,15 +187,10 @@ public class HockeyPlayService {
         return homeShootoutScore > awayShootoutScore;
     }
 
-    private String printScoreboard(Game game, boolean isFinal) {
-        return game.getHomeName() + " | " + game.getHomeScore() + " | " + game.getAwayName() +  " | " + game.getAwayScore() + " | "
-                + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
-    }
-
     private String printScoreboardShootout(int homeShootoutScore, int awayShootoutScore, int shootoutRound) {
         return homeTeamName + " | " + homeShootoutScore + " | " + awayTeamName +  " | " + awayShootoutScore + " | " +
                 "Round | " + shootoutRound;
     }
 
-    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
+    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }*/
 }

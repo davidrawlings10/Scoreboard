@@ -246,7 +246,7 @@ public class SeasonService {
     // deprecated
 
 
-    public Season save(int leagueId) {
+    /*public Season save(int leagueId) {
         Season season = new Season();
         season.setLeagueId(leagueId);
         return seasonRepository.save(season);
@@ -282,5 +282,5 @@ public class SeasonService {
         standingService.save(awayTeamStanding);
 
         return gameResultString;
-    }
+    }*/
 }

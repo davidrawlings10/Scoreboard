@@ -19,10 +19,10 @@ public class SeasonService {
         return season.getId();
     }*/
 
-    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, int leagueId, List<Integer> teamIds, Integer numGames, String title) throws Exception {
+    public Season scheduleSeason(ScheduleType scheduleType, Sport sport, League league, List<Integer> teamIds, Integer numGames, String title) throws Exception {
         Season season = new Season();
         season.setTitle(title);
-        season.setLeagueId(leagueId);
+        season.setLeague(league);
         season.setScheduleType(scheduleType);
         season.setNumTeams(teamIds.size());
         seasonRepository.save(season);
@@ -46,7 +46,7 @@ public class SeasonService {
                 games = scheduleSeasonHomeRotationRandom(teamIds);
                 break;
             default:
-                throw new Exception("Unrecognized leagueId: " + leagueId);
+                throw new Exception("Unrecognized league: " + league);
         }
 
         /*for (Game game : games) {

@@ -1,16 +1,14 @@
 package scoreboard;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Team {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-    private Integer leagueId;
+    @Enumerated(EnumType.STRING)
+    private League league;
     private String location;
     private String name;
     private Boolean active;
@@ -23,12 +21,12 @@ public class Team {
         this.id = id;
     }
 
-    public Integer getLeagueId() {
-        return leagueId;
+    public League getLeague() {
+        return league;
     }
 
-    public void setLeagueId(Integer leagueId) {
-        this.leagueId = leagueId;
+    public void setLeague(League league) {
+        this.league = league;
     }
 
     public String getLocation() {

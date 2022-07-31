@@ -73,7 +73,7 @@ public class SeasonServiceTests {
         teamIds.add(70);
         teamIds.add(72);
         teamIds.add(74);
-        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, 3, teamIds, null, "Unit Test: testScheduleSeasonHomeRotation()");
+        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, League.TEST, teamIds, null, "Unit Test: testScheduleSeasonHomeRotation()");
     }
 
     @Test
@@ -83,6 +83,6 @@ public class SeasonServiceTests {
         teamIds.add(72);
         teamIds.add(73);
         teamIds.add(76);
-        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, 3, teamIds, 6, "Unit Test: testScheduleSeasonRounds()");
+        seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, League.TEST, teamIds, 6, "Unit Test: testScheduleSeasonRounds()");
     }
 }

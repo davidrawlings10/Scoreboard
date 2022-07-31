@@ -232,7 +232,6 @@ public class SeasonService {
 
     // data access
 
-
     public Season findById(int id) {
         Optional<Season> seasonOptional = seasonRepository.findById(id);
         return seasonOptional.get();
@@ -241,6 +240,19 @@ public class SeasonService {
     public List<Season> findAll() {
         List<Season> seasons = seasonRepository.findAll();
         return seasons;
+    }
+
+    public Season update(int id, String title, Integer winnerTeamId, String summary) {
+        Optional<Season> seasonOptional = seasonRepository.findById(id);
+        Season season = seasonOptional.get();
+        season.setTitle(title);
+        season.setWinnerTeamId(winnerTeamId);
+        season.setSummary(summary);
+        return seasonRepository.save(season);
+    }
+
+    public void delete(int id) {
+        seasonRepository.delete(findById(id));
     }
 
     // deprecated

@@ -37,6 +37,14 @@ public class SeasonController {
         return response;
     }
 
+    // http://localhost:8080/season/update?seasonId=13&summary=abcyo
+    @CrossOrigin
+    @GetMapping(path="/update")
+    public @ResponseBody String update(@RequestParam String seasonId, @RequestParam String title, @RequestParam String winnerTeamId, @RequestParam String summary) {
+        Season season = seasonService.update(Integer.parseInt(seasonId), title, winnerTeamId != "null" ? Integer.parseInt(winnerTeamId) : null, summary);
+        return season.toString();
+    }
+
     // http://localhost:8080/season/schedulePlay?leagueId=1
     /*@GetMapping(path="/schedulePlay")
     public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {

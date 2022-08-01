@@ -45,6 +45,13 @@ public class SeasonController {
         return season.toString();
     }
 
+    @CrossOrigin
+    @GetMapping(path="/getLeagues")
+    public @ResponseBody String getLeagues() throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(League.values());
+        return response;
+    }
+
     // http://localhost:8080/season/schedulePlay?leagueId=1
     /*@GetMapping(path="/schedulePlay")
     public @ResponseBody String schedulePlaySeason(@RequestParam String leagueId) throws Exception {

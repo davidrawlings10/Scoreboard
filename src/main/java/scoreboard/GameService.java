@@ -16,6 +16,7 @@ public class GameService {
     @Autowired private StandingService standingService;
 
     List<Game> currentGames = new ArrayList<>();
+    List<Game> finishedGames = new ArrayList<>();
 
     Boolean running = false;
     int tickMilliseconds = 1000;
@@ -69,6 +70,9 @@ public class GameService {
     }
 
     private void handleGameEnd(Game game) {
+        currentGames.remove(game);
+        finishedGames.add(0, game);
+
         game.setEndingPeriod(game.getClock().getPeriod());
         gameRepository.save(game);
 
@@ -95,6 +99,7 @@ public class GameService {
         int tickMilliseconds;
         int gamesToPlay;
         List<Game> games;
+        List<Game> finishedGames;
 
         public Boolean getRunning() {
             return running;
@@ -127,6 +132,14 @@ public class GameService {
         public void setGames(List<Game> games) {
             this.games = games;
         }
+
+        public List<Game> getFinishedGames() {
+            return finishedGames;
+        }
+
+        public void setFinishedGames(List<Game> finishedGames) {
+            this.finishedGames = finishedGames;
+        }
     }
 
     public ScoreboardState getScoreboardState() {
@@ -135,6 +148,7 @@ public class GameService {
         scoreboardState.setTickMilliseconds(tickMilliseconds);
         scoreboardState.setGamesToPlay(gamesToPlay);
         scoreboardState.setGames(currentGames);
+        scoreboardState.setFinishedGames(finishedGames);
         return scoreboardState;
     }
 

@@ -233,8 +233,8 @@ public class GameService {
         return gameOptional.get();
     }
 
-    public List<Game> getBySeasonId(int seasonId) {
-        return gameRepository.findBySeasonId(seasonId);
+    public List<Game> getBySeasonId(int seasonId, int page, int pageSize) {
+        return gameRepository.findBySeasonId(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
     }
 
     public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }

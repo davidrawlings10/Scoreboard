@@ -45,8 +45,8 @@ public class GameController {
     // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
     @CrossOrigin
     @GetMapping(path="/getGamesBySeasonId")
-    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId)));
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId, @RequestParam Integer page, @RequestParam Integer pageSize) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId), page, pageSize));
         return response;
     }
 

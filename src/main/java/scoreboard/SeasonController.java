@@ -17,8 +17,8 @@ public class SeasonController {
     // http://localhost:8080/season/schedule?scheduleType=HOME_ROTATION&sport=HOCKEY&leagueId=1
     @CrossOrigin
     @GetMapping(path="/schedule")
-    public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String leagueId, @RequestParam List<Integer> teamIds, @RequestParam(required = false) String numGames, @RequestParam String title) throws Exception {
-        Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), Integer.parseInt(leagueId), teamIds, numGames != null ? Integer.parseInt(numGames) : null, title);
+    public @ResponseBody String scheduleSeason(@RequestParam String scheduleType, @RequestParam String sport, @RequestParam String league, @RequestParam List<Integer> teamIds, @RequestParam(required = false) String numGames, @RequestParam String title) throws Exception {
+        Season season = seasonService.scheduleSeason(ScheduleType.valueOf(scheduleType), Sport.valueOf(sport), League.valueOf(league), teamIds, numGames != null ? Integer.parseInt(numGames) : null, title);
         return "Season scheduled, id:" + season.getId();
     }
 
@@ -34,6 +34,21 @@ public class SeasonController {
     @GetMapping(path="/findById")
     public @ResponseBody String findById(@RequestParam String seasonId) throws JsonProcessingException {
         String response = JsonUtil.getJson(seasonService.findById(Integer.parseInt(seasonId)));
+        return response;
+    }
+
+    // http://localhost:8080/season/update?seasonId=13&summary=abcyo
+    @CrossOrigin
+    @GetMapping(path="/update")
+    public @ResponseBody String update(@RequestParam String seasonId, @RequestParam String title, @RequestParam String winnerTeamId, @RequestParam String summary) {
+        Season season = seasonService.update(Integer.parseInt(seasonId), title, !winnerTeamId.equals("null") ? Integer.parseInt(winnerTeamId) : null, summary);
+        return season.toString();
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/getLeagues")
+    public @ResponseBody String getLeagues() throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(League.values());
         return response;
     }
 

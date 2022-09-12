@@ -45,8 +45,8 @@ public class GameController {
     // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
     @CrossOrigin
     @GetMapping(path="/getGamesBySeasonId")
-    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId) throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId)));
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId, @RequestParam Integer page, @RequestParam Integer pageSize, @RequestParam String homeTeamId, @RequestParam String awayTeamId) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId), page, pageSize, !homeTeamId.equals("null") ? Integer.parseInt(homeTeamId) : null, !awayTeamId.equals("null") ? Integer.parseInt(awayTeamId) : null));
         return response;
     }
 
@@ -90,6 +90,12 @@ public class GameController {
     public @ResponseBody String terminateCurrentGame(@RequestParam String gameId) {
         gameService.terminateCurrentGame(Integer.parseInt(gameId));
         return "ok";
+    }
+
+    @CrossOrigin
+    @GetMapping(path="/numberGamesBySeasonId")
+    public @ResponseBody int numberGamesBySeasonId(@RequestParam int seasonId) {
+        return gameService.numberOfGamesBySeasonId(seasonId);
     }
 
     /*@CrossOrigin

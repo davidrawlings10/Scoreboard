@@ -16,13 +16,15 @@ public class TeamService {
         return teamRepository.findByTeamId(teamId);
     }
 
-    public Iterable<Team> getByLeagueId(int leagueId) {
+    public Iterable<Team> getByLeague(League league) {
         //return teamRepository.findAll();
 
-        return teamRepository.findByLeagueId(leagueId);
+        return teamRepository.findByLeague(league);
     }
 
-    public List<Integer> getTeamIdsByLeagueId(int leagueId) {
-        return teamRepository.findTeamIdsByLeagueId(leagueId);
-    }
+    // DEPRECATED
+
+    /* public List<Integer> getTeamIdsByLeague(League league) {
+        return teamRepository.findTeamIdsByLeague(league);
+    }*/
 }

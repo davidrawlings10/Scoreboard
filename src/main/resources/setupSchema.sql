@@ -10,7 +10,7 @@ CREATE TABLE `team` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `league_id` int unsigned DEFAULT NULL,
+  `league` varchar(45),
   `location` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `active` boolean NOT NULL DEFAULT 1,
@@ -38,7 +38,7 @@ CREATE TABLE `season` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `league_id` int DEFAULT NULL,
+  `league` varchar(45),
   `num_teams` int DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
   `winner_team_id` int DEFAULT NULL,
@@ -74,16 +74,6 @@ CREATE TABLE `standing` (
   `away_otloss` int DEFAULT NULL,
   `away_point` int DEFAULT NULL,
   `away_gp` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `league` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `parent_league_id` int unsigned DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

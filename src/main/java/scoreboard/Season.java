@@ -8,7 +8,10 @@ public class Season {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer leagueId, winnerTeamId, numTeams;
+    @Enumerated(EnumType.STRING)
+    private League league;
+
+    private Integer winnerTeamId, numTeams;
     private String title, summary;
 
     @Enumerated(EnumType.STRING)
@@ -22,12 +25,12 @@ public class Season {
         this.id = id;
     }
 
-    public Integer getLeagueId() {
-        return leagueId;
+    public League getLeague() {
+        return league;
     }
 
-    public void setLeagueId(Integer leagueId) {
-        this.leagueId = leagueId;
+    public void setLeague(League league) {
+        this.league = league;
     }
 
     public Integer getWinnerTeamId() {

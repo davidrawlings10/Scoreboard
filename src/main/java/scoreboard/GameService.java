@@ -199,8 +199,9 @@ public class GameService {
         }
     }
 
-
-
+    public int numberOfGamesBySeasonId(int seasonId) {
+        return gameRepository.findBySeasonId(seasonId).size();
+    }
 
     // data access
 
@@ -233,8 +234,16 @@ public class GameService {
         return gameOptional.get();
     }
 
-    public List<Game> getBySeasonId(int seasonId, int page, int pageSize) {
-        return gameRepository.findBySeasonId(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
+    public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer homeTeamId, Integer awayTeamId) {
+        if (homeTeamId == null && awayTeamId == null) {
+            return gameRepository.findBySeasonIdNoFilter(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
+        } else if (homeTeamId != null && awayTeamId == null) {
+            return gameRepository.findBySeasonIdHomeFilter(seasonId, homeTeamId);
+        } else if (homeTeamId == null && awayTeamId != null) {
+            return gameRepository.findBySeasonIdAwayFilter(seasonId, awayTeamId);
+        } else {
+            return gameRepository.findBySeasonIdHomeAndAwayFilter(seasonId, homeTeamId, awayTeamId);
+        }
     }
 
     public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }

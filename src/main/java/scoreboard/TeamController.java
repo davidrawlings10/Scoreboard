@@ -23,4 +23,6 @@ public class TeamController {
         String response =  JsonUtil.getJson(teamService.getByTeamId(Integer.parseInt(teamId)));
         return response;
     }
+
+
 }

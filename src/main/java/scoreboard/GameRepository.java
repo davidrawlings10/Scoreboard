@@ -17,14 +17,17 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("select g from Game g where g.seasonId = :seasonId")
     public List<Game> findBySeasonIdNoFilter(@Param("seasonId") Integer seasonId /*, @Param("limit") Integer limit, @Param("offset") Integer offset*/);
 
-    @Query("select g from Game g where g.seasonId = :seasonId and g.homeTeamId = :homeTeamId")
+    @Query("select g from Game g where g.seasonId = :seasonId and (g.homeTeamId = :teamId or g.awayTeamId = :teamId)")
+    public List<Game> findBySeasonIdTeamFilter(@Param("seasonId") Integer seasonId, Integer teamId);
+
+    /*@Query("select g from Game g where g.seasonId = :seasonId and g.homeTeamId = :homeTeamId")
     public List<Game> findBySeasonIdHomeFilter(@Param("seasonId") Integer seasonId, Integer homeTeamId);
 
     @Query("select g from Game g where g.seasonId = :seasonId and g.awayTeamId = :awayTeamId")
     public List<Game> findBySeasonIdAwayFilter(@Param("seasonId") Integer seasonId, Integer awayTeamId);
 
     @Query("select g from Game g where g.seasonId = :seasonId and g.homeTeamId = :homeTeamId and g.awayTeamId = :awayTeamId")
-    public List<Game> findBySeasonIdHomeAndAwayFilter(@Param("seasonId") Integer seasonId, Integer homeTeamId, Integer awayTeamId);
+    public List<Game> findBySeasonIdHomeAndAwayFilter(@Param("seasonId") Integer seasonId, Integer homeTeamId, Integer awayTeamId);*/
 
     @Query("select g from Game g where g.seasonId = :seasonId")
     public List<Game> findBySeasonId(@Param("seasonId") Integer seasonId);

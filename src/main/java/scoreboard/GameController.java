@@ -45,10 +45,18 @@ public class GameController {
     // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
     @CrossOrigin
     @GetMapping(path="/getGamesBySeasonId")
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId, @RequestParam Integer page, @RequestParam Integer pageSize, @RequestParam String teamId) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId), page, pageSize, !teamId.equals("null") ? Integer.parseInt(teamId) : null));
+        return response;
+    }
+
+    // removed home and away team filters in place of one filter but keeping this endpoint commented in case I change my mind
+    /*@CrossOrigin
+    @GetMapping(path="/getGamesBySeasonId")
     public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId, @RequestParam Integer page, @RequestParam Integer pageSize, @RequestParam String homeTeamId, @RequestParam String awayTeamId) throws JsonProcessingException {
         String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId), page, pageSize, !homeTeamId.equals("null") ? Integer.parseInt(homeTeamId) : null, !awayTeamId.equals("null") ? Integer.parseInt(awayTeamId) : null));
         return response;
-    }
+    }*/
 
     @CrossOrigin
     @GetMapping(path="/setGamesToPlay")

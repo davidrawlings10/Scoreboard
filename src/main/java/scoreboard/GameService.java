@@ -54,17 +54,24 @@ public class GameService {
 
         running = true;
         while (running) {
-            TimeUnit.MILLISECONDS.sleep(tickMilliseconds);
-            for (Game game : currentGames) {
-                if (Status.FINAL.equals(game.getStatus())) {
-                    continue;
-                }
+            try {
+                TimeUnit.MILLISECONDS.sleep(tickMilliseconds);
+                for (Game game : currentGames) {
+                    if (Status.FINAL.equals(game.getStatus())) {
+                        continue;
+                    }
 
-                if (game.getSport().equals(Sport.HOCKEY)) {
-                    if (hockeyPlayService.playSec(game)) {
-                        handleGameEnd(game);
+                    if (game.getSport().equals(Sport.HOCKEY)) {
+                        if (hockeyPlayService.playSec(game)) {
+                            handleGameEnd(game);
+                        }
                     }
                 }
+            } catch (Exception e) {
+                // An exception happens when a game ends because currentGames is modified
+                // while it is being iterated over. Not an ideal solution, but I'm catching
+                // and eating the exception, so we can keep moving
+                System.out.println("Eating exception in playGames() " + e);
             }
         }
     }
@@ -234,9 +241,17 @@ public class GameService {
         return gameOptional.get();
     }
 
-    public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer homeTeamId, Integer awayTeamId) {
-        if (homeTeamId == null && awayTeamId == null) {
+    public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer teamId) {
+        if (teamId == null) {
             return gameRepository.findBySeasonIdNoFilter(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
+        } else {
+            return gameRepository.findBySeasonIdTeamFilter(seasonId, teamId);
+        }
+    }
+
+    /*public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer homeTeamId, Integer awayTeamId) {
+        if (homeTeamId == null && awayTeamId == null) {
+            return gameRepository.findBySeasonIdNoFilter(seasonId, pageSize, (int)(page - 1) * pageSize);
         } else if (homeTeamId != null && awayTeamId == null) {
             return gameRepository.findBySeasonIdHomeFilter(seasonId, homeTeamId);
         } else if (homeTeamId == null && awayTeamId != null) {
@@ -244,7 +259,7 @@ public class GameService {
         } else {
             return gameRepository.findBySeasonIdHomeAndAwayFilter(seasonId, homeTeamId, awayTeamId);
         }
-    }
+    }*/
 
     public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
 

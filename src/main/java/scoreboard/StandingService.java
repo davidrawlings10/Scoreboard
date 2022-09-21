@@ -112,6 +112,18 @@ public class StandingService {
         return standingRepository.findBySeasonId(seasonId);
     }
 
+    public String getInsertSQL(int seasonId) {
+        List<Standing> standings = standingRepository.findBySeasonId(seasonId);
+        StringBuilder sb = new StringBuilder("INSERT INTO game VALUES ");
+        for (Standing standing : standings) {
+            sb.append(String.format("(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d),", standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(), standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa(), standing.getGp(),
+                    standing.getHomeWin(), standing.getHomeLoss(), standing.getHomeTie(), standing.getHomeOtloss(), standing.getHomePoint(), standing.getHomeGp(),
+                    standing.getAwayWin(), standing.getAwayLoss(), standing.getAwayTie(), standing.getAwayOtloss(), standing.getAwayPoint(), standing.getAwayGp()));
+        };
+        sb.replace(sb.length() - 1, sb.length(), ";");
+        return sb.toString();
+    }
+
     /*private class StandingList {
         List<Standing> standings;
         public StandingList(List<Standing> standings) {

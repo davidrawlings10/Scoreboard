@@ -1,9 +1,7 @@
 package scoreboard;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class Standing {
@@ -11,6 +9,8 @@ public class Standing {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(insertable = false, updatable = false)
+    private Timestamp created, updated;
     private Integer seasonId, teamId, win, loss, tie, otloss, point, gf, ga, gp,
                     homeWin, homeLoss, homeTie, homeOtloss, homePoint, homeGp,
                     awayWin, awayLoss, awayTie, awayOtloss, awayPoint, awayGp;
@@ -21,6 +21,22 @@ public class Standing {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
     }
 
     public Integer getSeasonId() {

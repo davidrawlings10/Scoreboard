@@ -12,6 +12,7 @@ import java.util.List;
 public class SeasonController {
 
     @Autowired SeasonService seasonService;
+    @Autowired StandingService standingService;
 
     // http://localhost:8080/season/schedule?scheduleType=ROUNDS&sport=HOCKEY&leagueId=1&numGames=4
     // http://localhost:8080/season/schedule?scheduleType=HOME_ROTATION&sport=HOCKEY&leagueId=1
@@ -49,6 +50,14 @@ public class SeasonController {
     @GetMapping(path="/getLeagues")
     public @ResponseBody String getLeagues() throws JsonProcessingException {
         String response = JsonUtil.getJsonList(League.values());
+        return response;
+    }
+
+    // http://localhost:8080/season/getSQL?seasonId=1
+    @CrossOrigin
+    @GetMapping(path="/getSQL")
+    public @ResponseBody String getSQL(@RequestParam String seasonId) {
+        String response = seasonService.getCompleteInsertSQL(Integer.parseInt(seasonId));
         return response;
     }
 

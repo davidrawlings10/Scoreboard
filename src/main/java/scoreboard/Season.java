@@ -1,12 +1,16 @@
 package scoreboard;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class Season {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(insertable = false, updatable = false)
+    private Timestamp created, updated;
 
     @Enumerated(EnumType.STRING)
     private League league;
@@ -23,6 +27,22 @@ public class Season {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
     }
 
     public League getLeague() {

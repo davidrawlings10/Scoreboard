@@ -230,6 +230,28 @@ public class SeasonService {
         awayTeamStanding.setGa(awayTeamStanding.getGa() + game.getHomeScore());
     }
 
+    public String getCompleteInsertSQL(int seasonId) {
+        return getInsertSQL(seasonId) +
+                "\n" +
+                "\n" +
+                standingService.getInsertSQL(seasonId) +
+                "\n" +
+                "\n" +
+                gameService.getInsertSQL(seasonId) +
+                "\n";
+    }
+
+    private String getInsertSQL(int seasonId) {
+        Optional<Season> seasonOptional = seasonRepository.findById(seasonId);
+        Season season;
+        if (seasonOptional.isPresent()) {
+            season = seasonOptional.get();
+            return String.format("INSERT INTO season VALUES (%d, \"%s\", \"%s\", \"%s\", %d, \"%s\", %d, \"%s\", \"%s\");", season.getId(), season.getCreated(), season.getUpdated(), season.getLeague(), season.getNumTeams(), season.getTitle(), season.getWinnerTeamId(), season.getSummary(), season.getScheduleType());
+        } else {
+            return "";
+        }
+    }
+
     // data access
 
     public Season findById(int id) {

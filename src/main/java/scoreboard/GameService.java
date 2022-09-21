@@ -1,5 +1,6 @@
 package scoreboard;
 
+/*import com.sun.org.apache.xpath.internal.operations.String;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -208,6 +209,16 @@ public class GameService {
 
     public int numberOfGamesBySeasonId(int seasonId) {
         return gameRepository.findBySeasonId(seasonId).size();
+    }
+
+    public String getInsertSQL(int seasonId) {
+        List<Game> games = gameRepository.findBySeasonIdNoFilter(seasonId);
+        StringBuilder sb = new StringBuilder("INSERT INTO game VALUES ");
+        for (Game game : games) {
+            sb.append(String.format("(%d, \"%s\", \"%s\", \"%s\", %d, %d, %d, %d, %d, \"%s\", %d),", game.getSeasonId(), game.getCreated(), game.getUpdated(), game.getSport(), game.getSeasonId(), game.getHomeTeamId(), game.getAwayTeamId(), game.getHomeScore(), game.getAwayScore(), game.getStatus(), game.getEndingPeriod()));
+        };
+        sb.replace(sb.length() - 1, sb.length(), ";");
+        return sb.toString();
     }
 
     // data access

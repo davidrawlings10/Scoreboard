@@ -116,7 +116,8 @@ public class StandingService {
         List<Standing> standings = standingRepository.findBySeasonId(seasonId);
         StringBuilder sb = new StringBuilder("INSERT INTO standing VALUES ");
         for (Standing standing : standings) {
-            sb.append(String.format("(%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d),", standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(), standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa(), standing.getGp(),
+            sb.append(String.format("(%d, \"%s\", \"%s\", %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d),",
+                    standing.getId(), standing.getCreated(), standing.getUpdated(), standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(), standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGf(), standing.getGa(), standing.getGp(),
                     standing.getHomeWin(), standing.getHomeLoss(), standing.getHomeTie(), standing.getHomeOtloss(), standing.getHomePoint(), standing.getHomeGp(),
                     standing.getAwayWin(), standing.getAwayLoss(), standing.getAwayTie(), standing.getAwayOtloss(), standing.getAwayPoint(), standing.getAwayGp()));
         };

@@ -269,7 +269,9 @@ public class SeasonService {
         Season season = seasonOptional.get();
         season.setTitle(title);
         season.setWinnerTeamId(winnerTeamId);
-        season.setSummary(summary);
+        if (summary != null) {
+            season.setSummary(summary);
+        }
         return seasonRepository.save(season);
     }
 

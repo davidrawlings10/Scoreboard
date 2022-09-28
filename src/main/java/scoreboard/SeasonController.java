@@ -42,7 +42,7 @@ public class SeasonController {
     @CrossOrigin
     @GetMapping(path="/update")
     public @ResponseBody String update(@RequestParam String seasonId, @RequestParam String title, @RequestParam String winnerTeamId, @RequestParam String summary) {
-        Season season = seasonService.update(Integer.parseInt(seasonId), title, !winnerTeamId.equals("null") ? Integer.parseInt(winnerTeamId) : null, summary);
+        Season season = seasonService.update(Integer.parseInt(seasonId), title, !winnerTeamId.equals("null") ? Integer.parseInt(winnerTeamId) : null, !summary.equals("null") ? summary : null);
         return season.toString();
     }
 

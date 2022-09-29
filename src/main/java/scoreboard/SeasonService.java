@@ -198,7 +198,7 @@ public class SeasonService {
             homeTeamStanding.setPoint(homeTeamStanding.getPoint() + 2);
             homeTeamStanding.setHomePoint(homeTeamStanding.getHomePoint() + 2);
 
-            if (game.getEndingPeriod() < 4) {
+            if (game.getClock().getPeriod() < game.getClock().getENDING_PERIOD() + 1) {
                 awayTeamStanding.setLoss(awayTeamStanding.getLoss() + 1);
                 awayTeamStanding.setAwayLoss(awayTeamStanding.getAwayLoss() + 1);
             } else {
@@ -213,7 +213,7 @@ public class SeasonService {
             awayTeamStanding.setPoint(awayTeamStanding.getPoint() + 2);
             awayTeamStanding.setAwayPoint(awayTeamStanding.getAwayPoint() + 2);
 
-            if (game.getEndingPeriod() < 4) {
+            if (game.getClock().getPeriod() < game.getClock().getENDING_PERIOD() + 1) {
                 homeTeamStanding.setLoss(homeTeamStanding.getLoss() + 1);
                 homeTeamStanding.setHomeLoss(homeTeamStanding.getHomeLoss() + 1);
             } else {

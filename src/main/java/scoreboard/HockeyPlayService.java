@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class HockeyPlayService {
+public class HockeyPlayService extends GameService {
     @Autowired private TeamService teamService;
     @Autowired private GameEventService gameEventService;
 
@@ -43,13 +43,20 @@ public class HockeyPlayService {
         if (!game.getClock().isIntermission()) {
             if (RandomUtil.occur(homeChance)) {
                 incHomeScore(game, 1);
+                save(game);
             }
             if (RandomUtil.occur(awayChance)) {
                 incAwayScore(game, 1);
+                save(game);
             }
         }
 
         game.getClock().tickDown();
+
+        // save the game every minute
+        if (game.getClock().getSeconds() == 0) {
+            save(game);
+        }
 
         if (game.isFinal()) {
             game.setStatus(Status.FINAL);

@@ -69,7 +69,7 @@ public class StandingService {
             homeTeamStanding.incPoint(2);
             homeTeamStanding.incHomePoint(2);
 
-            if (game.getEndingPeriod() < 4) {
+            if (game.getClock().getPeriod() < game.getClock().getENDING_PERIOD() + 1) {
                 awayTeamStanding.incLoss(1);
                 awayTeamStanding.incAwayLoss(1);
             } else {
@@ -84,7 +84,7 @@ public class StandingService {
             awayTeamStanding.incPoint(2);
             awayTeamStanding.incAwayPoint(2);
 
-            if (game.getEndingPeriod() < 4) {
+            if (game.getClock().getPeriod() < game.getClock().getENDING_PERIOD() + 1) {
                 homeTeamStanding.incLoss(1);
                 homeTeamStanding.incHomeLoss(1);
             } else {

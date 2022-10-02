@@ -19,7 +19,7 @@ public class GameServiceTests {
     // tests with DB
     @Test
     public void testStartGame() throws Exception {
-        gameService.startGame(Sport.HOCKEY, 65, 66);
+        gameService.startSingleGame(Sport.HOCKEY, 65, 66);
     }
 
     @Test

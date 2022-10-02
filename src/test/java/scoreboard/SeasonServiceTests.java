@@ -18,6 +18,8 @@ public class SeasonServiceTests {
 
     @Autowired
     private SeasonService seasonService;
+    @Autowired
+    private GameService gameService;
 
     // unit tests
     @Test
@@ -84,5 +86,16 @@ public class SeasonServiceTests {
         teamIds.add(73);
         teamIds.add(76);
         seasonService.scheduleSeason(ScheduleType.ROUNDS, Sport.HOCKEY, League.TEST, teamIds, 6, "Unit Test: testScheduleSeasonRounds()");
+    }
+
+    @Test
+    public void testGetNextSeasonGame() throws Exception {
+        List<Integer> teamIds = new ArrayList<>();
+        teamIds.add(65);
+        teamIds.add(66);
+        teamIds.add(67);
+        seasonService.scheduleSeason(ScheduleType.HOME_ROTATION, Sport.HOCKEY, League.TEST, teamIds, null, "Unit Test: testGetNextSeasonGame()");
+        Game game = gameService.getNextSeasonGame(1);
+        assert(game != null);
     }
 }

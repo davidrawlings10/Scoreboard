@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class HockeyPlayService extends GameService {
     @Autowired private TeamService teamService;
+    @Autowired private GameService gameService;
+    @Autowired private ClockService clockService;
     @Autowired private GameEventService gameEventService;
 
     private static String homeTeamName, awayTeamName;
@@ -40,14 +42,16 @@ public class HockeyPlayService extends GameService {
 
         double homeChance = Config.Chance.regulationScore + Config.Chance.regulationScoreHomeWeight, awayChance = Config.Chance.regulationScore + Config.Chance.regulationScoreAwayWeight;
 
-        if (!game.getClock().isIntermission()) {
+        if (!game.getClock().getIntermission()) {
             if (RandomUtil.occur(homeChance)) {
                 incHomeScore(game, 1);
-                save(game);
+                gameService.save(game);
+                clockService.save(game.getClock());
             }
             if (RandomUtil.occur(awayChance)) {
                 incAwayScore(game, 1);
-                save(game);
+                gameService.save(game);
+                clockService.save(game.getClock());
             }
         }
 
@@ -55,7 +59,7 @@ public class HockeyPlayService extends GameService {
 
         // save the game every minute
         if (game.getClock().getSeconds() == 0) {
-            save(game);
+            clockService.save(game.getClock());
         }
 
         if (game.isFinal()) {
@@ -82,7 +86,7 @@ public class HockeyPlayService extends GameService {
 
     private String printScoreboard(Game game, boolean isFinal) {
         return game.getHomeName() + " | " + game.getHomeScore() + " | " + game.getAwayName() +  " | " + game.getAwayScore() + " | "
-                + (isFinal ? "Final" : (game.getClock().isIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
+                + (isFinal ? "Final" : (game.getClock().getIntermission() ? "Intermission" : "Period" ) + " | " + game.getClock().getPeriod() + " | " + game.getClock().getMinutes() + ":" + game.getClock().getSeconds());
     }
 
     /*public Game playGame(Game game) throws InterruptedException {

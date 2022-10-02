@@ -1,11 +1,41 @@
 package scoreboard;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
+
+@Entity
 public class Clock {
-    private int minutes, seconds, period;
-    boolean isIntermission = true;
-    final private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(insertable = false, updatable = false)
+    private Timestamp created, updated;
+
+    private Integer gameId;
+    private Integer minutes, seconds, period;
+    private Boolean intermission;
+
+    @Transient
+    private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+
+    // default constructor to make querying the database work
+    public Clock() {
+        ENDING_PERIOD = 1;
+        MINUTES_IN_PERIOD = 1;
+        MINUTES_IN_OVERTIME = 1;
+        MINUTES_IN_INTERMISSION = 1;
+        MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
+    }
 
     public Clock(Sport sport) {
+        initalizeConstants(sport);
+        period = 1;
+        intermission = true;
+    }
+
+    public void initalizeConstants(Sport sport) {
         switch (sport) {
             case HOCKEY:
                 ENDING_PERIOD = 3;
@@ -22,15 +52,14 @@ public class Clock {
                 MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
                 break;
         }
-        period = 1;
     }
 
     public void reset() {
         seconds = 0;
         if (period <= ENDING_PERIOD) {
-            minutes = isIntermission ? MINUTES_IN_INTERMISSION : MINUTES_IN_PERIOD;
+            minutes = intermission ? MINUTES_IN_INTERMISSION : MINUTES_IN_PERIOD;
         } else {
-            minutes = isIntermission ? MINUTES_IN_INTERMISSION_BEFORE_OVERTIME : MINUTES_IN_OVERTIME;
+            minutes = intermission ? MINUTES_IN_INTERMISSION_BEFORE_OVERTIME : MINUTES_IN_OVERTIME;
         }
     }
 
@@ -44,10 +73,10 @@ public class Clock {
 
     public void handlePeriodEnd() {
         if (isPeriodEnded()) {
-            if (!isIntermission) {
+            if (!intermission) {
                 period += 1;
             }
-            isIntermission = !isIntermission;
+            intermission = !intermission;
             reset();
         }
     }
@@ -60,40 +89,72 @@ public class Clock {
         }
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Timestamp getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
+    }
+
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
+    }
+
     public boolean isPeriodEnded() {
         return minutes == 0 && seconds == 0;
     }
 
-    public int getMinutes() {
+    public Integer getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(int minutes) {
+    public void setMinutes(Integer minutes) {
         this.minutes = minutes;
     }
 
-    public int getSeconds() {
+    public Integer getSeconds() {
         return seconds;
     }
 
-    public void setSeconds(int seconds) {
+    public void setSeconds(Integer seconds) {
         this.seconds = seconds;
     }
 
-    public int getPeriod() {
+    public Integer getPeriod() {
         return period;
     }
 
-    public void setPeriod(int period) {
+    public void setPeriod(Integer period) {
         this.period = period;
     }
 
-    public boolean isIntermission() {
-        return isIntermission;
+    public Boolean getIntermission() {
+        return intermission;
     }
 
-    public void setIntermission(boolean isIntermission) {
-        this.isIntermission = isIntermission;
+    public void setIntermission(Boolean intermission) {
+        this.intermission = intermission;
     }
 
     public int getENDING_PERIOD() {

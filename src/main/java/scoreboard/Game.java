@@ -24,6 +24,9 @@ public class Game {
 
     @Transient Clock clock;
 
+    @Enumerated(EnumType.STRING)
+    @Transient TeamAlreadyPlaying teamAlreadyPlaying;
+
     // caching
     @Transient String homeLocation, awayLocation, homeName, awayName;
 
@@ -123,6 +126,14 @@ public class Game {
         this.clock = clock;
     }
 
+    public TeamAlreadyPlaying getTeamAlreadyPlaying() {
+        return teamAlreadyPlaying;
+    }
+
+    public void setTeamAlreadyPlaying(TeamAlreadyPlaying teamAlreadyPlaying) {
+        this.teamAlreadyPlaying = teamAlreadyPlaying;
+    }
+
     public String getHomeName() {
         return homeName;
     }
@@ -159,7 +170,7 @@ public class Game {
         if (homeScore == null || awayScore == null || clock == null)
             return false;
 
-        return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.isIntermission // game ends in regulation
+        return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.getIntermission() // game ends in regulation
                 || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
     }
 

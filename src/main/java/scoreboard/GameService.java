@@ -15,6 +15,7 @@ public class GameService {
     @Autowired private TeamService teamService;
     @Autowired private SeasonService seasonService;
     @Autowired private StandingService standingService;
+    @Autowired private ClockService clockService;
 
     List<Game> currentGames = new ArrayList<>();
     List<Game> finishedGames = new ArrayList<>();
@@ -22,85 +23,6 @@ public class GameService {
     Boolean running = false;
     int tickMilliseconds = 1000;
     int gamesToPlay = 0;
-
-    public void startGame(Sport sport, int homeTeamId, int awayTeamId) {
-        Game game = new Game(sport, homeTeamId, awayTeamId);
-        setupGameForPlay(game);
-        currentGames.add(0, game);
-    }
-
-    private void setupGameForPlay(Game game) {
-        game.setClock(new Clock(game.getSport()));
-        game.getClock().reset();
-        game.setHomeScore(0);
-        game.setAwayScore(0);
-        game.setStatus(Status.PLAYING);
-        gameRepository.save(game);
-
-        // cache home/away location and name
-        Team homeTeam = teamService.getByTeamId(game.getHomeTeamId());
-        Team awayTeam = teamService.getByTeamId(game.getAwayTeamId());
-
-        game.setHomeName(homeTeam.getName());
-        game.setAwayName(awayTeam.getName());
-        game.setHomeLocation(homeTeam.getLocation());
-        game.setAwayLocation(awayTeam.getLocation());
-
-    }
-
-    public void playGames() throws InterruptedException {
-        if (running) {
-            return;
-        }
-
-        running = true;
-        while (running) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(tickMilliseconds);
-                for (Game game : currentGames) {
-                    if (Status.FINAL.equals(game.getStatus())) {
-                        continue;
-                    }
-
-                    if (game.getSport().equals(Sport.HOCKEY)) {
-                        if (hockeyPlayService.playSec(game)) {
-                            handleGameEnd(game);
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                // An exception happens when a game ends because currentGames is modified
-                // while it is being iterated over. Not an ideal solution, but I'm catching
-                // and eating the exception, so we can keep moving
-                System.out.println("Eating exception in playGames() " + e);
-            }
-        }
-    }
-
-    private void handleGameEnd(Game game) {
-        currentGames.remove(game);
-        finishedGames.add(0, game);
-
-        game.setEndingPeriod(game.getClock().getPeriod());
-        gameRepository.save(game);
-
-        Integer seasonId = game.getSeasonId();
-
-        if (seasonId == null) {
-            return;
-        }
-
-        standingService.updateStanding(game);
-
-        if (gamesToPlay > 0) {
-            gamesToPlay--;
-            startNextSeasonGame(seasonId);
-        }
-    }
-
-    public void pauseGames() {
-        running = false;
-    }
 
     class ScoreboardState {
         Boolean running;
@@ -160,31 +82,186 @@ public class GameService {
         return scoreboardState;
     }
 
+    public void playGames() throws InterruptedException {
+        if (running) {
+            return;
+        }
+
+        running = true;
+        while (running) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(tickMilliseconds);
+                for (Game game : currentGames) {
+                    if (Status.FINAL.equals(game.getStatus())) {
+                        continue;
+                    }
+
+                    if (game.getSport().equals(Sport.HOCKEY)) {
+                        if (hockeyPlayService.playSec(game)) {
+                            handleGameEnd(game);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                // An exception happens when a game ends because currentGames is modified
+                // while it is being iterated over. Not an ideal solution, but I'm catching
+                // and eating the exception, so we can keep moving
+                System.out.println("Eating exception in playGames() " + e);
+            }
+        }
+    }
+
+    public void pauseGames() {
+        running = false;
+    }
+
     public void setGamesToPlay(int numberOfGames) {
         gamesToPlay = numberOfGames;
-    }
-
-    public void startSeasonGame(int seasonId) {
-        startNextSeasonGame(seasonId);
-    }
-
-    private void startNextSeasonGame(int seasonId) {
-        List<Game> games = gameRepository.findNextGameBySeasonId(seasonId);
-
-        if (games.size() == 0)
-            return;
-
-        Game game = games.get(0);
-        setupGameForPlay(game);
-        currentGames.add(0, game);
     }
 
     public void setTickMilliseconds(int value) {
         tickMilliseconds = value;
     }
 
-    public void adjustCurrentGame(Game game) {
+    private void handleGameEnd(Game game) {
+        currentGames.remove(game);
+        finishedGames.add(0, game);
 
+        game.setEndingPeriod(game.getClock().getPeriod());
+        gameRepository.save(game);
+
+        Integer seasonId = game.getSeasonId();
+
+        if (seasonId == null) {
+            return;
+        }
+
+        standingService.updateStanding(game);
+
+        if (gamesToPlay > 0) {
+            Game nextSeasonGame = getNextSeasonGame(seasonId);
+            if (nextSeasonGame.getTeamAlreadyPlaying().equals(TeamAlreadyPlaying.NONE)) {
+                playSeasonGame(nextSeasonGame.getId());
+                gamesToPlay--;
+            }
+        }
+    }
+
+    private void setupGameForPlay(Game game) {
+        game.setHomeScore(0);
+        game.setAwayScore(0);
+        game.setStatus(Status.PLAYING);
+
+        Clock clock = new Clock(game.getSport());
+        clock.setGameId(game.getId());
+        clock.reset();
+        game.setClock(clock);
+
+        gameRepository.save(game);
+        clockService.save(clock);
+
+        // cache home/away location and name
+        Team homeTeam = teamService.getByTeamId(game.getHomeTeamId());
+        Team awayTeam = teamService.getByTeamId(game.getAwayTeamId());
+
+        game.setHomeName(homeTeam.getName());
+        game.setAwayName(awayTeam.getName());
+        game.setHomeLocation(homeTeam.getLocation());
+        game.setAwayLocation(awayTeam.getLocation());
+    }
+
+    public void resumeInterruptedSeasonGame(int gameId) {
+        Game game = gameRepository.findByGameId(gameId);
+
+        Clock clock = clockService.getClockByGameId(gameId);
+        clock.initalizeConstants(game.getSport());
+        game.setClock(clock);
+
+        currentGames.add(0, game);
+    }
+
+    public void startSingleGame(Sport sport, int homeTeamId, int awayTeamId) {
+        Game game = new Game(sport, homeTeamId, awayTeamId);
+        setupGameForPlay(game);
+        currentGames.add(0, game);
+    }
+
+    public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer teamId) {
+        if (teamId == null) {
+            return gameRepository.findBySeasonIdNoFilter(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
+        } else {
+            return gameRepository.findBySeasonIdTeamFilter(seasonId, teamId);
+        }
+    }
+
+    public Game getNextSeasonGame(int seasonId) {
+        List<Game> games = gameRepository.findScheduledGamesBySeasonId(seasonId);
+
+        if (games.size() == 0)
+            return null;
+
+        Game game = games.get(0);
+
+        game.setTeamAlreadyPlaying(IsEitherTeamAlreadyPlaying(game));
+
+        return game;
+    }
+
+    private TeamAlreadyPlaying IsEitherTeamAlreadyPlaying(Game game) {
+        Integer homeTeamId = game.getHomeTeamId();
+        Integer awayTeamId = game.getAwayTeamId();
+
+        boolean homeIsPlaying = false;
+        boolean awayIsPlaying = false;
+
+        for (Game currentGame : currentGames) {
+            if (homeTeamId.equals(currentGame.getHomeTeamId()) || homeTeamId.equals(currentGame.getAwayTeamId())) {
+                homeIsPlaying = true;
+            }
+
+            if (awayTeamId.equals(currentGame.getHomeTeamId()) || awayTeamId.equals(currentGame.getAwayTeamId())) {
+                awayIsPlaying = true;
+            }
+        }
+
+        if (homeIsPlaying && awayIsPlaying) {
+            return TeamAlreadyPlaying.BOTH;
+        } else if (homeIsPlaying) {
+            return TeamAlreadyPlaying.HOME;
+        } else if (awayIsPlaying) {
+            return TeamAlreadyPlaying.AWAY;
+        } else {
+            return TeamAlreadyPlaying.NONE;
+        }
+    }
+
+    // search for any games that were playing but were interrupted because the back end stopped
+    public List<Game> getInterruptedGames(int seasonId) {
+        List<Game> gamesWithStatusPlaying = gameRepository.findPlayingGamesBySeasonId(seasonId);
+        List<Game> interruptedGames = new ArrayList<Game>();
+
+        for (Game game : gamesWithStatusPlaying) {
+            if (!gameInCurrentGames(game.getId())) {
+                interruptedGames.add(game);
+            }
+        }
+
+        return interruptedGames;
+    }
+
+    private boolean gameInCurrentGames(int gameId) {
+        for (Game currentGame : currentGames) {
+            if (gameId == currentGame.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void playSeasonGame(int gameId) {
+        Game game = gameRepository.findByGameId(gameId);
+        setupGameForPlay(game);
+        currentGames.add(0, game);
     }
 
     public void terminateCurrentGame(int gameId) {
@@ -207,10 +284,6 @@ public class GameService {
         }
     }
 
-    public int numberOfGamesBySeasonId(int seasonId) {
-        return gameRepository.findBySeasonId(seasonId).size();
-    }
-
     public String getInsertSQL(int seasonId) {
         List<Game> games = gameRepository.findBySeasonIdNoFilter(seasonId);
         StringBuilder sb = new StringBuilder("INSERT INTO game VALUES ");
@@ -221,19 +294,11 @@ public class GameService {
         return sb.toString();
     }
 
-    // data access
+    public int numberOfGamesBySeasonId(int seasonId) {
+        return gameRepository.findBySeasonId(seasonId).size();
+    }
 
-    /*public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
-        Game game = new Game(Sport.HOCKEY);
-        game.setId(id);
-        game.setHomeTeamId(homeTeamId);
-        game.setAwayTeamId(awayTeamId);
-        game.setHomeScore(homeScore);
-        game.setAwayScore(awayScore);
-        game.setSeasonId(seasonId);
-        game.setEndingPeriod(endingPeriod);
-        return gameRepository.save(game);
-    }*/
+    // data access
 
     public Game save(Game game) {
         return gameRepository.save(game);
@@ -252,13 +317,22 @@ public class GameService {
         return gameOptional.get();
     }
 
-    public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer teamId) {
-        if (teamId == null) {
-            return gameRepository.findBySeasonIdNoFilter(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
-        } else {
-            return gameRepository.findBySeasonIdTeamFilter(seasonId, teamId);
-        }
-    }
+    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
+
+
+    // deprecated
+
+    /*public Game save(Integer id, int homeTeamId, int awayTeamId, Integer homeScore, Integer awayScore, Integer seasonId, Integer endingPeriod) {
+        Game game = new Game(Sport.HOCKEY);
+        game.setId(id);
+        game.setHomeTeamId(homeTeamId);
+        game.setAwayTeamId(awayTeamId);
+        game.setHomeScore(homeScore);
+        game.setAwayScore(awayScore);
+        game.setSeasonId(seasonId);
+        game.setEndingPeriod(endingPeriod);
+        return gameRepository.save(game);
+    }*/
 
     /*public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer homeTeamId, Integer awayTeamId) {
         if (homeTeamId == null && awayTeamId == null) {
@@ -272,10 +346,17 @@ public class GameService {
         }
     }*/
 
-    public Team getByTeamId(int teamId) { return teamService.getByTeamId(teamId); }
+    /*private void startNextSeasonGame(int seasonId) {
+        List<Game> games = gameRepository.findNextGameBySeasonId(seasonId);
 
+        if (games.size() == 0)
+            return;
 
-    // deprecated
+        Game game = games.get(0);
+        setupGameForPlay(game);
+        currentGames.add(0, game);
+    }*/
+
     /*public List<Game> getGames() {
         return currentGames;
     }*/

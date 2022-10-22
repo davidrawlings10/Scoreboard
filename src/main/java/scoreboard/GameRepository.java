@@ -15,7 +15,7 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     /*@Query("select g from Game g where g.seasonId = :seasonId limit :limit offset :offset")*/
     @Query("select g from Game g where g.seasonId = :seasonId")
-    public List<Game> findBySeasonIdNoFilter(@Param("seasonId") Integer seasonId /*, @Param("limit") Integer limit, @Param("offset") Integer offset*/);
+    public List<Game> findBySeasonIdNoFilter(@Param("seasonId") Integer seasonId);
 
     @Query("select g from Game g where g.seasonId = :seasonId and (g.homeTeamId = :teamId or g.awayTeamId = :teamId)")
     public List<Game> findBySeasonIdTeamFilter(@Param("seasonId") Integer seasonId, Integer teamId);

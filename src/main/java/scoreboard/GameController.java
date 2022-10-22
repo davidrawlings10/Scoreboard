@@ -40,23 +40,23 @@ public class GameController {
     // http://localhost:8080/game/getGamesBySeasonId?seasonId=1
     @CrossOrigin
     @GetMapping(path="/getGamesBySeasonId")
-    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId, @RequestParam Integer page, @RequestParam Integer pageSize, @RequestParam String teamId) throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId), page, pageSize, !teamId.equals("null") ? Integer.parseInt(teamId) : null));
+    public @ResponseBody String getGamesBySeasonId(@RequestParam String seasonId, @RequestParam String teamId) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameService.getBySeasonId(Integer.parseInt(seasonId), !teamId.equals("null") ? Integer.parseInt(teamId) : null));
         return response;
     }
 
-    // http://localhost:8080/game/getInterruptedGames?seasonId=1
+    // http://localhost:8080/game/getIncompleteGames?seasonId=1
     @CrossOrigin
-    @GetMapping(path="/getInterruptedGames")
-    public @ResponseBody String getInterruptedGames(@RequestParam String seasonId) throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(gameService.getInterruptedGames(Integer.parseInt(seasonId)));
+    @GetMapping(path="/getIncompleteGames")
+    public @ResponseBody String getIncompleteGames(@RequestParam String seasonId) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameService.getIncompleteGames(Integer.parseInt(seasonId)));
         return response;
     }
 
     @CrossOrigin
-    @GetMapping(path="/resumeInterruptedSeasonGame")
-    public @ResponseBody void resumeInterruptedSeasonGame(@RequestParam Integer gameId) throws JsonProcessingException {
-        gameService.resumeInterruptedSeasonGame(gameId);
+    @GetMapping(path="/resumeIncompleteSeasonGame")
+    public @ResponseBody void resumeIncompleteSeasonGame(@RequestParam Integer gameId) throws JsonProcessingException {
+        gameService.resumeIncompleteSeasonGame(gameId);
     }
 
     @CrossOrigin

@@ -170,25 +170,31 @@ public class GameService {
         game.setAwayLocation(awayTeam.getLocation());
     }
 
-    public void resumeInterruptedSeasonGame(int gameId) {
+    public void resumeIncompleteSeasonGame(int gameId) {
         Game game = gameRepository.findByGameId(gameId);
 
         Clock clock = clockService.getClockByGameId(gameId);
         clock.initalizeConstants(game.getSport());
+
+        // handle edge case by adding a second to the clock so the intermission handling kicks in
+        if (clock.getMinutes() == 0 && clock.getSeconds() == 0) {
+            clock.setSeconds(1);
+        }
+
         game.setClock(clock);
 
-        currentGames.add(0, game);
+        addGameToCurrentGames(game);
     }
 
     public void startSingleGame(Sport sport, int homeTeamId, int awayTeamId) {
         Game game = new Game(sport, homeTeamId, awayTeamId);
         setupGameForPlay(game);
-        currentGames.add(0, game);
+        addGameToCurrentGames(game);
     }
 
-    public List<Game> getBySeasonId(int seasonId, int page, int pageSize, Integer teamId) {
+    public List<Game> getBySeasonId(int seasonId, Integer teamId) {
         if (teamId == null) {
-            return gameRepository.findBySeasonIdNoFilter(seasonId/*, pageSize, (int)(page - 1) * pageSize*/);
+            return gameRepository.findBySeasonIdNoFilter(seasonId);
         } else {
             return gameRepository.findBySeasonIdTeamFilter(seasonId, teamId);
         }
@@ -235,18 +241,19 @@ public class GameService {
         }
     }
 
-    // search for any games that were playing but were interrupted because the back end stopped
-    public List<Game> getInterruptedGames(int seasonId) {
+    // search for any games that were playing but were incomplete because the back end stopped
+    public List<Game> getIncompleteGames(int seasonId) {
         List<Game> gamesWithStatusPlaying = gameRepository.findPlayingGamesBySeasonId(seasonId);
-        List<Game> interruptedGames = new ArrayList<Game>();
+        List<Game> incompleteGames = new ArrayList<Game>();
 
         for (Game game : gamesWithStatusPlaying) {
             if (!gameInCurrentGames(game.getId())) {
-                interruptedGames.add(game);
+                game.setClock(clockService.getClockByGameId(game.getId()));
+                incompleteGames.add(game);
             }
         }
 
-        return interruptedGames;
+        return incompleteGames;
     }
 
     private boolean gameInCurrentGames(int gameId) {
@@ -261,6 +268,16 @@ public class GameService {
     public void playSeasonGame(int gameId) {
         Game game = gameRepository.findByGameId(gameId);
         setupGameForPlay(game);
+        addGameToCurrentGames(game);
+    }
+
+    // ensure that the game to be added isn't already in current games
+    private void addGameToCurrentGames(Game game) {
+        for (Game currentGame : currentGames) {
+            if (currentGame.getId().equals(game.getId())) {
+                return;
+            }
+        }
         currentGames.add(0, game);
     }
 

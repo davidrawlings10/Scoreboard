@@ -72,15 +72,21 @@ public class GameController {
     }
 
     @CrossOrigin
+    @GetMapping(path="/setTickMilliseconds")
+    public @ResponseBody void setTickMilli(@RequestParam Integer value) {
+        gameService.setTickMilliseconds(value);
+    }
+
+    @CrossOrigin
     @GetMapping(path="/setGamesToPlay")
     public @ResponseBody void setGamesToPlay(@RequestParam Integer numGames) {
         gameService.setGamesToPlay(numGames);
     }
 
     @CrossOrigin
-    @GetMapping(path="/setTickMilliseconds")
-    public @ResponseBody void setTickMilli(@RequestParam Integer value) {
-        gameService.setTickMilliseconds(value);
+    @GetMapping(path="/setGamesPlayingConcurrently")
+    public @ResponseBody void setGamesPlayingConcurrently(@RequestParam Integer numGames) {
+        gameService.setGamesPlayingConcurrently(numGames);
     }
 
     @CrossOrigin

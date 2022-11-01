@@ -23,11 +23,13 @@ public class GameService {
     Boolean running = false;
     int tickMilliseconds = 1000;
     int gamesToPlay = 0;
+    int gamesPlayingConcurrently = 1;
 
     class ScoreboardState {
         Boolean running;
         int tickMilliseconds;
         int gamesToPlay;
+        int gamesPlayingConcurrently;
         List<Game> games;
         List<Game> finishedGames;
 
@@ -55,6 +57,14 @@ public class GameService {
             this.gamesToPlay = gamesToPlay;
         }
 
+        public int getGamesPlayingConcurrently() {
+            return gamesPlayingConcurrently;
+        }
+
+        public void setGamesPlayingConcurrently(int gamesPlayingConcurrently) {
+            this.gamesPlayingConcurrently = gamesPlayingConcurrently;
+        }
+
         public List<Game> getGames() {
             return games;
         }
@@ -77,6 +87,7 @@ public class GameService {
         scoreboardState.setRunning(running);
         scoreboardState.setTickMilliseconds(tickMilliseconds);
         scoreboardState.setGamesToPlay(gamesToPlay);
+        scoreboardState.setGamesPlayingConcurrently(gamesPlayingConcurrently);
         scoreboardState.setGames(currentGames);
         scoreboardState.setFinishedGames(finishedGames);
         return scoreboardState;
@@ -115,12 +126,16 @@ public class GameService {
         running = false;
     }
 
+    public void setTickMilliseconds(int value) {
+        tickMilliseconds = value;
+    }
+
     public void setGamesToPlay(int numberOfGames) {
         gamesToPlay = numberOfGames;
     }
 
-    public void setTickMilliseconds(int value) {
-        tickMilliseconds = value;
+    public void setGamesPlayingConcurrently(int games) {
+        gamesPlayingConcurrently = games;
     }
 
     private void handleGameEnd(Game game) {
@@ -138,11 +153,14 @@ public class GameService {
 
         standingService.updateStanding(game);
 
-        if (gamesToPlay > 0) {
-            Game nextSeasonGame = getNextSeasonGame(seasonId);
-            if (nextSeasonGame.getTeamAlreadyPlaying().equals(TeamAlreadyPlaying.NONE)) {
-                playSeasonGame(nextSeasonGame.getId());
-                gamesToPlay--;
+        final int gamesToAdd = gamesPlayingConcurrently - currentGames.size();
+        for (int i = 0; i < gamesToAdd; ++i) {
+            if (gamesToPlay > 0) {
+                Game nextSeasonGame = getNextSeasonGame(seasonId);
+                if (nextSeasonGame.getTeamAlreadyPlaying().equals(TeamAlreadyPlaying.NONE)) {
+                    playSeasonGame(nextSeasonGame.getId());
+                    gamesToPlay--;
+                }
             }
         }
     }

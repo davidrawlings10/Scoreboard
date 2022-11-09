@@ -275,6 +275,10 @@ public class SeasonService {
         return seasonRepository.save(season);
     }
 
+    public int findByWinnerTeamId(int teamId) {
+        return seasonRepository.findByWinnerTeamId(teamId).size();
+    }
+
     public void delete(int id) {
         seasonRepository.delete(findById(id));
     }

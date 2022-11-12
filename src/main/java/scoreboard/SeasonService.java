@@ -275,8 +275,8 @@ public class SeasonService {
         return seasonRepository.save(season);
     }
 
-    public int findByWinnerTeamId(int teamId) {
-        return seasonRepository.findByWinnerTeamId(teamId).size();
+    public Iterable<Season> findByLeague(League league) {
+        return seasonRepository.findByLeague(league);
     }
 
     public void delete(int id) {

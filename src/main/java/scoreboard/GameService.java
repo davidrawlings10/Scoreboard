@@ -141,6 +141,9 @@ public class GameService {
     private void handleGameEnd(Game game) {
         currentGames.remove(game);
         finishedGames.add(0, game);
+        if (finishedGames.size() > 20) {
+            finishedGames.remove(20);
+        }
 
         game.setEndingPeriod(game.getClock().getPeriod());
         gameRepository.save(game);

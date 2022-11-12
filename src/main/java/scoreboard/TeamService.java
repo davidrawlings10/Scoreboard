@@ -36,9 +36,12 @@ public class TeamService {
             teamSeasonTotalMap.put(team.getId(), new TeamSeasonTotal(team.getId()));
         }
 
-        List<Season> seasons = seasonService.findAll();
+        Iterable<Season> seasons = seasonService.findByLeague(league);
 
         for (Season season : seasons) {
+            if (season.getWinnerTeamId() == null) {
+                continue;
+            }
 
             teamSeasonTotalMap.get(season.getWinnerTeamId()).incSeasonsWon();
             teamSeasonTotalMap.get(season.getWinnerTeamId()).incWinPoints(season.getNumTeams());
@@ -66,8 +69,6 @@ public class TeamService {
         int seasonsPlayed;
         int winPoints;
         int winPointsPossible;
-        int performancePoints;
-        int performancePointsPossible;
         List<Integer> trophies = new ArrayList<>();
 
         public TeamSeasonTotal(int teamId) {
@@ -132,22 +133,6 @@ public class TeamService {
 
         public void setWinPointsPossible(int winPointsPossible) {
             this.winPointsPossible = winPointsPossible;
-        }
-
-        public int getPerformancePoints() {
-            return performancePoints;
-        }
-
-        public void setPerformancePoints(int performancePoints) {
-            this.performancePoints = performancePoints;
-        }
-
-        public int getPerformancePointsPossible() {
-            return performancePointsPossible;
-        }
-
-        public void setPerformancePointsPossible(int performancePointsPossible) {
-            this.performancePointsPossible = performancePointsPossible;
         }
 
         public List<Integer> getTrophies() {

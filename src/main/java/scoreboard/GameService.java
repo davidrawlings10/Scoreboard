@@ -316,6 +316,8 @@ public class GameService {
                     game.setHomeScore(null);
                     game.setAwayScore(null);
                     save(game);
+
+                    clockService.deleteByGameId(game.getId());
                 }
                 iterator.remove();
             }

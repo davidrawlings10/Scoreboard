@@ -141,8 +141,15 @@ public class GameService {
     private void handleGameEnd(Game game) {
         currentGames.remove(game);
         finishedGames.add(0, game);
+        // if finishedGames gets too big remove games off the end to make room
+        // too many finishedGames has caused performance issues
         if (finishedGames.size() > 20) {
+            // Remove two games at a time so that the number of finishedGames changes every time a game ends.
+            // This is the signal to the ui to refresh season components (kinda hacky).
+            // In other words every time a game ends, either two games or no games will be removed,
+            // so that the number of games will always be alternating for example between 20 and 19
             finishedGames.remove(20);
+            finishedGames.remove(19);
         }
 
         game.setEndingPeriod(game.getClock().getPeriod());

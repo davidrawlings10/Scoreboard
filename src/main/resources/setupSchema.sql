@@ -74,6 +74,7 @@ CREATE TABLE `standing` (
   `away_otloss` int DEFAULT NULL,
   `away_point` int DEFAULT NULL,
   `away_gp` int DEFAULT NULL,
+  `ranking` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

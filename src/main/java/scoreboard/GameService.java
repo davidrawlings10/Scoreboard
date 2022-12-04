@@ -162,6 +162,7 @@ public class GameService {
         }
 
         standingService.updateStanding(game);
+        standingService.updateRankings(game.getSeasonId());
 
         final int gamesToAdd = gamesPlayingConcurrently - currentGames.size();
         for (int i = 0; i < gamesToAdd; ++i) {

@@ -104,6 +104,15 @@ public class StandingService {
         standingRepository.save(awayTeamStanding);
     }
 
+    public void updateRankings(int seasonId) {
+        List<Standing> standings = standingRepository.findBySeasonId(seasonId);
+        for (int i = 0; i < standings.size(); ++i) {
+            Standing standing = standings.get(i);
+            standing.setRanking(i + 1);
+            standingRepository.save(standing);
+        }
+    }
+
     public Standing findBySeasonIdAndTeamId(int seasonId, int teamId) {
         return standingRepository.findBySeasonIdAndTeamId(seasonId, teamId);
     }

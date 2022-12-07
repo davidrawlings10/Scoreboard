@@ -12,4 +12,7 @@ public interface StandingRepository extends CrudRepository<Standing, Integer> {
 
     @Query("select s from Standing s where s.seasonId = :seasonId order by s.point desc, s.win desc, s.gf - s.ga desc, s.gf desc")
     public List<Standing> findBySeasonId(@Param("seasonId") Integer seasonId);
+
+    @Query("select s from Standing s where s.teamId = :teamId")
+    public List<Standing> findByTeamId(@Param("teamId") Integer teamId);
 }

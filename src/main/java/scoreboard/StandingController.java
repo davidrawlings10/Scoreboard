@@ -32,4 +32,11 @@ public class StandingController {
 
         return JsonUtil.getJsonList(standingService.findBySeasonId(Integer.parseInt(seasonId)));
     }
+
+    @CrossOrigin
+    @GetMapping(path="getStandingByTeamId")
+    public @ResponseBody String getStandingByTeamId(@RequestParam String teamId) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(standingService.getStandingByTeamId(Integer.parseInt(teamId)));
+        return response;
+    }
 }

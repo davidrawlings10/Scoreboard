@@ -134,6 +134,11 @@ public class StandingService {
         return sb.toString();
     }
 
+    public List<Standing> getStandingByTeamId(int teamId) {
+        List<Standing> standings = standingRepository.findByTeamId(teamId);
+        return standings;
+    }
+
     /*private class StandingList {
         List<Standing> standings;
         public StandingList(List<Standing> standings) {

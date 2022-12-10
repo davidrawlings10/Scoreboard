@@ -42,7 +42,7 @@ CREATE TABLE `season` (
   `num_teams` int DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
   `winner_team_id` int DEFAULT NULL,
-  `summary` varchar(1000) DEFAULT NULL,
+  `summary` varchar(10000) DEFAULT NULL,
   `schedule_type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)

@@ -30,6 +30,10 @@ public class StandingController {
         String standingJSON = json.substring(1, json.length() -1);
         return "{\"standingList\":[" + standingJSON + "]}";*/
 
+        for (int i = 1; i < 21; ++i) {
+            standingService.updateRankings(i);
+        }
+
         return JsonUtil.getJsonList(standingService.findBySeasonId(Integer.parseInt(seasonId)));
     }
 

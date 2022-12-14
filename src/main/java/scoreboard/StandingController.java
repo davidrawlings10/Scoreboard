@@ -30,6 +30,17 @@ public class StandingController {
         String standingJSON = json.substring(1, json.length() -1);
         return "{\"standingList\":[" + standingJSON + "]}";*/
 
+        for (int i = 1; i < 21; ++i) {
+            standingService.updateRankings(i);
+        }
+
         return JsonUtil.getJsonList(standingService.findBySeasonId(Integer.parseInt(seasonId)));
+    }
+
+    @CrossOrigin
+    @GetMapping(path="getStandingByTeamId")
+    public @ResponseBody String getStandingByTeamId(@RequestParam String teamId) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(standingService.getStandingByTeamId(Integer.parseInt(teamId)));
+        return response;
     }
 }

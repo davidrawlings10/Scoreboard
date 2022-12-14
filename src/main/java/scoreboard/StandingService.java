@@ -104,6 +104,15 @@ public class StandingService {
         standingRepository.save(awayTeamStanding);
     }
 
+    public void updateRankings(int seasonId) {
+        List<Standing> standings = standingRepository.findBySeasonId(seasonId);
+        for (int i = 0; i < standings.size(); ++i) {
+            Standing standing = standings.get(i);
+            standing.setRanking(i + 1);
+            standingRepository.save(standing);
+        }
+    }
+
     public Standing findBySeasonIdAndTeamId(int seasonId, int teamId) {
         return standingRepository.findBySeasonIdAndTeamId(seasonId, teamId);
     }
@@ -116,13 +125,18 @@ public class StandingService {
         List<Standing> standings = standingRepository.findBySeasonId(seasonId);
         StringBuilder sb = new StringBuilder("INSERT INTO standing VALUES ");
         for (Standing standing : standings) {
-            sb.append(String.format("(%d, \"%s\", \"%s\", %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d),",
+            sb.append(String.format("(%d, \"%s\", \"%s\", %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d),",
                     standing.getId(), standing.getCreated(), standing.getUpdated(), standing.getSeasonId(), standing.getTeamId(), standing.getWin(), standing.getLoss(), standing.getTie(), standing.getOtloss(), standing.getPoint(), standing.getGp(), standing.getGf(), standing.getGa(),
                     standing.getHomeWin(), standing.getHomeLoss(), standing.getHomeTie(), standing.getHomeOtloss(), standing.getHomePoint(), standing.getHomeGp(),
-                    standing.getAwayWin(), standing.getAwayLoss(), standing.getAwayTie(), standing.getAwayOtloss(), standing.getAwayPoint(), standing.getAwayGp()));
+                    standing.getAwayWin(), standing.getAwayLoss(), standing.getAwayTie(), standing.getAwayOtloss(), standing.getAwayPoint(), standing.getAwayGp(), standing.getRanking()));
         };
         sb.replace(sb.length() - 1, sb.length(), ";");
         return sb.toString();
+    }
+
+    public List<Standing> getStandingByTeamId(int teamId) {
+        List<Standing> standings = standingRepository.findByTeamId(teamId);
+        return standings;
     }
 
     /*private class StandingList {

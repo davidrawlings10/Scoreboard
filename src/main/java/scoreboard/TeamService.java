@@ -43,14 +43,17 @@ public class TeamService {
                 continue;
             }
 
-            teamSeasonTotalMap.get(season.getWinnerTeamId()).incSeasonsWon();
-            teamSeasonTotalMap.get(season.getWinnerTeamId()).incWinPoints(season.getNumTeams());
-            teamSeasonTotalMap.get(season.getWinnerTeamId()).addTrophy(season.getNumTeams());
+            TeamSeasonTotal winningTeamTeamSeasonTotal = teamSeasonTotalMap.get(season.getWinnerTeamId());
+            winningTeamTeamSeasonTotal.incSeasonsWon();
+            winningTeamTeamSeasonTotal.incWinPoints(season.getNumTeams());
+            winningTeamTeamSeasonTotal.addTrophy(season.getNumTeams());
 
             Iterable<Standing> standings =  standingService.findBySeasonId(season.getId());
             for (Standing standing : standings) {
-                teamSeasonTotalMap.get(standing.getTeamId()).incSeasonPlayed();
-                teamSeasonTotalMap.get(standing.getTeamId()).incWinPointsPossible(season.getNumTeams());
+                TeamSeasonTotal teamSeasonTotal = teamSeasonTotalMap.get(standing.getTeamId());
+                teamSeasonTotal.incSeasonPlayed();
+                teamSeasonTotal.incPointsPossible(season.getNumTeams());
+                teamSeasonTotal.incPerformancePointsPossible(season.getNumTeams() - standing.getRanking() + 1);
             }
         }
 
@@ -68,7 +71,8 @@ public class TeamService {
         int seasonsWon;
         int seasonsPlayed;
         int winPoints;
-        int winPointsPossible;
+        int performancePoints;
+        int pointsPossible;
         List<Integer> trophies = new ArrayList<>();
 
         public TeamSeasonTotal(int teamId) {
@@ -87,9 +91,11 @@ public class TeamService {
             winPoints += val;
         }
 
-        public void incWinPointsPossible(int val) {
-            winPointsPossible += val;
+        public void incPointsPossible(int val) {
+            pointsPossible += val;
         }
+
+        public void incPerformancePointsPossible(int val) { performancePoints += val; }
 
         public void addTrophy(int trophy) {
             trophies.add(trophy);
@@ -127,12 +133,20 @@ public class TeamService {
             this.winPoints = winPoints;
         }
 
-        public int getWinPointsPossible() {
-            return winPointsPossible;
+        public int getPointsPossible() {
+            return pointsPossible;
         }
 
-        public void setWinPointsPossible(int winPointsPossible) {
-            this.winPointsPossible = winPointsPossible;
+        public void setPointsPossible(int pointsPossible) {
+            this.pointsPossible = pointsPossible;
+        }
+
+        public int getPerformancePoints() {
+            return performancePoints;
+        }
+
+        public void setPerformancePoints(int performancePoints) {
+            this.performancePoints = performancePoints;
         }
 
         public List<Integer> getTrophies() {

@@ -13,7 +13,8 @@ public class Standing {
     private Timestamp created, updated;
     private Integer seasonId, teamId, win, loss, tie, otloss, point, gf, ga, gp,
                     homeWin, homeLoss, homeTie, homeOtloss, homePoint, homeGp,
-                    awayWin, awayLoss, awayTie, awayOtloss, awayPoint, awayGp;
+                    awayWin, awayLoss, awayTie, awayOtloss, awayPoint, awayGp,
+                    ranking;
 
     public Integer getId() {
         return id;
@@ -293,5 +294,13 @@ public class Standing {
 
     public void incAwayGp(int val) {
         this.awayGp += val;
+    }
+
+    public Integer getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
     }
 }

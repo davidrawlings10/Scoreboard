@@ -29,19 +29,41 @@ public class Clock {
         MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
     }
 
-    public Clock(Sport sport) {
-        initalizeConstants(sport);
+    public Clock(Sport sport) throws Exception {
+        initializeConstants(sport);
         period = 1;
         intermission = true;
     }
 
-    public void initalizeConstants(Sport sport) {
+    public void initializeConstants(Sport sport) throws Exception {
+
+        /* Clock clock = SportInfoUtil.getSportInfo(sport).getClock();
+        ENDING_PERIOD = clock.getENDING_PERIOD();
+        MINUTES_IN_PERIOD = clock.getMINUTES_IN_PERIOD();
+        MINUTES_IN_OVERTIME = clock.getMINUTES_IN_OVERTIME();
+        MINUTES_IN_INTERMISSION = clock.getMINUTES_IN_INTERMISSION();
+        MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = clock.getMINUTES_IN_INTERMISSION_BEFORE_OVERTIME();
+*/
         switch (sport) {
             case HOCKEY:
                 ENDING_PERIOD = 3;
                 MINUTES_IN_PERIOD = 20;
                 MINUTES_IN_OVERTIME = 20;
                 MINUTES_IN_INTERMISSION = 20;
+                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5;
+                break;
+            case BASKETBALL:
+                ENDING_PERIOD = 4;
+                MINUTES_IN_PERIOD = 12;
+                MINUTES_IN_OVERTIME = 5;
+                MINUTES_IN_INTERMISSION = 12;
+                MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5;
+                break;
+            case FOOTBALL:
+                ENDING_PERIOD = 4;
+                MINUTES_IN_PERIOD = 15;
+                MINUTES_IN_OVERTIME = 15;
+                MINUTES_IN_INTERMISSION = 15;
                 MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 5;
                 break;
             default:
@@ -175,5 +197,25 @@ public class Clock {
 
     public int getMINUTES_IN_INTERMISSION_BEFORE_OVERTIME() {
         return MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+    }
+
+    public void setENDING_PERIOD(int ENDING_PERIOD) {
+        this.ENDING_PERIOD = ENDING_PERIOD;
+    }
+
+    public void setMINUTES_IN_PERIOD(int MINUTES_IN_PERIOD) {
+        this.MINUTES_IN_PERIOD = MINUTES_IN_PERIOD;
+    }
+
+    public void setMINUTES_IN_OVERTIME(int MINUTES_IN_OVERTIME) {
+        this.MINUTES_IN_OVERTIME = MINUTES_IN_OVERTIME;
+    }
+
+    public void setMINUTES_IN_INTERMISSION(int MINUTES_IN_INTERMISSION) {
+        this.MINUTES_IN_INTERMISSION = MINUTES_IN_INTERMISSION;
+    }
+
+    public void setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(int MINUTES_IN_INTERMISSION_BEFORE_OVERTIME) {
+        this.MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
     }
 }

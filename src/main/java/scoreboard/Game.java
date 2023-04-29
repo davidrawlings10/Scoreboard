@@ -182,6 +182,14 @@ public class Game {
         awayScore += val;
     }
 
+    public void incScore(int val, boolean isHomeTeam) {
+        if (isHomeTeam) {
+            homeScore += val;
+        } else {
+            awayScore += val;
+        }
+    }
+
     public Status getStatus() {
         return status;
     }

@@ -1,7 +1,7 @@
 package scoreboard;
 
 public enum Sport {
-    HOCKEY, SOCCER;
+    HOCKEY, BASKETBALL, FOOTBALL;
 
     /*private final int value;
 

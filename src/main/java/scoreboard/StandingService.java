@@ -53,7 +53,7 @@ public class StandingService {
         return standingRepository.save(standing);
     }
 
-    public void updateStanding(Game game) {
+    public void updateStanding(Game game) throws Exception {
         Standing homeTeamStanding = findBySeasonIdAndTeamId(game.getSeasonId(), game.getHomeTeamId());
         Standing awayTeamStanding = findBySeasonIdAndTeamId(game.getSeasonId(), game.getAwayTeamId());
 
@@ -69,7 +69,7 @@ public class StandingService {
             homeTeamStanding.incPoint(2);
             homeTeamStanding.incHomePoint(2);
 
-            if (game.getClock().getPeriod() < game.getClock().getENDING_PERIOD() + 1) {
+            if (game.getClock().getPeriod() < game.getSportInfo().getENDING_PERIOD() + 1) {
                 awayTeamStanding.incLoss(1);
                 awayTeamStanding.incAwayLoss(1);
             } else {
@@ -84,7 +84,7 @@ public class StandingService {
             awayTeamStanding.incPoint(2);
             awayTeamStanding.incAwayPoint(2);
 
-            if (game.getClock().getPeriod() < game.getClock().getENDING_PERIOD() + 1) {
+            if (game.getClock().getPeriod() < game.getSportInfo().getENDING_PERIOD() + 1) {
                 homeTeamStanding.incLoss(1);
                 homeTeamStanding.incHomeLoss(1);
             } else {

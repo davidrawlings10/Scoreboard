@@ -181,7 +181,7 @@ public class GameService {
         }
     }
 
-    private void setupGameForPlay(Game game) throws Exception {
+    public void setupGameForPlay(Game game) throws Exception {
         game.setHomeScore(0);
         game.setAwayScore(0);
         game.setStatus(Status.PLAYING);
@@ -208,7 +208,7 @@ public class GameService {
         Game game = gameRepository.findByGameId(gameId);
 
         Clock clock = clockService.getClockByGameId(gameId);
-        clock.initializeConstants(game.getSport());
+        // clock.initializeConstants(game.getSport());
 
         // handle edge case by adding a second to the clock so the intermission handling kicks in
         if (clock.getMinutes() == 0 && clock.getSeconds() == 0) {

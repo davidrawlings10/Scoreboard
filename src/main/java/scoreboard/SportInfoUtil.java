@@ -25,27 +25,25 @@ public class SportInfoUtil {
 
     private static SportInfo buildSportInfo(Sport sport) throws Exception {
         SportInfo sportInfo = new SportInfo();
-        Clock clock = new Clock();
         List<SportEvent> sportEvents = new ArrayList<>();
 
         if (sport.equals(Sport.HOCKEY)) {
-            clock.setENDING_PERIOD(3);
-            clock.setMINUTES_IN_PERIOD(20);
-            clock.setMINUTES_IN_OVERTIME(20);
-            clock.setMINUTES_IN_INTERMISSION(20);
-            clock.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
-            sportEvents.add(new SportEvent(1, 2.7, EventType.SCORE, clock));
+            sportInfo.setENDING_PERIOD(3);
+            sportInfo.setMINUTES_IN_PERIOD(20);
+            sportInfo.setMINUTES_IN_OVERTIME(20);
+            sportInfo.setMINUTES_IN_INTERMISSION(20);
+            sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
+            sportEvents.add(new SportEvent(1, 2.7, EventType.HOCKEY_GOAL, sportInfo));
         } else if (sport.equals(Sport.BASKETBALL)) {
-            clock.setENDING_PERIOD(2);
-            clock.setMINUTES_IN_PERIOD(20);
-            clock.setMINUTES_IN_OVERTIME(5);
-            clock.setMINUTES_IN_INTERMISSION(20);
-            clock.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
-            sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW, clock));
+            sportInfo.setENDING_PERIOD(2);
+            sportInfo.setMINUTES_IN_PERIOD(20);
+            sportInfo.setMINUTES_IN_OVERTIME(5);
+            sportInfo.setMINUTES_IN_INTERMISSION(20);
+            sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
+            sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW, sportInfo));
         }
 
         sportInfo.setSportEvents(sportEvents);
-        sportInfo.setClock(clock);
         return sportInfo;
     }
 

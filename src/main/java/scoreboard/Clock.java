@@ -18,32 +18,35 @@ public class Clock {
     private Boolean intermission;
 
     @Transient
-    private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+    Sport sport;
+    // private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
 
     // default constructor to make querying the database work
-    public Clock() {
+    public Clock() {}
+    /* public Clock() {
         ENDING_PERIOD = 1;
         MINUTES_IN_PERIOD = 1;
         MINUTES_IN_OVERTIME = 1;
         MINUTES_IN_INTERMISSION = 1;
         MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
-    }
+    }*/
 
-    public Clock(Sport sport) throws Exception {
-        initializeConstants(sport);
+    public Clock(Sport sport)
+    {
+        setSport(sport);
         period = 1;
         intermission = true;
     }
 
-    public void initializeConstants(Sport sport) throws Exception {
+    /* public void initializeConstants(Sport sport) throws Exception {
 
-        /* Clock clock = SportInfoUtil.getSportInfo(sport).getClock();
+        Clock clock = SportInfoUtil.getSportInfo(sport).getClock();
         ENDING_PERIOD = clock.getENDING_PERIOD();
         MINUTES_IN_PERIOD = clock.getMINUTES_IN_PERIOD();
         MINUTES_IN_OVERTIME = clock.getMINUTES_IN_OVERTIME();
         MINUTES_IN_INTERMISSION = clock.getMINUTES_IN_INTERMISSION();
         MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = clock.getMINUTES_IN_INTERMISSION_BEFORE_OVERTIME();
-*/
+
         switch (sport) {
             case HOCKEY:
                 ENDING_PERIOD = 3;
@@ -74,14 +77,15 @@ public class Clock {
                 MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = 1;
                 break;
         }
-    }
+    } */
 
-    public void reset() {
+    public void reset() throws Exception {
         seconds = 0;
-        if (period <= ENDING_PERIOD) {
-            minutes = intermission ? MINUTES_IN_INTERMISSION : MINUTES_IN_PERIOD;
+        SportInfo sportInfo = SportInfoUtil.getSportInfo(sport);
+        if (period <= sportInfo.getENDING_PERIOD()) {
+            minutes = intermission ? sportInfo.getMINUTES_IN_INTERMISSION() : sportInfo.getMINUTES_IN_PERIOD();
         } else {
-            minutes = intermission ? MINUTES_IN_INTERMISSION_BEFORE_OVERTIME : MINUTES_IN_OVERTIME;
+            minutes = intermission ? sportInfo.getMINUTES_IN_INTERMISSION_BEFORE_OVERTIME() : sportInfo.getMINUTES_IN_OVERTIME();
         }
     }
 
@@ -93,8 +97,9 @@ public class Clock {
         }
     }
 
-    public void handlePeriodEnd() {
-        if (isPeriodEnded()) {
+    public void handlePeriodEnd() throws Exception {
+        final boolean ipe = isPeriodEnded();
+        if (ipe) {
             if (!intermission) {
                 period += 1;
             }
@@ -179,7 +184,15 @@ public class Clock {
         this.intermission = intermission;
     }
 
-    public int getENDING_PERIOD() {
+    public Sport getSport() {
+        return sport;
+    }
+
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
+    /* public int getENDING_PERIOD() {
         return ENDING_PERIOD;
     }
 
@@ -217,5 +230,5 @@ public class Clock {
 
     public void setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(int MINUTES_IN_INTERMISSION_BEFORE_OVERTIME) {
         this.MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
-    }
+    } */
 }

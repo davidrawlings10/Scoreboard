@@ -166,12 +166,12 @@ public class Game {
         this.awayLocation = awayLocation;
     }
 
-    public boolean isFinal() {
+    public boolean isFinal() throws Exception {
         if (homeScore == null || awayScore == null || clock == null)
             return false;
 
-        return !homeScore.equals(awayScore) && clock.getPeriod() == clock.getENDING_PERIOD() && clock.isPeriodEnded() && !clock.getIntermission() // game ends in regulation
-                || !homeScore.equals(awayScore) && clock.getPeriod() > clock.getENDING_PERIOD(); // game ends in overtime
+        return !homeScore.equals(awayScore) && clock.getPeriod() == SportInfoUtil.getSportInfo(sport).getENDING_PERIOD() && clock.isPeriodEnded() && !clock.getIntermission() // game ends in regulation
+                || !homeScore.equals(awayScore) && clock.getPeriod() > SportInfoUtil.getSportInfo(sport).getENDING_PERIOD(); // game ends in overtime
     }
 
     public void incHomeScore(int val) {
@@ -196,5 +196,9 @@ public class Game {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public SportInfo getSportInfo() throws Exception {
+        return SportInfoUtil.getSportInfo(sport);
     }
 }

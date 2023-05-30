@@ -11,7 +11,8 @@ import java.util.concurrent.TimeUnit;
 public class GameService {
 
     @Autowired private GameRepository gameRepository;
-    @Autowired private HockeyPlayService hockeyPlayService;
+    // @Autowired private HockeyPlayService hockeyPlayService;
+    @Autowired private PlayService playService;
     @Autowired private TeamService teamService;
     @Autowired private SeasonService seasonService;
     @Autowired private StandingService standingService;
@@ -107,11 +108,15 @@ public class GameService {
                         continue;
                     }
 
-                    if (game.getSport().equals(Sport.HOCKEY)) {
+                    if (playService.playSec(game)) {
+                        handleGameEnd(game);
+                    }
+
+                    /*if (game.getSport().equals(Sport.HOCKEY)) {
                         if (hockeyPlayService.playSec(game)) {
                             handleGameEnd(game);
                         }
-                    }
+                    }*/
                 }
             } catch (Exception e) {
                 // An exception happens when a game ends because currentGames is modified
@@ -138,7 +143,7 @@ public class GameService {
         gamesPlayingConcurrently = games;
     }
 
-    private void handleGameEnd(Game game) {
+    private void handleGameEnd(Game game) throws Exception {
         currentGames.remove(game);
         finishedGames.add(0, game);
         // if finishedGames gets too big remove games off the end to make room
@@ -176,7 +181,7 @@ public class GameService {
         }
     }
 
-    private void setupGameForPlay(Game game) {
+    public void setupGameForPlay(Game game) throws Exception {
         game.setHomeScore(0);
         game.setAwayScore(0);
         game.setStatus(Status.PLAYING);
@@ -199,11 +204,11 @@ public class GameService {
         game.setAwayLocation(awayTeam.getLocation());
     }
 
-    public void resumeIncompleteSeasonGame(int gameId) {
+    public void resumeIncompleteSeasonGame(int gameId) throws Exception {
         Game game = gameRepository.findByGameId(gameId);
 
         Clock clock = clockService.getClockByGameId(gameId);
-        clock.initalizeConstants(game.getSport());
+        // clock.initializeConstants(game.getSport());
 
         // handle edge case by adding a second to the clock so the intermission handling kicks in
         if (clock.getMinutes() == 0 && clock.getSeconds() == 0) {
@@ -215,7 +220,7 @@ public class GameService {
         addGameToCurrentGames(game);
     }
 
-    public void startSingleGame(Sport sport, int homeTeamId, int awayTeamId) {
+    public void startSingleGame(Sport sport, int homeTeamId, int awayTeamId) throws Exception {
         Game game = new Game(sport, homeTeamId, awayTeamId);
         setupGameForPlay(game);
         addGameToCurrentGames(game);
@@ -294,7 +299,7 @@ public class GameService {
         return false;
     }
 
-    public void playSeasonGame(int gameId) {
+    public void playSeasonGame(int gameId) throws Exception {
         Game game = gameRepository.findByGameId(gameId);
         setupGameForPlay(game);
         addGameToCurrentGames(game);

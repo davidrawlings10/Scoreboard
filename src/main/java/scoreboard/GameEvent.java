@@ -15,9 +15,9 @@ public class GameEvent {
 
     public GameEvent() {}
 
-    public GameEvent(Game game, boolean isHomeTeam) {
+    public GameEvent(Game game, EventType eventType, boolean isHomeTeam) {
         this.setGameId(game.getId());
-        this.setEventType(EventType.SCORE);
+        this.setEventType(eventType);
         this.setTeamId(isHomeTeam ? game.getHomeTeamId() : game.getAwayTeamId());
         this.setHomeScore(game.getHomeScore());
         this.setAwayScore(game.getAwayScore());

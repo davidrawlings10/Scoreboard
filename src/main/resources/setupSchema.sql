@@ -13,6 +13,7 @@ CREATE TABLE `team` (
   `league` varchar(45),
   `location` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
+  `division` varchar(45) DEFAULT NULL,
   `active` boolean NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -78,15 +79,6 @@ CREATE TABLE `standing` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-/*CREATE TABLE `sport` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;*/
 
 CREATE TABLE `game_event` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,

@@ -13,7 +13,7 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/startSingleGame")
-    public @ResponseBody void startSingleGame(@RequestParam String sport, @RequestParam String homeTeamId, @RequestParam String awayTeamId) {
+    public @ResponseBody void startSingleGame(@RequestParam String sport, @RequestParam String homeTeamId, @RequestParam String awayTeamId) throws Exception {
         gameService.startSingleGame(Sport.valueOf(sport), Integer.parseInt(homeTeamId), Integer.parseInt(awayTeamId));
     }
 
@@ -33,7 +33,7 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/playSeasonGame")
-    public @ResponseBody void playNextSeasonGame(@RequestParam Integer gameId) throws JsonProcessingException {
+    public @ResponseBody void playNextSeasonGame(@RequestParam Integer gameId) throws Exception {
         gameService.playSeasonGame(gameId);
     }
 
@@ -55,7 +55,7 @@ public class GameController {
 
     @CrossOrigin
     @GetMapping(path="/resumeIncompleteSeasonGame")
-    public @ResponseBody void resumeIncompleteSeasonGame(@RequestParam Integer gameId) throws JsonProcessingException {
+    public @ResponseBody void resumeIncompleteSeasonGame(@RequestParam Integer gameId) throws Exception {
         gameService.resumeIncompleteSeasonGame(gameId);
     }
 

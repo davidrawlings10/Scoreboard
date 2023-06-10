@@ -37,7 +37,7 @@ INSERT INTO team (league, location, name, division) VALUES
 ('AVES', null, 'Roadrunner', 'Big D'),
 ('NHL', 'Carolina', 'Hurricanes', 'East Metropolitan'),
 ('NHL', 'Columbus', 'Blue Jackets', 'East Metropolitan'),
-('NHL', 'New Jersey', 'Angels', 'East Metropolitan'),
+('NHL', 'New Jersey', 'Scouts', 'East Metropolitan'),
 ('NHL', 'New York', 'Islanders', 'East Metropolitan'),
 ('NHL', 'New York', 'Rangers', 'East Metropolitan'),
 ('NHL', 'Philadelphia', 'Flyers', 'East Metropolitan'),

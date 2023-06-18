@@ -55,6 +55,14 @@ public class SeasonController {
 
     // http://localhost:8080/season/getSQL?seasonId=1
     @CrossOrigin
+    @GetMapping(path="/getFullSQL")
+    public @ResponseBody String getSQL() {
+        String response = seasonService.getCompleteInsertSQL();
+        return response;
+    }
+
+    // http://localhost:8080/season/getSQL?seasonId=1
+    @CrossOrigin
     @GetMapping(path="/getSQL")
     public @ResponseBody String getSQL(@RequestParam String seasonId) {
         String response = seasonService.getCompleteInsertSQL(Integer.parseInt(seasonId));

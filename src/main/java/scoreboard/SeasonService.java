@@ -230,6 +230,14 @@ public class SeasonService {
         awayTeamStanding.setGa(awayTeamStanding.getGa() + game.getHomeScore());
     }
 
+    public String getCompleteInsertSQL() {
+        StringBuilder sb = new StringBuilder();
+        for (Season season : findAll()) {
+            sb.append(getCompleteInsertSQL(season.getId()));
+        }
+        return sb.toString();
+    }
+
     public String getCompleteInsertSQL(int seasonId) {
         return getInsertSQL(seasonId) +
                 "\n" +

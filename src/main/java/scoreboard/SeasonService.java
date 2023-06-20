@@ -260,6 +260,18 @@ public class SeasonService {
         }
     }
 
+    /* public List<LeagueInfo> getLeagueInfoList() {
+        List<LeagueInfo> leagueInfoList = new ArrayList<LeagueInfo>();
+        for (League league : League) {
+            LeagueInfo leagueInfo = new LeagueInfo(league.values, league.label);
+
+            leagueInfoList.push(league);
+        }
+        return leagueInfoList;
+
+        EnumSet.allOf(League.class)
+    } */
+
     // data access
 
     public Season findById(int id) {

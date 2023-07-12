@@ -40,7 +40,10 @@ public class SportInfoUtil {
             sportInfo.setMINUTES_IN_OVERTIME(5);
             sportInfo.setMINUTES_IN_INTERMISSION(20);
             sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
-            sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW, sportInfo));
+            sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW_1_MADE, sportInfo));
+            sportEvents.add(new SportEvent(2, 10.0, EventType.BASKETBALL_FREE_THROW_2_MADE, sportInfo));
+            sportEvents.add(new SportEvent(2, 36.0, EventType.BASKETBALL_TWO_POINTER, sportInfo));
+            sportEvents.add(new SportEvent(3, 24.0, EventType.BASKETBALL_THREE_POINTER, sportInfo));
         }
 
         sportInfo.setSportEvents(sportEvents);

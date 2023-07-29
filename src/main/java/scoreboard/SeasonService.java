@@ -284,6 +284,12 @@ public class SeasonService {
         return seasons;
     }
 
+    // work in progress...
+    public List<Season> getSeasons(League league, Sport sport) {
+        List<Season> seasons = seasonRepository.findAll();
+        return seasons;
+    }
+
     public Season update(int id, String title, Integer winnerTeamId, String summary) {
         Optional<Season> seasonOptional = seasonRepository.findById(id);
         Season season = seasonOptional.get();

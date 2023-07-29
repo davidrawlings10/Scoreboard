@@ -170,8 +170,8 @@ public class Game {
         if (homeScore == null || awayScore == null || clock == null)
             return false;
 
-        return !homeScore.equals(awayScore) && clock.getPeriod() == SportInfoUtil.getSportInfo(sport).getENDING_PERIOD() && clock.isPeriodEnded() && !clock.getIntermission() // game ends in regulation
-                || !homeScore.equals(awayScore) && clock.getPeriod() > SportInfoUtil.getSportInfo(sport).getENDING_PERIOD(); // game ends in overtime
+        return !homeScore.equals(awayScore) && clock.getPeriod() == SportInfoUtil.getSportInfo(sport).getENDING_PERIOD() && clock.isPeriodEnded() && !clock.getIntermission() // game ends at the end of a period
+                || sport == Sport.HOCKEY && !homeScore.equals(awayScore) && clock.getPeriod() > SportInfoUtil.getSportInfo(sport).getENDING_PERIOD(); // game ends in overtime on a sudden death goal (Hockey only)
     }
 
     public void incHomeScore(int val) {

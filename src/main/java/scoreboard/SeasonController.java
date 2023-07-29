@@ -2,12 +2,15 @@ package scoreboard;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,11 +29,13 @@ public class SeasonController {
         return "Season scheduled, id:" + season.getId();
     }
 
+    // http://localhost:8080/season/getSeasons
     @CrossOrigin
     @GetMapping(path="/getSeasons")
-    public @ResponseBody String getSeasons() throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(seasonService.findAll());
-        return response;
+    public @ResponseBody ResponseEntity<String> getSeasons(@RequestParam String league, @RequestParam String sport) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(seasonService.getSeasons(League.valueOf(league), Sport.valueOf(sport)));
+        // experiment with cache control - max-age
+        return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)).body(response);
     }
 
     // http://localhost:8080/season/findById?seasonId=7

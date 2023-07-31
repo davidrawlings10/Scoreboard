@@ -33,6 +33,9 @@ public class SportInfoUtil {
             sportInfo.setMINUTES_IN_OVERTIME(20);
             sportInfo.setMINUTES_IN_INTERMISSION(20);
             sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
+            sportInfo.setMIN_POSSESSION_SECONDS(5);
+            sportInfo.setMAX_POSSESSION_SECONDS(120);
+            sportInfo.setSuddenDeathOvertime(true);
             sportEvents.add(new SportEvent(1, 2.7, EventType.HOCKEY_GOAL, sportInfo));
         } else if (sport.equals(Sport.BASKETBALL)) {
             sportInfo.setENDING_PERIOD(2);
@@ -40,6 +43,9 @@ public class SportInfoUtil {
             sportInfo.setMINUTES_IN_OVERTIME(5);
             sportInfo.setMINUTES_IN_INTERMISSION(20);
             sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
+            sportInfo.setMIN_POSSESSION_SECONDS(5);
+            sportInfo.setMAX_POSSESSION_SECONDS(45);
+            sportInfo.setSuddenDeathOvertime(false);
             sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW_1_MADE, sportInfo));
             sportEvents.add(new SportEvent(2, 10.0, EventType.BASKETBALL_FREE_THROW_2_MADE, sportInfo));
             sportEvents.add(new SportEvent(2, 36.0, EventType.BASKETBALL_TWO_POINTER, sportInfo));

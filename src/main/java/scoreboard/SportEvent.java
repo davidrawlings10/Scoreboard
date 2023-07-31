@@ -14,8 +14,10 @@ public class SportEvent {
 
         final int secondsInGame = sportInfo.getENDING_PERIOD() * sportInfo.getMINUTES_IN_PERIOD() * 60;
 
-        this.chanceHome = (pointsPerGame + (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * 100; // give home a little more chance to score
-        this.chanceAway = (pointsPerGame - (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * 100; // give away a little less chance to score
+        final int averagePossessionSeconds = (sportInfo.getMAX_POSSESSION_SECONDS() - sportInfo.getMIN_POSSESSION_SECONDS()) / 2 + sportInfo.getMIN_POSSESSION_SECONDS();
+
+        this.chanceHome = (pointsPerGame + (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100; // give home a little more chance to score
+        this.chanceAway = (pointsPerGame - (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100; // give away a little less chance to score
     }
 
     public int getScoreAmount() {

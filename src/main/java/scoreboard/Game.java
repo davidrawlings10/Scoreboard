@@ -27,6 +27,9 @@ public class Game {
     @Enumerated(EnumType.STRING)
     @Transient TeamAlreadyPlaying teamAlreadyPlaying;
 
+    @Transient int possessionSecondsRemaining;
+    @Transient boolean homeHasPossession;
+
     // caching
     @Transient String homeLocation, awayLocation, homeName, awayName;
 
@@ -134,6 +137,31 @@ public class Game {
         this.teamAlreadyPlaying = teamAlreadyPlaying;
     }
 
+    public int getPossessionSecondsRemaining() {
+        return possessionSecondsRemaining;
+    }
+
+    public void setPossessionSecondsRemaining(int possessionSecondsRemaining) {
+        this.possessionSecondsRemaining = possessionSecondsRemaining;
+    }
+
+    public boolean isHomeHasPossession() {
+        return homeHasPossession;
+    }
+
+    public void setHomeHasPossession(boolean homeHasPossession) {
+        this.homeHasPossession = homeHasPossession;
+    }
+
+    public void decPossessionSecondsRemaining() {
+        possessionSecondsRemaining -= 1;
+    }
+
+    public int getNextPossessionSeconds() throws Exception {
+        SportInfo sportInfo = SportInfoUtil.getSportInfo(this.sport);
+        return RandomUtil.getRandom(sportInfo.getMAX_POSSESSION_SECONDS()) + sportInfo.getMIN_POSSESSION_SECONDS();
+    }
+
     public String getHomeName() {
         return homeName;
     }
@@ -170,8 +198,14 @@ public class Game {
         if (homeScore == null || awayScore == null || clock == null)
             return false;
 
-        return !homeScore.equals(awayScore) && clock.getPeriod() == SportInfoUtil.getSportInfo(sport).getENDING_PERIOD() && clock.isPeriodEnded() && !clock.getIntermission() // game ends at the end of a period
-                || sport == Sport.HOCKEY && !homeScore.equals(awayScore) && clock.getPeriod() > SportInfoUtil.getSportInfo(sport).getENDING_PERIOD(); // game ends in overtime on a sudden death goal (Hockey only)
+        return  // game ends at the end of the last period or overtime
+                !homeScore.equals(awayScore)
+                && clock.getPeriod() >= SportInfoUtil.getSportInfo(sport).getENDING_PERIOD()
+                && clock.isPeriodEnded() && !clock.getIntermission()
+                // game ends in overtime on a sudden death goal
+                || !homeScore.equals(awayScore)
+                && clock.getPeriod() > SportInfoUtil.getSportInfo(sport).getENDING_PERIOD()
+                && SportInfoUtil.getSportInfo(sport).isSuddenDeathOvertime();
     }
 
     public void incHomeScore(int val) {

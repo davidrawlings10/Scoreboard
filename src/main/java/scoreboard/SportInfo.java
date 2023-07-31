@@ -4,9 +4,11 @@ import java.util.List;
 
 public class SportInfo {
     List<SportEvent> sportEvents;
+    private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME,
+            MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME,
+    MIN_POSSESSION_SECONDS, MAX_POSSESSION_SECONDS;
 
-    // Clock clock;
-    private int ENDING_PERIOD, MINUTES_IN_PERIOD, MINUTES_IN_OVERTIME, MINUTES_IN_INTERMISSION, MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+    private boolean suddenDeathOvertime;
 
     public List<SportEvent> getSportEvents() {
         return sportEvents;
@@ -14,14 +16,6 @@ public class SportInfo {
     public void setSportEvents(List<SportEvent> sportEvents) {
         this.sportEvents = sportEvents;
     }
-
-    /*public Clock getClock() {
-        return clock;
-    }
-
-    public void setClock(Clock clock) {
-        this.clock = clock;
-    }*/
 
     public int getENDING_PERIOD() {
         return ENDING_PERIOD;
@@ -61,6 +55,30 @@ public class SportInfo {
 
     public void setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(int MINUTES_IN_INTERMISSION_BEFORE_OVERTIME) {
         this.MINUTES_IN_INTERMISSION_BEFORE_OVERTIME = MINUTES_IN_INTERMISSION_BEFORE_OVERTIME;
+    }
+
+    public int getMIN_POSSESSION_SECONDS() {
+        return MIN_POSSESSION_SECONDS;
+    }
+
+    public void setMIN_POSSESSION_SECONDS(int MIN_POSSESSION_SECONDS) {
+        this.MIN_POSSESSION_SECONDS = MIN_POSSESSION_SECONDS;
+    }
+
+    public int getMAX_POSSESSION_SECONDS() {
+        return MAX_POSSESSION_SECONDS;
+    }
+
+    public void setMAX_POSSESSION_SECONDS(int MAX_POSSESSION_SECONDS) {
+        this.MAX_POSSESSION_SECONDS = MAX_POSSESSION_SECONDS;
+    }
+
+    public boolean isSuddenDeathOvertime() {
+        return suddenDeathOvertime;
+    }
+
+    public void setSuddenDeathOvertime(boolean suddenDeathOvertime) {
+        this.suddenDeathOvertime = suddenDeathOvertime;
     }
 }
 

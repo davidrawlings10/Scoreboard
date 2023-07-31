@@ -184,6 +184,8 @@ public class GameService {
     public void setupGameForPlay(Game game) throws Exception {
         game.setHomeScore(0);
         game.setAwayScore(0);
+        game.setHomeHasPossession(RandomUtil.occur(0.50)); // randomly set which team starts with possession
+        game.setPossessionSecondsRemaining(game.getNextPossessionSeconds());
         game.setStatus(Status.PLAYING);
 
         Clock clock = new Clock(game.getSport());

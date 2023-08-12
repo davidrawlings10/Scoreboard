@@ -15,7 +15,7 @@ public class PlayService {
             return true; // return true to signal the end of the game
         }
 
-        if (game.getPossessionSecondsRemaining() == 0) {
+        /*if (game.getPossessionSecondsRemaining() == 0) {
             game.setHomeHasPossession(!game.isHomeHasPossession());
             game.setPossessionSecondsRemaining(game.getNextPossessionSeconds());
             updateScore(game);
@@ -24,6 +24,10 @@ public class PlayService {
             if (!game.getClock().getIntermission()) {
                 game.decPossessionSecondsRemaining();
             }
+        }*/
+
+        if (!game.getClock().getIntermission()) {
+            updateScore(game);
         }
 
         game.getClock().tickDown();
@@ -44,10 +48,8 @@ public class PlayService {
 
         return false; // return false to signal that the game hasn't ended
     }
-
-
-
-    /*private void updateScore(Game game) throws Exception { `1
+    
+    private void updateScore(Game game) throws Exception {
         for (SportEvent sportEvent : SportInfoUtil.getSportInfo(game.getSport()).getSportEvents()) {
             if (RandomUtil.occur(sportEvent.getChanceHome())) {
                 incScore(game, sportEvent, true);
@@ -58,9 +60,9 @@ public class PlayService {
                 break;
             }
         }
-    } */
+    }
 
-    private void updateScore(Game game) throws Exception {
+    /* private void updateScore(Game game) throws Exception {
         for (SportEvent sportEvent : SportInfoUtil.getSportInfo(game.getSport()).getSportEvents()) {
             if (game.homeHasPossession) {
                 if (RandomUtil.occur(sportEvent.getChanceHome())) {
@@ -74,7 +76,7 @@ public class PlayService {
                 }
             }
         }
-    }
+    } */
 
     public void incScore(Game game, SportEvent sportEvent, boolean isHomeTeam) {
         game.incScore(sportEvent.getScoreAmount(), isHomeTeam);

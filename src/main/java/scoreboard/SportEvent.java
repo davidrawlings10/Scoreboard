@@ -6,35 +6,18 @@ public class SportEvent {
     private double chanceAway;
     private EventType eventType;
 
-    final double homeAwayChanceAdjustment = 1.0 / 15.0;
-
     public SportEvent(int scoreAmount, double pointsPerGame, EventType eventType, SportInfo sportInfo) throws Exception {
         this.scoreAmount = scoreAmount;
         this.eventType = eventType;
 
-        this.chanceHome = getChance(sportInfo, pointsPerGame, true); // give home a little more chance to score
-        this.chanceAway = getChance(sportInfo, pointsPerGame, false); // give away a little less chance to score
-    }
-
-    private double getChance(SportInfo sportInfo, double pointsPerGame, boolean isHome) {
         final double homeAwayChanceAdjustment = 1.0 / 15.0;
 
         final int secondsInGame = sportInfo.getENDING_PERIOD() * sportInfo.getMINUTES_IN_PERIOD() * 60;
 
         final int averagePossessionSeconds = (sportInfo.getMAX_POSSESSION_SECONDS() - sportInfo.getMIN_POSSESSION_SECONDS()) / 2 + sportInfo.getMIN_POSSESSION_SECONDS();
 
-        if (isHome) {
-            pointsPerGame += (pointsPerGame * homeAwayChanceAdjustment);
-        } else {
-            pointsPerGame -= (pointsPerGame * homeAwayChanceAdjustment);
-        }
-
-        return pointsPerGame
-                / scoreAmount
-                / secondsInGame
-                // * averagePossessionSeconds
-//                * 2
-                * 100;
+        this.chanceHome = (pointsPerGame + (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100; // give home a little more chance to score
+        this.chanceAway = (pointsPerGame - (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100; // give away a little less chance to score
     }
 
     public int getScoreAmount() {

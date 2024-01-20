@@ -16,10 +16,9 @@ public class PlayService {
         }
 
         if (game.getPossessionSecondsRemaining() == 0) {
+            handlePossessionEnd(game);
             game.setHomeHasPossession(!game.isHomeHasPossession());
             game.setPossessionSecondsRemaining(game.getNextPossessionSeconds());
-            // updateScore(game);
-            handlePossessionEnd(game);
             gameEventService.save(new GameEvent(game, EventType.POSSESSION_CHANGE, game.isHomeHasPossession()));
         } else {
             if (!game.getClock().getIntermission()) {

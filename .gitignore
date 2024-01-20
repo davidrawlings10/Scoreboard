@@ -34,3 +34,4 @@ out/
 ### Manually added ###
 .~lock.scoreboard_history.ods*
 *.log
+*.hprof

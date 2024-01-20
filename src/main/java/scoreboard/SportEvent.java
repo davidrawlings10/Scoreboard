@@ -10,7 +10,7 @@ public class SportEvent {
         this.scoreAmount = scoreAmount;
         this.eventType = eventType;
 
-        final double homeAwayChanceAdjustment = 1.0 / 15.0;
+        final double homeAwayChanceAdjustment = sportInfo.getHomeAwayChangeAdjustment();
 
         final int secondsInGame = sportInfo.getENDING_PERIOD() * sportInfo.getMINUTES_IN_PERIOD() * 60;
 

@@ -18,7 +18,8 @@ public class PlayService {
         if (game.getPossessionSecondsRemaining() == 0) {
             game.setHomeHasPossession(!game.isHomeHasPossession());
             game.setPossessionSecondsRemaining(game.getNextPossessionSeconds());
-            updateScore(game);
+            // updateScore(game);
+            handlePossessionEnd(game);
             gameEventService.save(new GameEvent(game, EventType.POSSESSION_CHANGE, game.isHomeHasPossession()));
         } else {
             if (!game.getClock().getIntermission()) {
@@ -45,8 +46,6 @@ public class PlayService {
         return false; // return false to signal that the game hasn't ended
     }
 
-
-
     /*private void updateScore(Game game) throws Exception { `1
         for (SportEvent sportEvent : SportInfoUtil.getSportInfo(game.getSport()).getSportEvents()) {
             if (RandomUtil.occur(sportEvent.getChanceHome())) {
@@ -60,19 +59,10 @@ public class PlayService {
         }
     } */
 
-    private void updateScore(Game game) throws Exception {
-        for (SportEvent sportEvent : SportInfoUtil.getSportInfo(game.getSport()).getSportEvents()) {
-            if (game.homeHasPossession) {
-                if (RandomUtil.occur(sportEvent.getChanceHome())) {
-                    incScore(game, sportEvent, true);
-                    break;
-                }
-            } else {
-                if (RandomUtil.occur(sportEvent.getChanceAway())) {
-                    incScore(game, sportEvent, false);
-                    break;
-                }
-            }
+    private void handlePossessionEnd(Game game) throws Exception {
+        SportEvent sportEvent = RandomUtil.getRandomSportEvent(game);
+        if (sportEvent != null) {
+            incScore(game, sportEvent, game.homeHasPossession);
         }
     }
 

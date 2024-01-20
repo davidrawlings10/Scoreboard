@@ -10,6 +10,8 @@ public class SportInfo {
 
     private boolean suddenDeathOvertime;
 
+    private double homeAwayChangeAdjustment;
+
     public List<SportEvent> getSportEvents() {
         return sportEvents;
     }
@@ -79,6 +81,14 @@ public class SportInfo {
 
     public void setSuddenDeathOvertime(boolean suddenDeathOvertime) {
         this.suddenDeathOvertime = suddenDeathOvertime;
+    }
+
+    public double getHomeAwayChangeAdjustment() {
+        return homeAwayChangeAdjustment;
+    }
+
+    public void setHomeAwayChangeAdjustment(double homeAwayChangeAdjustment) {
+        this.homeAwayChangeAdjustment = homeAwayChangeAdjustment;
     }
 }
 

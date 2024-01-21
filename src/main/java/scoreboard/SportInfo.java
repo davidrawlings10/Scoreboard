@@ -12,6 +12,11 @@ public class SportInfo {
 
     private double homeAwayChangeAdjustment;
 
+    // adding this because for whatever reason since I added possession code my total scores are coming up short
+    // for example: if in Basketball I'm aiming for avg total scores at 74, I'm actually seeing around 66.
+    // So a score totalScoreAdjustment is set at 1.1 to manually adjust to 74.
+    private double totalScoreCalibration;
+
     public List<SportEvent> getSportEvents() {
         return sportEvents;
     }
@@ -89,6 +94,14 @@ public class SportInfo {
 
     public void setHomeAwayChangeAdjustment(double homeAwayChangeAdjustment) {
         this.homeAwayChangeAdjustment = homeAwayChangeAdjustment;
+    }
+
+    public double getTotalScoreCalibration() {
+        return totalScoreCalibration;
+    }
+
+    public void setTotalScoreCalibration(double totalScoreCalibration) {
+        this.totalScoreCalibration = totalScoreCalibration;
     }
 }
 

@@ -37,7 +37,7 @@ public class SportInfoUtil {
             sportInfo.setMAX_POSSESSION_SECONDS(120);
             sportInfo.setSuddenDeathOvertime(true);
             sportInfo.setHomeAwayChangeAdjustment(1.0 / 15.0); // 0.06666666667
-            sportInfo.setTotalScoreCalibration(1); // 1.0
+            sportInfo.setTotalScoreCalibration(1.1);
             sportEvents.add(new SportEvent(1, 2.7, EventType.HOCKEY_GOAL, sportInfo));
         } else if (sport.equals(Sport.BASKETBALL)) {
             sportInfo.setENDING_PERIOD(2);
@@ -49,7 +49,7 @@ public class SportInfoUtil {
             sportInfo.setMAX_POSSESSION_SECONDS(45);
             sportInfo.setSuddenDeathOvertime(false);
             sportInfo.setHomeAwayChangeAdjustment(1.0 / 70.0); // 0.01428571428
-            sportInfo.setTotalScoreCalibration(1.1);
+            sportInfo.setTotalScoreCalibration(1.11);
             sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW_1_MADE, sportInfo));
             sportEvents.add(new SportEvent(2, 10.0, EventType.BASKETBALL_FREE_THROW_2_MADE, sportInfo));
             sportEvents.add(new SportEvent(2, 36.0, EventType.BASKETBALL_TWO_POINTER, sportInfo));

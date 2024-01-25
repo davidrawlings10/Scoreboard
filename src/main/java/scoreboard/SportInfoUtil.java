@@ -37,7 +37,7 @@ public class SportInfoUtil {
             sportInfo.setMAX_POSSESSION_SECONDS(120);
             sportInfo.setSuddenDeathOvertime(true);
             sportInfo.setHomeAwayChangeAdjustment(1.0 / 15.0); // 0.06666666667
-            sportInfo.setTotalScoreCalibration(1.1);
+            sportInfo.setTotalScoreCalibration(1.05);
             sportEvents.add(new SportEvent(1, 2.7, EventType.HOCKEY_GOAL, sportInfo));
         } else if (sport.equals(Sport.BASKETBALL)) {
             sportInfo.setENDING_PERIOD(2);

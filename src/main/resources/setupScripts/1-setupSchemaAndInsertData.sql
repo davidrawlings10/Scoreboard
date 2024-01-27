@@ -110,6 +110,10 @@ CREATE TABLE `clock` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+ALTER TABLE game_event
+ADD INDEX gameId (game_id ASC) VISIBLE;
+ALTER TABLE game_event ALTER INDEX id_UNIQUE INVISIBLE;
+
 -- insert teams
 INSERT INTO team (league, location, name, division) VALUES
 ('AVES', null, 'Hummingbird', 'Small A'),

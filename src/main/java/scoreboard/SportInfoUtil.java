@@ -34,7 +34,7 @@ public class SportInfoUtil {
             sportInfo.setMINUTES_IN_INTERMISSION(20);
             sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
             sportInfo.setMIN_POSSESSION_SECONDS(5);
-            sportInfo.setMAX_POSSESSION_SECONDS(120);
+            sportInfo.setMAX_POSSESSION_SECONDS(60);
             sportInfo.setSuddenDeathOvertime(true);
             sportInfo.setHomeAwayChangeAdjustment(1.0 / 15.0); // 0.06666666667
             sportInfo.setTotalScoreCalibration(1.05);
@@ -45,8 +45,8 @@ public class SportInfoUtil {
             sportInfo.setMINUTES_IN_OVERTIME(5);
             sportInfo.setMINUTES_IN_INTERMISSION(20);
             sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
-            sportInfo.setMIN_POSSESSION_SECONDS(5);
-            sportInfo.setMAX_POSSESSION_SECONDS(45);
+            sportInfo.setMIN_POSSESSION_SECONDS(3);
+            sportInfo.setMAX_POSSESSION_SECONDS(30);
             sportInfo.setSuddenDeathOvertime(false);
             sportInfo.setHomeAwayChangeAdjustment(1.0 / 70.0); // 0.01428571428
             sportInfo.setTotalScoreCalibration(1.11);

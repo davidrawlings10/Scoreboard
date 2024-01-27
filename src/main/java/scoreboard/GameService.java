@@ -108,8 +108,14 @@ public class GameService {
                         continue;
                     }
 
-                    if (playService.playSec(game)) {
-                        handleGameEnd(game);
+                    if (PossessionConfigUtil.isPossession()) {
+                        if (playService.playSec(game)) {
+                            handleGameEnd(game);
+                        }
+                    } else {
+                        if (playService.playSec_NO_POSSESSION_ORIGINAL(game)) {
+                            handleGameEnd(game);
+                        }
                     }
 
                     /*if (game.getSport().equals(Sport.HOCKEY)) {

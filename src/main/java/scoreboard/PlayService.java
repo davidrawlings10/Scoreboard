@@ -45,6 +45,49 @@ public class PlayService {
         return false; // return false to signal that the game hasn't ended
     }
 
+    // saving these no possession original functions to maintain game functionality before the possession refactor
+    public boolean playSec_NO_POSSESSION_ORIGINAL(Game game) throws Exception {
+        if (game.isFinal()) {
+            game.setStatus(Status.FINAL);
+            return true; // return true to signal the end of the game
+        }
+
+        if (!game.getClock().getIntermission()) {
+            updateScore_NO_POSSESSION_ORIGINAL(game);
+        }
+
+        game.getClock().tickDown();
+
+        // save the game every minute
+        if (game.getClock().getSeconds() == 0) {
+            clockService.save(game.getClock());
+        }
+
+        if (game.isFinal()) {
+            game.setStatus(Status.FINAL);
+            return true;
+        }
+
+        game.getClock().handlePeriodEnd();
+
+        System.out.println(printScoreboard(game));
+
+        return false; // return false to signal that the game hasn't ended
+    }
+
+    private void updateScore_NO_POSSESSION_ORIGINAL(Game game) throws Exception {
+        for (SportEvent sportEvent : SportInfoUtil.getSportInfo(game.getSport()).getSportEvents()) {
+            if (RandomUtil.occur(sportEvent.getChanceHome())) {
+                incScore(game, sportEvent, true);
+                break;
+            }
+            if (RandomUtil.occur(sportEvent.getChanceAway())) {
+                incScore(game, sportEvent, false);
+                break;
+            }
+        }
+    }
+
     /*private void updateScore(Game game) throws Exception { `1
         for (SportEvent sportEvent : SportInfoUtil.getSportInfo(game.getSport()).getSportEvents()) {
             if (RandomUtil.occur(sportEvent.getChanceHome())) {

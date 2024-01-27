@@ -10,7 +10,9 @@ public class SportEvent {
         this.scoreAmount = scoreAmount;
         this.eventType = eventType;
 
-        final double homeAwayChanceAdjustment = sportInfo.getHomeAwayChangeAdjustment();
+        final boolean possession = PossessionConfigUtil.isPossession();
+
+        final double homeAwayChanceAdjustment = possession ? sportInfo.getHomeAwayChangeAdjustment() : 1.0 / 15.0;
 
         final int secondsInGame = sportInfo.getENDING_PERIOD() * sportInfo.getMINUTES_IN_PERIOD() * 60;
 
@@ -18,8 +20,13 @@ public class SportEvent {
 
         final double totalScoreCalibration = sportInfo.getTotalScoreCalibration();
 
-        this.chanceHome = (pointsPerGame + (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100 * totalScoreCalibration; // give home a little more chance to score
-        this.chanceAway = (pointsPerGame - (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100 * totalScoreCalibration; // give away a little less chance to score
+        if (possession) {
+            this.chanceHome = (pointsPerGame + (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100 * totalScoreCalibration; // give home a little more chance to score
+            this.chanceAway = (pointsPerGame - (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * averagePossessionSeconds * 2 * 100 * totalScoreCalibration; // give away a little less chance to score
+        } else {
+            this.chanceHome = (pointsPerGame + (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * 100; // give home a little more chance to score
+            this.chanceAway = (pointsPerGame - (pointsPerGame * homeAwayChanceAdjustment)) / scoreAmount / secondsInGame * 100; // give away a little less chance to score
+        }
     }
 
     public int getScoreAmount() {

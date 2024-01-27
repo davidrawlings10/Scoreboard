@@ -210,6 +210,7 @@ public class GameService {
         Game game = gameRepository.findByGameId(gameId);
 
         Clock clock = clockService.getClockByGameId(gameId);
+        clock.setSport(game.getSport());
         // clock.initializeConstants(game.getSport());
 
         // handle edge case by adding a second to the clock so the intermission handling kicks in

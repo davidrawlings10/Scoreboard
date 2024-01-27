@@ -12,4 +12,7 @@ public interface SeasonRepository extends CrudRepository<Season, Integer> {
 
     @Query("select s from Season s where s.league = ?1")
     public List<Season> findByLeague(League league);
+
+    @Query("select s from Season s where s.sport = :sport")
+    public List<Game> findBySport(@Param("sport") Integer seasonId);
 }

@@ -15,6 +15,9 @@ public class Season {
     @Enumerated(EnumType.STRING)
     private League league;
 
+    @Enumerated(EnumType.STRING)
+    private Sport sport;
+
     private Integer winnerTeamId, numTeams;
     private String title, summary;
 
@@ -51,6 +54,14 @@ public class Season {
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public Sport getSport() {
+        return sport;
+    }
+
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
 
     public Integer getWinnerTeamId() {

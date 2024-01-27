@@ -40,6 +40,7 @@ CREATE TABLE `season` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `league` varchar(45),
+  `sport` varchar(45) NOT NULL,
   `num_teams` int DEFAULT NULL,
   `title` varchar(45) DEFAULT NULL,
   `winner_team_id` int DEFAULT NULL,

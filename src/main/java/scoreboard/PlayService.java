@@ -17,9 +17,6 @@ public class PlayService {
 
         if (game.getPossessionSecondsRemaining() == 0) {
             handlePossessionEnd(game);
-            game.setHomeHasPossession(!game.isHomeHasPossession());
-            game.setPossessionSecondsRemaining(game.getNextPossessionSeconds());
-            gameEventService.save(new GameEvent(game, EventType.POSSESSION_CHANGE, game.isHomeHasPossession()));
         } else {
             if (!game.getClock().getIntermission()) {
                 game.decPossessionSecondsRemaining();
@@ -43,6 +40,27 @@ public class PlayService {
         System.out.println(printScoreboard(game));
 
         return false; // return false to signal that the game hasn't ended
+    }
+
+    private void handlePossessionEnd(Game game) throws Exception {
+        // determine how the possession ends which will be either some type of score or null if there is no score on this possession
+        SportEvent sportEvent = RandomUtil.getRandomSportEvent(game);
+        if (sportEvent != null) {
+            incScore(game, sportEvent, game.homeHasPossession);
+        } else {
+            // if there is no score on this possession then save a possession change game event
+            gameEventService.save(new GameEvent(game, EventType.POSSESSION_ENDED, game.homeHasPossession));
+        }
+        game.setHomeHasPossession(!game.isHomeHasPossession()); // flip possession
+        game.setPossessionSecondsRemaining(game.getNextPossessionSeconds()); // determine the length of the next possession
+
+    }
+
+    public void incScore(Game game, SportEvent sportEvent, boolean isHomeTeam) {
+        game.incScore(sportEvent.getScoreAmount(), isHomeTeam);
+        gameEventService.save(new GameEvent(game, sportEvent.getEventType(),isHomeTeam));
+        gameService.save(game);
+        clockService.save(game.getClock());
     }
 
     // saving these no possession original functions to maintain game functionality before the possession refactor
@@ -100,20 +118,6 @@ public class PlayService {
             }
         }
     } */
-
-    private void handlePossessionEnd(Game game) throws Exception {
-        SportEvent sportEvent = RandomUtil.getRandomSportEvent(game);
-        if (sportEvent != null) {
-            incScore(game, sportEvent, game.homeHasPossession);
-        }
-    }
-
-    public void incScore(Game game, SportEvent sportEvent, boolean isHomeTeam) {
-        game.incScore(sportEvent.getScoreAmount(), isHomeTeam);
-        gameEventService.save(new GameEvent(game, sportEvent.getEventType(),isHomeTeam));
-        gameService.save(game);
-        clockService.save(game.getClock());
-    }
 
     public String printScoreboard(Game game) {
         return game.getHomeName() + " | " + game.getHomeScore() + " | " + game.getAwayName() +  " | " + game.getAwayScore() + " | "

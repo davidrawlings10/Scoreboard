@@ -159,7 +159,18 @@ public class Game {
 
     public int getNextPossessionSeconds() throws Exception {
         SportInfo sportInfo = SportInfoUtil.getSportInfo(this.sport);
-        return RandomUtil.getRandom(sportInfo.getMAX_POSSESSION_SECONDS()) + sportInfo.getMIN_POSSESSION_SECONDS();
+        final int nextPossessionSeconds = RandomUtil.getRandom(sportInfo.getMAX_POSSESSION_SECONDS()) + sportInfo.getMIN_POSSESSION_SECONDS();
+
+        // first attempt at the following feature didn't quite seem to be working so I'm commenting it out for now
+
+        // if (clock != null && clock.getPeriod() >= SportInfoUtil.getSportInfo(sport).getENDING_PERIOD() && clock.getMinutes() == 0 && clock.getSeconds() < nextPossessionSeconds) {
+            // if there is less than a minute left and the next possession length was set to longer than the remaining seconds
+            // let's override it to one second less than the time remaining in the game to give the team with possession
+            // a last second chance to score
+            // return clock.getSeconds() - 1;
+        // } else {
+            return nextPossessionSeconds;
+        // }
     }
 
     public String getHomeName() {

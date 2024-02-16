@@ -37,7 +37,7 @@ public class SportInfoUtil {
             sportInfo.setMAX_POSSESSION_SECONDS(60);
             sportInfo.setSuddenDeathOvertime(true);
             sportInfo.setHomeAwayChangeAdjustment(1.0 / 15.0); // 0.06666666667
-            sportInfo.setTotalScoreCalibration(1.05);
+            sportInfo.setTotalScoreCalibration(1.08);
             sportEvents.add(new SportEvent(1, 2.7, EventType.HOCKEY_GOAL, sportInfo));
         } else if (sport.equals(Sport.BASKETBALL)) {
             sportInfo.setENDING_PERIOD(2);
@@ -48,14 +48,26 @@ public class SportInfoUtil {
             sportInfo.setMIN_POSSESSION_SECONDS(3);
             sportInfo.setMAX_POSSESSION_SECONDS(30);
             sportInfo.setSuddenDeathOvertime(false);
-            sportInfo.setHomeAwayChangeAdjustment(1.0 / 70.0); // 0.01428571428
-            sportInfo.setTotalScoreCalibration(1.11);
+            sportInfo.setHomeAwayChangeAdjustment(1.0 / 80.0); // 0.011111111
+            sportInfo.setTotalScoreCalibration(1.14);
             sportEvents.add(new SportEvent(1, 4.0, EventType.BASKETBALL_FREE_THROW_1_MADE, sportInfo));
             sportEvents.add(new SportEvent(2, 10.0, EventType.BASKETBALL_FREE_THROW_2_MADE, sportInfo));
             sportEvents.add(new SportEvent(2, 36.0, EventType.BASKETBALL_TWO_POINTER, sportInfo));
             sportEvents.add(new SportEvent(3, 24.0, EventType.BASKETBALL_THREE_POINTER, sportInfo));
+        } else if (sport.equals(Sport.FOOTBALL)) {
+            sportInfo.setENDING_PERIOD(4);
+            sportInfo.setMINUTES_IN_PERIOD(15);
+            sportInfo.setMINUTES_IN_OVERTIME(15);
+            sportInfo.setMINUTES_IN_INTERMISSION(15);
+            sportInfo.setMINUTES_IN_INTERMISSION_BEFORE_OVERTIME(5);
+            sportInfo.setMIN_POSSESSION_SECONDS(20);
+            sportInfo.setMAX_POSSESSION_SECONDS(420);
+            sportInfo.setSuddenDeathOvertime(false);
+            sportInfo.setHomeAwayChangeAdjustment(1.0 / 30.0);
+            sportInfo.setTotalScoreCalibration(1.15);
+            sportEvents.add(new SportEvent(7, 18.0, EventType.FOOTBALL_TOUCHDOWN, sportInfo));
+            sportEvents.add(new SportEvent(3, 4.6, EventType.FOOTBALL_FIELD_GOAL, sportInfo));
         }
-
         sportInfo.setSportEvents(sportEvents);
         return sportInfo;
     }

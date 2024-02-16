@@ -23,6 +23,7 @@ public class SeasonService {
         Season season = new Season();
         season.setTitle(title);
         season.setLeague(league);
+        season.setSport(sport);
         season.setScheduleType(scheduleType);
         season.setNumTeams(teamIds.size());
         seasonRepository.save(season);

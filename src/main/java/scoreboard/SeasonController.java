@@ -32,10 +32,9 @@ public class SeasonController {
     // http://localhost:8080/season/getSeasons
     @CrossOrigin
     @GetMapping(path="/getSeasons")
-    public @ResponseBody ResponseEntity<String> getSeasons(@RequestParam String league, @RequestParam String sport) throws JsonProcessingException {
+    public @ResponseBody String getSeasons(@RequestParam String league, @RequestParam String sport) throws JsonProcessingException {
         String response = JsonUtil.getJsonList(seasonService.getSeasons(League.valueOf(league), Sport.valueOf(sport)));
-        // experiment with cache control - max-age
-        return ResponseEntity.ok().cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS)).body(response);
+        return response;
     }
 
     // http://localhost:8080/season/findById?seasonId=7

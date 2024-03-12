@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -69,7 +70,7 @@ public class StandingService {
             homeTeamStanding.incPoint(2);
             homeTeamStanding.incHomePoint(2);
 
-            if (game.getClock().getPeriod() < game.getSportInfo().getENDING_PERIOD() + 1) {
+            if (game.getClock().getPeriod() < game.getSportInfo().getENDING_PERIOD() + 1 || game.getSport() != Sport.HOCKEY) {
                 awayTeamStanding.incLoss(1);
                 awayTeamStanding.incAwayLoss(1);
             } else {
@@ -84,7 +85,7 @@ public class StandingService {
             awayTeamStanding.incPoint(2);
             awayTeamStanding.incAwayPoint(2);
 
-            if (game.getClock().getPeriod() < game.getSportInfo().getENDING_PERIOD() + 1) {
+            if (game.getClock().getPeriod() < game.getSportInfo().getENDING_PERIOD() + 1 || game.getSport() != Sport.HOCKEY) {
                 homeTeamStanding.incLoss(1);
                 homeTeamStanding.incHomeLoss(1);
             } else {
@@ -137,6 +138,12 @@ public class StandingService {
     public List<Standing> getStandingByTeamId(int teamId) {
         List<Standing> standings = standingRepository.findByTeamId(teamId);
         return standings;
+    }
+
+    public void updateRanking(int seasonId, int teamId, int ranking) {
+        Standing standing = standingRepository.findBySeasonIdAndTeamId(seasonId, teamId);
+        standing.setRanking(ranking);
+        save(standing);
     }
 
     /*private class StandingList {

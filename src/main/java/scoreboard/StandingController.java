@@ -43,4 +43,11 @@ public class StandingController {
         String response = JsonUtil.getJsonList(standingService.getStandingByTeamId(Integer.parseInt(teamId)));
         return response;
     }
+
+    @CrossOrigin
+    @GetMapping(path="/updateRanking")
+    public @ResponseBody String updateRanking(@RequestParam String seasonId, @RequestParam String teamId, @RequestParam String ranking) {
+        standingService.updateRanking(Integer.parseInt(seasonId), Integer.parseInt(teamId), Integer.parseInt(ranking));
+        return "ok";
+    }
 }

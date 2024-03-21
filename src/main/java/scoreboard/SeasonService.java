@@ -46,8 +46,11 @@ public class SeasonService {
             case HOME_ROTATION_RANDOM:
                 games = scheduleSeasonHomeRotationRandom(teamIds);
                 break;
+            case NONE:
+                games = new ArrayList<>();
+                break;
             default:
-                throw new Exception("Unrecognized league: " + league);
+                throw new Exception("Unrecognized scheduleType: " + scheduleType);
         }
 
         /*for (Game game : games) {
@@ -255,7 +258,7 @@ public class SeasonService {
         Season season;
         if (seasonOptional.isPresent()) {
             season = seasonOptional.get();
-            return String.format("INSERT INTO season VALUES (%d, \"%s\", \"%s\", \"%s\", %d, \"%s\", %d, \"%s\", \"%s\");", season.getId(), season.getCreated(), season.getUpdated(), season.getLeague(), season.getNumTeams(), season.getTitle(), season.getWinnerTeamId(), season.getSummary(), season.getScheduleType());
+            return String.format("INSERT INTO season VALUES (%d, \"%s\", \"%s\", \"%s\", \"%s\", %d, \"%s\", %d, \"%s\", \"%s\");", season.getId(), season.getCreated(), season.getUpdated(), season.getLeague(), season.getSport(), season.getNumTeams(), season.getTitle(), season.getWinnerTeamId(), season.getSummary(), season.getScheduleType());
         } else {
             return "";
         }

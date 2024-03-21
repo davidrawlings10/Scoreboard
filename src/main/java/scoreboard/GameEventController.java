@@ -11,12 +11,12 @@ public class GameEventController {
     @Autowired
     GameEventService gameEventService;
 
-    // http://localhost:8080/gameEvent/getByGameId?gameId=1549
+    // http://localhost:8080/gameEvent/getByGameId?gameId=1549&excludePossessionEnded=true
     @CrossOrigin
     @GetMapping(path="/getByGameId")
     public @ResponseBody
-    String getByGameId(@RequestParam String gameId) throws JsonProcessingException {
-        String response = JsonUtil.getJsonList(gameEventService.getByGameId(Integer.parseInt(gameId)));
+    String getByGameId(@RequestParam String gameId, @RequestParam Boolean excludePossessionEnded) throws JsonProcessingException {
+        String response = JsonUtil.getJsonList(gameEventService.getByGameId(Integer.parseInt(gameId), excludePossessionEnded));
         return response;
     }
 }

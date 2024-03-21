@@ -15,7 +15,8 @@ public class GameEventService {
         return gameEventRepository.save(gameEvent);
     }
 
-    public List<GameEvent> getByGameId(int gameId) {
-        return gameEventRepository.findByGameId(gameId);
+    public List<GameEvent> getByGameId(int gameId, boolean excludePossessionEnded) {
+        // return gameEventRepository.findByGameId(gameId);
+        return excludePossessionEnded ? gameEventRepository.findByGameIdExcludingPossession(gameId) : gameEventRepository.findByGameId(gameId);
     }
 }

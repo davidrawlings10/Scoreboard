@@ -102,6 +102,13 @@ public class GameController {
         return gameService.numberOfGamesBySeasonId(seasonId);
     }
 
+    @CrossOrigin
+    @GetMapping(path="/scheduleSeasonGame")
+    public @ResponseBody String scheduleSeasonGame(@RequestParam int seasonId, @RequestParam int homeTeamId, @RequestParam int awayTeamId) {
+        gameService.scheduleSeasonGame(seasonId, homeTeamId, awayTeamId);
+        return "ok";
+    }
+
 
     // DEPRECATED
     @CrossOrigin

@@ -360,6 +360,16 @@ public class GameService {
         return gameRepository.findBySeasonId(seasonId).size();
     }
 
+    public void scheduleSeasonGame(int seasonId, int homeTeamId, int awayTeamId) {
+        Game game = new Game();
+        game.setHomeTeamId(homeTeamId);
+        game.setAwayTeamId(awayTeamId);
+        game.setSeasonId(seasonId);
+        game.setSport(seasonService.findById(seasonId).getSport());
+        game.setStatus(Status.SCHEDULED);
+        save(game);
+    }
+
     // data access
 
     public Game save(Game game) {

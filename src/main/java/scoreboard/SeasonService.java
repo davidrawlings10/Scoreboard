@@ -46,7 +46,7 @@ public class SeasonService {
             case HOME_ROTATION_RANDOM:
                 games = scheduleSeasonHomeRotationRandom(teamIds);
                 break;
-            case NONE:
+            case CUSTOM:
                 games = new ArrayList<>();
                 break;
             default:

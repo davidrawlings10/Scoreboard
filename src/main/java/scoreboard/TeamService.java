@@ -33,7 +33,7 @@ public class TeamService {
         // put teamSeasonTotal objects into a map
         Map<Integer, TeamSeasonTotal> teamSeasonTotalMap = new HashMap<>();
         for (Team team : teams) {
-            teamSeasonTotalMap.put(team.getId(), new TeamSeasonTotal(team.getId()));
+            teamSeasonTotalMap.put(team.getId(), new TeamSeasonTotal(team));
         }
 
         Iterable<Season> seasons = seasonService.findByLeague(league);
@@ -68,6 +68,7 @@ public class TeamService {
 
     class TeamSeasonTotal {
         int teamId;
+        String division;
         int seasonsWon;
         int seasonsPlayed;
         int winPoints;
@@ -75,8 +76,9 @@ public class TeamService {
         int pointsPossible;
         List<Integer> trophies = new ArrayList<>();
 
-        public TeamSeasonTotal(int teamId) {
-            this.teamId = teamId;
+        public TeamSeasonTotal(Team team) {
+            this.teamId = team.getId();
+            this.division = team.getDivision();
         }
 
         public void incSeasonsWon() {
@@ -107,6 +109,14 @@ public class TeamService {
 
         public void setTeamId(int teamId) {
             this.teamId = teamId;
+        }
+
+        public String getDivision() {
+            return division;
+        }
+
+        public void setDivision(String division) {
+            this.division = division;
         }
 
         public int getSeasonsWon() {

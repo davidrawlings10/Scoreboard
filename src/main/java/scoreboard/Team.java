@@ -11,6 +11,8 @@ public class Team {
     private League league;
     private String location;
     private String name;
+
+    private String division;
     private Boolean active;
 
     public Integer getId() {
@@ -43,6 +45,14 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
     }
 
     public Boolean getActive() {

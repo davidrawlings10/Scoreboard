@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 // import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StandingService {
@@ -140,10 +141,11 @@ public class StandingService {
         return standings;
     }
 
-    public void updateRanking(int seasonId, int teamId, int ranking) {
-        Standing standing = standingRepository.findBySeasonIdAndTeamId(seasonId, teamId);
+    public void updateRanking(int standingId, int ranking) {
+        Optional<Standing> standingOptional = standingRepository.findById(standingId);
+        Standing standing = standingOptional.get();
         standing.setRanking(ranking);
-        save(standing);
+        standingRepository.save(standing);
     }
 
     /*private class StandingList {

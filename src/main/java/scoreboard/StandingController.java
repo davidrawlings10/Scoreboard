@@ -46,8 +46,8 @@ public class StandingController {
 
     @CrossOrigin
     @GetMapping(path="/updateRanking")
-    public @ResponseBody String updateRanking(@RequestParam String seasonId, @RequestParam String teamId, @RequestParam String ranking) {
-        standingService.updateRanking(Integer.parseInt(seasonId), Integer.parseInt(teamId), Integer.parseInt(ranking));
+    public @ResponseBody String updateRanking(@RequestParam String standingId, @RequestParam String ranking) {
+        standingService.updateRanking(Integer.parseInt(standingId), Integer.parseInt(ranking));
         return "ok";
     }
 }

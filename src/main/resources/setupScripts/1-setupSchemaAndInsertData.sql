@@ -29,7 +29,7 @@ CREATE TABLE `game` (
   `away_team_id` int NOT NULL,
   `home_score` int DEFAULT NULL,
   `away_score` int DEFAULT NULL,
-  `status` varchar(45) NOT NULL,
+  `status` varchar(45) NOT NULL DEFAULT 'SCHEDULED',
   `ending_period` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -164,7 +164,7 @@ INSERT INTO team (league, location, name, division) VALUES
 ('NHL', 'Ottawa', 'Senators', 'East Atlantic'),
 ('NHL', 'Tampa Bay', 'Lightning', 'East Atlantic'),
 ('NHL', 'Toronto', 'Maple Leafs', 'East Atlantic'),
-('NHL', 'Arizona', 'Coyotes', 'West Central'),
+('NHL', 'Utah', 'Hockey Club', 'West Central'),
 ('NHL', 'Chicago', 'Blackhawks', 'West Central'),
 ('NHL', 'Colorado', 'Avalanche', 'West Central'),
 ('NHL', 'Dallas', 'Stars', 'West Central'),
